@@ -1,0 +1,796 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roulette | Virtual Casino</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+    --green: #00ffad;
+    --bg: #080b0e;
+    --panel: #10171a;
+    --muted: #77858a;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--bg);
+    color: white;
+    font-family: Inter, sans-serif;
+    min-height: 100vh;
+    padding: 35px 15px;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    width: 450px;
+    height: 450px;
+    background: #00ffad;
+    filter: blur(180px);
+    opacity: .045;
+    top: -250px;
+    left: -150px;
+    pointer-events: none;
+}
+
+.container {
+    max-width: 1000px;
+    margin: auto;
+    position: relative;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.back {
+    display: inline-block;
+    color: #77858a;
+    text-decoration: none;
+    font-size: 12px;
+    margin-bottom: 25px;
+    transition: .2s;
+}
+
+.back:hover {
+    color: var(--green);
+}
+
+.logo {
+    font-family: Orbitron, sans-serif;
+    font-size: clamp(30px, 6vw, 48px);
+    font-weight: 800;
+    letter-spacing: 5px;
+    text-shadow: 0 0 25px #00ffad55;
+}
+
+.logo span {
+    color: var(--green);
+}
+
+header p {
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 12px;
+    letter-spacing: 2px;
+}
+
+/* Main layout */
+
+.game {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 20px;
+    align-items: start;
+}
+
+.panel {
+    background: var(--panel);
+    border: 1px solid #202c30;
+    border-radius: 12px;
+    padding: 25px;
+}
+
+.section-title {
+    font-family: Orbitron, sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--muted);
+    margin-bottom: 20px;
+}
+
+/* Roulette wheel */
+
+.wheel-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 0 25px;
+}
+
+.pointer {
+    width: 0;
+    height: 0;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-top: 25px solid var(--green);
+    filter: drop-shadow(0 0 8px #00ffad);
+    position: relative;
+    z-index: 5;
+    margin-bottom: -9px;
+}
+
+.wheel-frame {
+    width: min(340px, 85vw);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    padding: 12px;
+    background: linear-gradient(135deg, #c69c49, #59401b, #c69c49);
+    box-shadow: 0 0 30px #000, 0 0 20px #00ffad15;
+}
+
+.wheel {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 5px solid #282a25;
+    position: relative;
+    background: #161b19;
+    overflow: hidden;
+    transition: transform 5s cubic-bezier(.12,.7,.12,1);
+}
+
+.wheel::after {
+    content: "";
+    position: absolute;
+    width: 65px;
+    height: 65px;
+    background: radial-gradient(circle, #d5b76a, #68502a);
+    border: 5px solid #332817;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    box-shadow: 0 0 15px #000;
+}
+
+.wheel-number {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.wheel-number span {
+    position: absolute;
+    top: 5%;
+    font-family: Orbitron, sans-serif;
+    font-size: clamp(11px, 1.5vw, 15px);
+    font-weight: 800;
+    color: white;
+    width: 25px;
+    text-align: center;
+    line-height: 1;
+    text-shadow: 0 1px 3px #000;
+}
+
+.wheel-number.red-pocket { color: red; }
+.wheel-number.black-pocket { color: black; }
+.wheel-number.green-pocket { color: green; }
+
+/* Result */
+
+.result {
+    margin-top: 15px;
+    text-align: center;
+    min-height: 75px;
+}
+
+.result-number {
+    font-family: Orbitron, sans-serif;
+    font-size: 35px;
+    font-weight: 800;
+}
+
+.result-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--muted);
+    margin-top: 5px;
+}
+
+.red-text { color: #ff465d; }
+.black-text { color: white; }
+.green-text { color: var(--green); }
+
+/* Wallet */
+
+.wallet {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #080e10;
+    padding: 17px;
+    border-radius: 8px;
+    border: 1px solid #263439;
+    margin-bottom: 25px;
+}
+
+.wallet-label {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 2px;
+}
+
+.wallet-value {
+    font-family: Orbitron, sans-serif;
+    font-size: 19px;
+    color: var(--green);
+}
+
+/* Betting */
+
+.bet-label {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+}
+
+.chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin-bottom: 25px;
+}
+
+.chip {
+    background: #1a2529;
+    color: white;
+    border: 1px solid #344247;
+    padding: 10px 13px;
+    border-radius: 50px;
+    font-size: 11px;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.chip:hover, .chip.selected {
+    border-color: var(--green);
+    color: var(--green);
+    box-shadow: 0 0 12px #00ffad22;
+}
+
+.bet-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.bet {
+    border: 2px solid transparent;
+    border-radius: 7px;
+    padding: 17px 8px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: .2s;
+    font-size: 13px;
+}
+
+.bet small {
+    display: block;
+    margin-top: 5px;
+    font-size: 10px;
+    opacity: .75;
+}
+
+.bet:hover {
+    transform: translateY(-3px);
+    filter: brightness(1.2);
+}
+
+.bet.selected {
+    border-color: white;
+    box-shadow: 0 0 15px #ffffff30;
+    transform: translateY(-2px);
+}
+
+.bet.red {
+    background: #c72d40;
+    color: white;
+}
+
+.bet.black {
+    background: #050607;
+    color: white;
+    border-color: #353b3d;
+}
+
+.bet.green {
+    grid-column: span 2;
+    background: #087b4d;
+    color: white;
+}
+
+.spin {
+    width: 100%;
+    margin-top: 20px;
+    padding: 17px;
+    background: var(--green);
+    color: #06140e;
+    border: none;
+    border-radius: 6px;
+    font-family: Orbitron, sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    cursor: pointer;
+    transition: .25s;
+}
+
+.spin:hover {
+    background: white;
+    box-shadow: 0 0 25px #00ffad55;
+}
+
+.spin:disabled {
+    opacity: .4;
+    cursor: not-allowed;
+}
+
+.message {
+    background: #080e10;
+    border: 1px solid #263439;
+    border-radius: 7px;
+    padding: 14px;
+    margin-top: 18px;
+    min-height: 48px;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.5;
+    text-align: center;
+}
+
+.reset {
+    width: 100%;
+    background: transparent;
+    color: #738087;
+    border: 1px solid #303b40;
+    padding: 11px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 12px;
+    font-size: 11px;
+    transition: .2s;
+}
+
+.reset:hover {
+    color: white;
+    border-color: white;
+}
+
+.history {
+    margin-top: 20px;
+}
+
+.history-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.history-ball {
+    width: 28px;
+    height: 28px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.history-ball.red { background: #c72d40; }
+.history-ball.black { background: #050607; border: 1px solid #555; }
+.history-ball.green { background: #087b4d; }
+
+footer {
+    text-align: center;
+    margin-top: 30px;
+    color: #47545a;
+    font-size: 9px;
+    letter-spacing: 3px;
+}
+
+@media(max-width: 750px) {
+    .game {
+        grid-template-columns: 1fr;
+    }
+
+    .panel {
+        padding: 18px;
+    }
+
+    body {
+        padding: 20px 12px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+    <a href="##" class="back">← BACK TO HOME</a>
+    <div class="logo">ROU<span>LETTE</span></div>
+    <p>EUROPEAN ROULETTE // SINGLE ZERO</p>
+</header>
+
+<div class="game">
+
+    <!-- WHEEL PANEL -->
+
+    <div class="panel">
+
+        <div class="section-title">01 // THE WHEEL</div>
+
+        <div class="wheel-area">
+            <div class="pointer"></div>
+
+            <div class="wheel-frame">
+                <div class="wheel" id="wheel"></div>
+            </div>
+
+            <div class="result">
+                <div class="result-number" id="resultNumber">--</div>
+                <div class="result-label" id="resultLabel">AWAITING SPIN</div>
+            </div>
+        </div>
+
+        <div class="history">
+            <div class="section-title">RECENT RESULTS</div>
+            <div class="history-items" id="history">
+                <span style="color:#77858a;font-size:11px">No spins yet.</span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- BETTING PANEL -->
+
+    <div class="panel">
+
+        <div class="section-title">02 // YOUR TABLE</div>
+
+        <div class="wallet">
+            <div class="wallet-label">YOUR BALANCE</div>
+            <div class="wallet-value">$<span id="wallet">1000</span></div>
+        </div>
+
+        <div class="bet-label">SELECT YOUR CHIP</div>
+
+        <div class="chips">
+            <button class="chip selected" onclick="setChip(10,this)">$10</button>
+            <button class="chip" onclick="setChip(25,this)">$25</button>
+            <button class="chip" onclick="setChip(50,this)">$50</button>
+            <button class="chip" onclick="setChip(100,this)">$100</button>
+            <button class="chip" onclick="setChip(250,this)">$250</button>
+            <button class="chip" onclick="setChip(500,this)">$500</button>
+        </div>
+
+        <div class="bet-label">CHOOSE YOUR BET</div>
+
+        <div class="bet-options">
+
+            <button class="bet red" onclick="pickBet('red',this)">
+                RED
+                <small>1 : 1 PAYOUT</small>
+            </button>
+
+            <button class="bet black" onclick="pickBet('black',this)">
+                BLACK
+                <small>1 : 1 PAYOUT</small>
+            </button>
+
+            <button class="bet green" onclick="pickBet('green',this)">
+                GREEN / 0
+                <small>35 : 1 PAYOUT</small>
+            </button>
+
+        </div>
+
+        <div class="message" id="message">
+            Select a chip and choose your color to get started.
+        </div>
+
+        <button class="spin" id="spinButton" onclick="spin()">
+            SPIN THE WHEEL
+        </button>
+
+        <button class="reset" onclick="resetGame()">
+            RESET BALANCE
+        </button>
+
+    </div>
+
+</div>
+
+<footer>
+    VIRTUAL CASINO // 2026
+</footer>
+
+</div>
+
+<script>
+
+// EUROPEAN ROULETTE CONFIGURATION
+
+const numbers = [
+    0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,
+    23,10,5,24,16,33,1,20,14,31,9,22,18,29,7,28,12,
+    35,3,26
+];
+
+const redNumbers = [
+    1,3,5,7,9,12,14,16,18,
+    19,21,23,25,27,30,32,34,36
+];
+
+function getColor(number) {
+    if (number === 0) return "green";
+    return redNumbers.includes(number) ? "red" : "black";
+}
+
+// GAME VARIABLES
+
+let balance = 1000;
+let selectedChip = 10;
+let selectedBet = null;
+let spinning = false;
+let currentRotation = 0;
+let history = [];
+
+// BUILD WHEEL
+
+const wheel = document.getElementById("wheel");
+
+const step = 360 / numbers.length;
+
+let gradient = numbers.map((number, index) => {
+    const color = getColor(number);
+    const colors = {
+        red: "#c72d40",
+        black: "#101416",
+        green: "#087b4d"
+    };
+
+    return `${colors[color]} ${index * step}deg ${(index + 1) * step}deg`;
+}).join(",");
+
+wheel.style.background = `conic-gradient(from ${-step / 2}deg, ${gradient})`;
+
+numbers.forEach((number, index) => {
+    const label = document.createElement("div");
+    label.className = "wheel-number";
+    label.style.transform = `rotate(${index * step}deg)`;
+
+    const span = document.createElement("span");
+    span.textContent = number;
+
+    label.appendChild(span);
+    wheel.appendChild(label);
+});
+
+// CHIP SELECTION
+
+function setChip(amount, button) {
+    if (spinning) return;
+
+    selectedChip = amount;
+
+    document.querySelectorAll(".chip").forEach(chip => {
+        chip.classList.remove("selected");
+    });
+
+    button.classList.add("selected");
+    updateMessage(`$${amount} chip selected. Now choose your bet.`);
+}
+
+// BET SELECTION
+
+function pickBet(color, button) {
+    if (spinning) return;
+
+    selectedBet = color;
+
+    document.querySelectorAll(".bet").forEach(bet => {
+        bet.classList.remove("selected");
+    });
+
+    button.classList.add("selected");
+
+    updateMessage(`${color.toUpperCase()} selected. Wager: $${selectedChip}.`);
+}
+
+// MESSAGE
+
+function updateMessage(message) {
+    document.getElementById("message").textContent = message;
+}
+
+// SPIN
+
+function spin() {
+
+    if (spinning) return;
+
+    if (!selectedBet) {
+        updateMessage("⚠ Select a color before spinning!");
+        return;
+    }
+
+    if (selectedChip > balance) {
+        updateMessage("⚠ Not enough balance for this bet!");
+        return;
+    }
+
+    if (balance <= 0) {
+        updateMessage("You're out of money! Reset your balance.");
+        return;
+    }
+
+    spinning = true;
+
+    balance -= selectedChip;
+    updateWallet();
+
+    document.getElementById("spinButton").disabled = true;
+
+    updateMessage("The wheel is spinning... Good luck!");
+
+    // Select winning number
+
+    const winningIndex = Math.floor(Math.random() * numbers.length);
+    const winningNumber = numbers[winningIndex];
+
+    // Calculate rotation so the winning pocket stops at the pointer
+
+    const offset = (360 - ((currentRotation + winningIndex * step) % 360)) % 360;
+    const extraSpins = 6 * 360;
+
+    currentRotation += extraSpins + offset;
+
+    wheel.style.transform = `rotate(${currentRotation}deg)`;
+
+    setTimeout(() => {
+        finishSpin(winningNumber);
+    }, 5100);
+}
+
+// FINISH SPIN
+
+function finishSpin(number) {
+
+    const color = getColor(number);
+    const won = selectedBet === color;
+
+    let profit = 0;
+
+    if (won) {
+        profit = color === "green"
+            ? selectedChip * 35
+            : selectedChip;
+
+        balance += selectedChip + profit;
+    }
+
+    updateWallet();
+
+    // Result display
+
+    const resultNumber = document.getElementById("resultNumber");
+    const resultLabel = document.getElementById("resultLabel");
+
+    resultNumber.textContent = number;
+    resultNumber.className = `result-number ${color}-text`;
+
+    resultLabel.textContent = color.toUpperCase();
+
+    // Message
+
+    if (won) {
+        updateMessage(`🎉 YOU WON! +$${profit} profit! Landed on ${number} ${color.toUpperCase()}.`);
+    } else {
+        updateMessage(`You lost $${selectedChip}. Landed on ${number} ${color.toUpperCase()}. Better luck next time!`);
+    }
+
+    // History
+
+    history.unshift({number, color});
+    history = history.slice(0, 10);
+
+    updateHistory();
+
+    // Unlock game
+
+    spinning = false;
+    document.getElementById("spinButton").disabled = false;
+
+    if (balance <= 0) {
+        updateMessage("💸 You're bankrupt! Reset your balance to play again.");
+    }
+}
+
+// UPDATE WALLET
+
+function updateWallet() {
+    document.getElementById("wallet").textContent =
+        balance.toLocaleString("en-US");
+}
+
+// HISTORY
+
+function updateHistory() {
+
+    const container = document.getElementById("history");
+
+    container.innerHTML = "";
+
+    history.forEach(item => {
+        const ball = document.createElement("div");
+
+        ball.className = `history-ball ${item.color}`;
+        ball.textContent = item.number;
+
+        container.appendChild(ball);
+    });
+}
+
+// RESET
+
+function resetGame() {
+
+    if (spinning) return;
+
+    balance = 1000;
+    selectedChip = 10;
+    selectedBet = null;
+
+    updateWallet();
+
+    document.querySelectorAll(".chip").forEach(chip => {
+        chip.classList.remove("selected");
+    });
+
+    document.querySelectorAll(".bet").forEach(bet => {
+        bet.classList.remove("selected");
+    });
+
+    document.querySelectorAll(".chip")[0].classList.add("selected");
+
+    document.getElementById("resultNumber").textContent = "--";
+    document.getElementById("resultNumber").className = "result-number";
+    document.getElementById("resultLabel").textContent = "AWAITING SPIN";
+
+    updateMessage("Balance reset to $1,000. Good luck!");
+
+}
+
+</script>
+
+</body>
+</html>
