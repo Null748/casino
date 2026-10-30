@@ -1,0 +1,1135 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Null Casino - Powerball</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: #080a0d;
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+    display: flex;
+    justify-content: center;
+    padding: 35px 15px;
+    overflow-x: hidden;
+}
+
+body::before, body::after {
+    content: "";
+    position: fixed;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    filter: blur(130px);
+    opacity: .13;
+    pointer-events: none;
+    z-index: 0;
+}
+
+body::before {
+    background: #00ffcc;
+    top: -100px;
+    left: -100px;
+}
+
+body::after {
+    background: #7b2cff;
+    bottom: -100px;
+    right: -100px;
+}
+
+.container {
+    width: 100%;
+    max-width: 700px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.subtitle {
+    color: #00ffcc;
+    font-size: 10px;
+    letter-spacing: 6px;
+    margin-bottom: 15px;
+}
+
+h1 {
+    font-size: clamp(36px, 8vw, 62px);
+    font-weight: 800;
+    letter-spacing: 4px;
+    margin: 0;
+    text-shadow: 0 0 20px #00ffcc55;
+}
+
+.description {
+    font-family: Arial, sans-serif;
+    color: #777f8c;
+    font-size: 14px;
+    margin: 12px 0 30px;
+}
+
+.info-bar {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.info-box {
+    flex: 1;
+    background: #11161e;
+    border: 1px solid #29313c;
+    border-radius: 6px;
+    padding: 13px 8px;
+}
+
+.info-label {
+    color: #707987;
+    font-size: 9px;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+}
+
+.info-value {
+    color: #00ffcc;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.machine {
+    background: linear-gradient(145deg, #171d27, #090c11);
+    border: 1px solid #303945;
+    border-radius: 10px;
+    padding: 22px 15px;
+    box-shadow: 0 0 25px #00ffcc0a, inset 0 0 25px #00ffcc05;
+}
+
+.machine-top {
+    color: #555f6c;
+    font-size: 9px;
+    letter-spacing: 3px;
+    margin-bottom: 25px;
+}
+
+.board-title {
+    color: #00ffcc;
+    font-size: 11px;
+    letter-spacing: 3px;
+    margin-bottom: 18px;
+}
+
+.jackpot-box {
+    background: radial-gradient(circle, #1b2530, #10151c);
+    border: 1px solid #ffe66d55;
+    border-radius: 7px;
+    padding: 20px 10px;
+    margin-bottom: 22px;
+    box-shadow: inset 0 0 25px #ffe66d08;
+}
+
+.jackpot-label {
+    color: #ffe66d;
+    font-size: 9px;
+    letter-spacing: 4px;
+    margin-bottom: 10px;
+}
+
+.jackpot-amount {
+    color: #ffe66d;
+    font-size: clamp(25px, 7vw, 38px);
+    font-weight: 800;
+    text-shadow: 0 0 20px #ffe66d44;
+}
+
+.jackpot-caption {
+    color: #727d89;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    margin-top: 8px;
+}
+
+.section-title {
+    color: #00ffcc;
+    font-size: 10px;
+    letter-spacing: 3px;
+    margin: 24px 0 15px;
+}
+
+.ticket-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 18px;
+}
+
+.control-button {
+    width: 43px;
+    height: 43px;
+    border: 1px solid #34404c;
+    background: #111820;
+    color: #00ffcc;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 22px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.control-button:hover {
+    background: #00ffcc18;
+    border-color: #00ffcc;
+}
+
+.control-button:disabled {
+    opacity: .35;
+    cursor: not-allowed;
+}
+
+.ticket-count {
+    min-width: 120px;
+}
+
+.ticket-count-label {
+    font-size: 9px;
+    color: #697583;
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+}
+
+.ticket-count-value {
+    font-size: 19px;
+    color: white;
+    font-weight: 700;
+}
+
+.cost-display {
+    color: #7d8996;
+    font-size: 10px;
+    letter-spacing: 2px;
+    margin-bottom: 18px;
+}
+
+.cost-display strong {
+    color: #00ffcc;
+}
+
+.action-button {
+    width: 100%;
+    padding: 18px;
+    background: #00ffcc12;
+    border: 1px solid #00ffcc;
+    border-radius: 5px;
+    color: #00ffcc;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.action-button:hover:not(:disabled) {
+    background: #00ffcc25;
+    box-shadow: 0 0 20px #00ffcc25;
+}
+
+.action-button:disabled {
+    opacity: .35;
+    cursor: not-allowed;
+}
+
+.draw-button {
+    border-color: #ffe66d;
+    color: #ffe66d;
+    background: #ffe66d10;
+    margin-top: 10px;
+}
+
+.draw-button:hover:not(:disabled) {
+    background: #ffe66d20;
+    box-shadow: 0 0 20px #ffe66d22;
+}
+
+.ticket-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+    text-align: left;
+    max-height: 330px;
+    overflow-y: auto;
+}
+
+.ticket {
+    background: #101820;
+    border: 1px solid #293540;
+    border-radius: 6px;
+    padding: 12px;
+}
+
+.ticket-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #75818e;
+    font-size: 8px;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+}
+
+.ticket-numbers {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    flex-wrap: wrap;
+}
+
+.ball {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e8edf2;
+    color: #121820;
+    font-size: 11px;
+    font-weight: 800;
+    box-shadow: inset 0 -3px 0 #aeb7c0;
+}
+
+.ball.red {
+    background: #ed4057;
+    color: white;
+    box-shadow: inset 0 -3px 0 #a51e35;
+}
+
+.ball.matched {
+    outline: 3px solid #00ffcc;
+    outline-offset: 2px;
+}
+
+.ball.red.matched {
+    outline-color: #ffe66d;
+}
+
+.ticket-result {
+    text-align: center;
+    color: #77818e;
+    font-size: 9px;
+    letter-spacing: 1px;
+    margin-top: 10px;
+}
+
+.ticket-result.win {
+    color: #00ffcc;
+}
+
+.draw-area {
+    margin-top: 28px;
+    padding: 18px 10px;
+    border: 1px solid #303945;
+    border-radius: 7px;
+    background: #0d131a;
+}
+
+.draw-label {
+    color: #697583;
+    font-size: 9px;
+    letter-spacing: 3px;
+    margin-bottom: 15px;
+}
+
+.winning-numbers {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    min-height: 43px;
+}
+
+.winning-placeholder {
+    color: #46515d;
+    font-size: 10px;
+    letter-spacing: 2px;
+}
+
+.draw-status {
+    color: #77818e;
+    font-size: 10px;
+    letter-spacing: 2px;
+    margin-top: 17px;
+    min-height: 15px;
+}
+
+.result {
+    min-height: 24px;
+    margin-top: 20px;
+    color: #77818e;
+    font-size: 11px;
+    letter-spacing: 2px;
+    line-height: 1.7;
+}
+
+.result.win {
+    color: #00ffcc;
+    text-shadow: 0 0 12px #00ffcc66;
+}
+
+.result.big {
+    color: #ffe66d;
+    text-shadow: 0 0 12px #ffe66d66;
+}
+
+.history {
+    margin-top: 20px;
+    background: #10151c;
+    border: 1px solid #29313c;
+    border-radius: 7px;
+    padding: 15px;
+    text-align: left;
+}
+
+.history-title {
+    color: #00ffcc;
+    font-size: 9px;
+    letter-spacing: 3px;
+    margin-bottom: 12px;
+}
+
+.history-items {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 3px;
+}
+
+.history-item {
+    flex: 0 0 auto;
+    background: #1a222c;
+    border: 1px solid #303945;
+    border-radius: 4px;
+    padding: 9px 12px;
+    font-size: 10px;
+    color: #8a96a4;
+}
+
+.history-item.win {
+    color: #00ffcc;
+    border-color: #00ffcc55;
+}
+
+.history-item.loss {
+    color: #ff6677;
+    border-color: #ff667755;
+}
+
+.footer {
+    color: #414853;
+    font-size: 9px;
+    letter-spacing: 3px;
+    margin-top: 28px;
+}
+
+.back {
+    display: inline-block;
+    color: #687381;
+    text-decoration: none;
+    font-size: 10px;
+    letter-spacing: 2px;
+    margin-top: 15px;
+    transition: .2s;
+}
+
+.back:hover {
+    color: #00ffcc;
+}
+
+/* INFORMATION */
+
+.info-button {
+    position: fixed;
+    top: 18px;
+    right: 20px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid #00ffcc;
+    background: #101820;
+    color: #00ffcc;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+    z-index: 100;
+    box-shadow: 0 0 12px #00ffcc22;
+}
+
+.info-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #000000c9;
+    backdrop-filter: blur(7px);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+}
+
+.info-overlay.active {
+    display: flex;
+}
+
+.info-panel {
+    position: relative;
+    width: 100%;
+    max-width: 430px;
+    max-height: 85vh;
+    overflow-y: auto;
+    background: linear-gradient(145deg, #171d27, #090c11);
+    border: 1px solid #303945;
+    border-radius: 9px;
+    padding: 25px;
+    text-align: left;
+}
+
+.info-close {
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: #77818e;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.info-heading {
+    color: #00ffcc;
+    font-size: 11px;
+    letter-spacing: 3px;
+    margin: 10px 0 13px;
+}
+
+.info-description {
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    line-height: 1.7;
+    color: #8994a1;
+    margin: 0 0 22px;
+}
+
+.prize-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    margin-bottom: 20px;
+}
+
+.prize-table td {
+    padding: 9px 5px;
+    border-bottom: 1px solid #293540;
+    color: #8994a1;
+}
+
+.prize-table td:last-child {
+    text-align: right;
+    color: #00ffcc;
+    font-weight: bold;
+}
+
+@media (max-width: 500px) {
+    body { padding: 25px 12px; }
+    .machine { padding: 18px 10px; }
+    .info-value { font-size: 17px; }
+    .subtitle { letter-spacing: 4px; }
+    .action-button { font-size: 10px; letter-spacing: 2px; }
+    .ball { width: 31px; height: 31px; font-size: 10px; }
+}
+</style>
+</head>
+
+<body>
+
+<button class="info-button" id="infoButton">i</button>
+
+<div class="info-overlay" id="infoOverlay">
+    <div class="info-panel">
+        <button class="info-close" id="infoClose">×</button>
+
+        <div class="info-heading">HOW TO PLAY</div>
+        <p class="info-description">
+            Each ticket costs $1 and contains five white numbers
+            between 1 and 69, plus one red Powerball between 1 and 26.
+            Buy as many tickets as you want, then run a drawing.
+            Every ticket is automatically checked against the winning numbers.
+        </p>
+
+        <div class="info-heading">PRIZE KEY</div>
+
+        <table class="prize-table">
+            <tr><td>5 White + Powerball</td><td>JACKPOT</td></tr>
+            <tr><td>5 White</td><td>$1,000,000</td></tr>
+            <tr><td>4 White + Powerball</td><td>$50,000</td></tr>
+            <tr><td>4 White</td><td>$100</td></tr>
+            <tr><td>3 White + Powerball</td><td>$100</td></tr>
+            <tr><td>3 White</td><td>$7</td></tr>
+            <tr><td>2 White + Powerball</td><td>$7</td></tr>
+            <tr><td>1 White + Powerball</td><td>$4</td></tr>
+            <tr><td>Powerball only</td><td>$4</td></tr>
+        </table>
+
+        <div class="info-heading">NUMBER KEY</div>
+        <p class="info-description">
+            <strong>WHITE BALLS:</strong> Numbers 1–69.<br>
+            <strong>RED BALL:</strong> Number 1–26.<br><br>
+            Every $1 buys one independent set of numbers.
+            Matching all six numbers wins the jackpot.
+        </p>
+    </div>
+</div>
+
+<div class="container">
+
+    <div class="subtitle">NULL CASINO // GAME 010</div>
+    <h1>POWERBALL.</h1>
+    <p class="description">Six numbers. One drawing. One massive jackpot.</p>
+
+    <div class="info-bar">
+        <div class="info-box">
+            <div class="info-label">BALANCE</div>
+            <div class="info-value" id="balance">$1,000</div>
+        </div>
+
+        <div class="info-box">
+            <div class="info-label">TOTAL WON</div>
+            <div class="info-value" id="totalWon">$0</div>
+        </div>
+    </div>
+
+    <div class="machine">
+
+        <div class="machine-top">NULL CASINO // AUTOMATED GAMING</div>
+
+        <div class="jackpot-box">
+            <div class="jackpot-label">CURRENT JACKPOT</div>
+            <div class="jackpot-amount" id="jackpot">$50,000,000</div>
+            <div class="jackpot-caption">SIMULATED GRAND PRIZE</div>
+        </div>
+
+        <div class="board-title">PURCHASE TICKETS</div>
+
+        <div class="ticket-controls">
+            <button class="control-button" id="minus">−</button>
+
+            <div class="ticket-count">
+                <div class="ticket-count-label">NUMBER OF TICKETS</div>
+                <div class="ticket-count-value" id="ticketCount">1</div>
+            </div>
+
+            <button class="control-button" id="plus">+</button>
+        </div>
+
+        <div class="cost-display">
+            TOTAL COST: <strong id="ticketCost">$1</strong>
+        </div>
+
+        <button class="action-button" id="buyButton">
+            PURCHASE TICKETS
+        </button>
+
+        <div class="section-title">YOUR TICKETS</div>
+
+        <div class="ticket-list" id="ticketList">
+            <div class="winning-placeholder">NO TICKETS PURCHASED</div>
+        </div>
+
+        <button class="action-button draw-button" id="drawButton" disabled>
+            DRAW WINNING NUMBERS
+        </button>
+
+        <div class="draw-area">
+            <div class="draw-label">OFFICIAL DRAW RESULTS</div>
+
+            <div class="winning-numbers" id="winningNumbers">
+                <span class="winning-placeholder">AWAITING DRAW...</span>
+            </div>
+
+            <div class="draw-status" id="drawStatus">
+                PURCHASE TICKETS TO ENTER
+            </div>
+        </div>
+
+        <div class="result" id="result">GOOD LUCK.</div>
+
+    </div>
+
+    <div class="history">
+        <div class="history-title">DRAW HISTORY</div>
+        <div class="history-items" id="historyItems">
+            <div class="history-item">NO DRAWS YET</div>
+        </div>
+    </div>
+
+    <div class="footer">NULL CASINO // 2026</div>
+
+    <a href="../index.html" class="back">← RETURN TO MAIN MENU</a>
+
+</div>
+
+<script>
+const WHITE_MIN = 1;
+const WHITE_MAX = 69;
+const RED_MIN = 1;
+const RED_MAX = 26;
+
+const JACKPOT_START = 50000000;
+const JACKPOT_INCREMENT = 0.50;
+const MAX_TICKETS_PER_PURCHASE = 1000;
+
+const PRIZES = {
+    "5+1": "JACKPOT",
+    "5+0": 1000000,
+    "4+1": 50000,
+    "4+0": 100,
+    "3+1": 100,
+    "3+0": 7,
+    "2+1": 7,
+    "1+1": 4,
+    "0+1": 4
+};
+
+let balance = 1000;
+let totalWon = 0;
+let jackpot = JACKPOT_START;
+
+let ticketCount = 1;
+let tickets = [];
+let drawing = false;
+let hasDrawn = false;
+
+let winningWhite = [];
+let winningRed = null;
+
+const balanceEl = document.getElementById("balance");
+const totalWonEl = document.getElementById("totalWon");
+const jackpotEl = document.getElementById("jackpot");
+
+const ticketList = document.getElementById("ticketList");
+const ticketCountEl = document.getElementById("ticketCount");
+const ticketCostEl = document.getElementById("ticketCost");
+
+const buyButton = document.getElementById("buyButton");
+const drawButton = document.getElementById("drawButton");
+
+const winningNumbersEl = document.getElementById("winningNumbers");
+const drawStatusEl = document.getElementById("drawStatus");
+const resultEl = document.getElementById("result");
+
+function formatMoney(amount) {
+    return "$" + Math.floor(amount).toLocaleString("en-US");
+}
+
+function updateDisplay() {
+    balanceEl.textContent = formatMoney(balance);
+    totalWonEl.textContent = formatMoney(totalWon);
+    jackpotEl.textContent = formatMoney(jackpot);
+
+    ticketCountEl.textContent = ticketCount;
+    ticketCostEl.textContent = formatMoney(ticketCount);
+
+    document.getElementById("minus").disabled =
+        drawing || ticketCount <= 1;
+
+    document.getElementById("plus").disabled =
+        drawing || ticketCount >= MAX_TICKETS_PER_PURCHASE;
+
+    buyButton.disabled =
+        drawing || hasDrawn || balance < ticketCount;
+
+    drawButton.disabled =
+        drawing || hasDrawn || tickets.length === 0;
+}
+
+function randomInteger(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function generateUniqueNumbers(count, min, max) {
+    const numbers = new Set();
+
+    while (numbers.size < count) {
+        numbers.add(randomInteger(min, max));
+    }
+
+    return [...numbers].sort((a, b) => a - b);
+}
+
+function generateTicket() {
+    return {
+        white: generateUniqueNumbers(5, WHITE_MIN, WHITE_MAX),
+        red: randomInteger(RED_MIN, RED_MAX),
+        prize: 0,
+        whiteMatches: 0,
+        redMatch: false,
+        checked: false
+    };
+}
+
+function createBall(number, red = false, matched = false) {
+    const ball = document.createElement("div");
+
+    ball.className =
+        "ball" +
+        (red ? " red" : "") +
+        (matched ? " matched" : "");
+
+    ball.textContent = number;
+
+    return ball;
+}
+
+function renderTickets() {
+    ticketList.innerHTML = "";
+
+    if (tickets.length === 0) {
+        ticketList.innerHTML =
+            '<div class="winning-placeholder">NO TICKETS PURCHASED</div>';
+        return;
+    }
+
+    tickets.forEach((ticket, index) => {
+        const wrapper = document.createElement("div");
+        wrapper.className = "ticket";
+
+        const top = document.createElement("div");
+        top.className = "ticket-top";
+
+        const label = document.createElement("span");
+        label.textContent = "TICKET #" + (index + 1);
+
+        const status = document.createElement("span");
+        status.textContent = ticket.checked ? "DRAW COMPLETE" : "$1 ENTRY";
+
+        top.append(label, status);
+
+        const numbers = document.createElement("div");
+        numbers.className = "ticket-numbers";
+
+        ticket.white.forEach(number => {
+            const matched = ticket.checked &&
+                winningWhite.includes(number);
+
+            numbers.appendChild(createBall(number, false, matched));
+        });
+
+        const redMatched = ticket.checked &&
+            ticket.red === winningRed;
+
+        numbers.appendChild(createBall(ticket.red, true, redMatched));
+
+        wrapper.append(top, numbers);
+
+        if (ticket.checked) {
+            const matches = document.createElement("div");
+            matches.className =
+                "ticket-result" + (ticket.prize > 0 ? " win" : "");
+
+            matches.textContent =
+                ticket.whiteMatches + " WHITE MATCHES" +
+                (ticket.redMatch ? " + POWERBALL" : "") +
+                " — " + formatMoney(ticket.prize);
+
+            wrapper.appendChild(matches);
+        }
+
+        ticketList.appendChild(wrapper);
+    });
+}
+
+function purchaseTickets() {
+    if (drawing || hasDrawn || balance < ticketCount) return;
+
+    balance -= ticketCount;
+
+    for (let i = 0; i < ticketCount; i++) {
+        tickets.push(generateTicket());
+    }
+
+    jackpot += ticketCount * JACKPOT_INCREMENT;
+
+    renderTickets();
+
+    setResult(
+        ticketCount + " TICKET" +
+        (ticketCount === 1 ? "" : "S") +
+        " PURCHASED. GOOD LUCK."
+    );
+
+    drawStatusEl.textContent = "READY FOR DRAW";
+
+    updateDisplay();
+}
+
+function setResult(message, type = "") {
+    resultEl.textContent = message;
+    resultEl.className = "result " + type;
+}
+
+function revealWinningNumbers() {
+    winningWhite = generateUniqueNumbers(5, WHITE_MIN, WHITE_MAX);
+    winningRed = randomInteger(RED_MIN, RED_MAX);
+
+    winningNumbersEl.innerHTML = "";
+
+    let index = 0;
+
+    function revealNext() {
+        if (index < 5) {
+            winningNumbersEl.appendChild(
+                createBall(winningWhite[index])
+            );
+
+            index++;
+            setTimeout(revealNext, 450);
+        } else if (index === 5) {
+            const separator = document.createElement("span");
+            separator.style.color = "#697583";
+            separator.style.fontSize = "12px";
+            separator.textContent = "+";
+            winningNumbersEl.appendChild(separator);
+
+            index++;
+
+            setTimeout(revealNext, 450);
+        } else {
+            winningNumbersEl.appendChild(
+                createBall(winningRed, true)
+            );
+
+            finishDrawing();
+        }
+    }
+
+    revealNext();
+}
+
+function getPrize(whiteMatches, redMatch) {
+    const key = whiteMatches + "+" + (redMatch ? 1 : 0);
+
+    if (!(key in PRIZES)) return 0;
+
+    const prize = PRIZES[key];
+
+    if (prize === "JACKPOT") {
+        return jackpot;
+    }
+
+    return prize;
+}
+
+function checkTickets() {
+    let totalPayout = 0;
+    let jackpotWon = false;
+    let winningTickets = 0;
+
+    tickets.forEach(ticket => {
+        ticket.whiteMatches = ticket.white.filter(
+            number => winningWhite.includes(number)
+        ).length;
+
+        ticket.redMatch = ticket.red === winningRed;
+        ticket.checked = true;
+
+        ticket.prize = getPrize(
+            ticket.whiteMatches,
+            ticket.redMatch
+        );
+
+        if (ticket.prize > 0) {
+            winningTickets++;
+            totalPayout += ticket.prize;
+        }
+
+        if (ticket.whiteMatches === 5 && ticket.redMatch) {
+            jackpotWon = true;
+        }
+    });
+
+    return {
+        totalPayout,
+        winningTickets,
+        jackpotWon
+    };
+}
+
+function finishDrawing() {
+    const results = checkTickets();
+
+    balance += results.totalPayout;
+    totalWon += results.totalPayout;
+
+    if (results.jackpotWon) {
+        jackpot = JACKPOT_START;
+    }
+
+    hasDrawn = true;
+    drawing = false;
+
+    drawStatusEl.textContent = "DRAW COMPLETE";
+
+    renderTickets();
+
+    addHistory(results.totalPayout);
+
+    if (results.jackpotWon) {
+        setResult("JACKPOT! YOU WON " + formatMoney(results.totalPayout) + "!", "big");
+    } else if (results.totalPayout > 0) {
+        setResult(
+            results.winningTickets + " WINNING TICKET(S)! TOTAL: " +
+            formatMoney(results.totalPayout),
+            "win"
+        );
+    } else {
+        setResult("NO WINNING TICKETS. BETTER LUCK NEXT TIME.", "loss");
+    }
+
+    updateDisplay();
+}
+
+function startDrawing() {
+    if (drawing || hasDrawn || tickets.length === 0) return;
+
+    drawing = true;
+
+    drawButton.disabled = true;
+    buyButton.disabled = true;
+
+    drawStatusEl.textContent = "DRAWING NUMBERS...";
+    winningNumbersEl.innerHTML = "";
+
+    setResult("THE DRAW IS UNDERWAY...");
+
+    revealWinningNumbers();
+}
+
+function addHistory(payout) {
+    const history = document.getElementById("historyItems");
+
+    if (
+        history.children.length === 1 &&
+        history.children[0].textContent === "NO DRAWS YET"
+    ) {
+        history.innerHTML = "";
+    }
+
+    const item = document.createElement("div");
+
+    item.className =
+        "history-item " + (payout > 0 ? "win" : "loss");
+
+    item.textContent = payout > 0
+        ? "WIN " + formatMoney(payout)
+        : "NO WIN";
+
+    history.prepend(item);
+
+    while (history.children.length > 12) {
+        history.removeChild(history.lastChild);
+    }
+}
+
+function resetForNextDraw() {
+    if (!hasDrawn || drawing) return;
+
+    tickets = [];
+    hasDrawn = false;
+
+    winningWhite = [];
+    winningRed = null;
+
+    winningNumbersEl.innerHTML =
+        '<span class="winning-placeholder">AWAITING DRAW...</span>';
+
+    drawStatusEl.textContent = "PURCHASE TICKETS TO ENTER";
+
+    ticketList.innerHTML =
+        '<div class="winning-placeholder">NO TICKETS PURCHASED</div>';
+
+    setResult("READY FOR THE NEXT DRAW.");
+
+    updateDisplay();
+}
+
+document.getElementById("minus").addEventListener("click", () => {
+    if (drawing) return;
+
+    ticketCount = Math.max(1, ticketCount - 1);
+    updateDisplay();
+});
+
+document.getElementById("plus").addEventListener("click", () => {
+    if (drawing) return;
+
+    ticketCount = Math.min(
+        MAX_TICKETS_PER_PURCHASE,
+        ticketCount + 1
+    );
+
+    updateDisplay();
+});
+
+buyButton.addEventListener("click", purchaseTickets);
+drawButton.addEventListener("click", startDrawing);
+
+// Next draw: after a completed drawing, purchasing again resets the previous round.
+buyButton.addEventListener("click", () => {
+    if (hasDrawn && !drawing && balance >= ticketCount) {
+        resetForNextDraw();
+    }
+});
+
+// Information panel
+
+const infoButton = document.getElementById("infoButton");
+const infoOverlay = document.getElementById("infoOverlay");
+const infoClose = document.getElementById("infoClose");
+
+infoButton.addEventListener("click", () => {
+    infoOverlay.classList.add("active");
+});
+
+infoClose.addEventListener("click", () => {
+    infoOverlay.classList.remove("active");
+});
+
+infoOverlay.addEventListener("click", event => {
+    if (event.target === infoOverlay) {
+        infoOverlay.classList.remove("active");
+    }
+});
+
+document.addEventListener("keydown", event => {
+    if (event.key === "Escape") {
+        infoOverlay.classList.remove("active");
+    }
+});
+
+updateDisplay();
+</script>
+
+</body>
+</html>
