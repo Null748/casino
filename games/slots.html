@@ -1,0 +1,105 @@
+
+<a href="slots.html" class="slots-card">
+    <div class="slots-top">
+        <span class="slots-icon">🎰</span>
+        <span class="slots-status">TABLE GAME</span>
+    </div>
+
+    <div class="slots-info">
+        <span class="slots-label">NULL CASINO / REELS</span>
+        <h2>NULL SLOTS</h2>
+        <p>Spin the reels. Chase the jackpot.</p>
+    </div>
+
+    <div class="slots-bottom">
+        <span>PLAY NOW</span>
+        <span class="slots-arrow">↗</span>
+    </div>
+</a>
+
+<style>
+.slots-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 190px;
+    padding: 23px;
+    color: white;
+    text-decoration: none;
+    background:
+        radial-gradient(ellipse at 90% 0%, rgba(183,122,255,.17), transparent 60%),
+        linear-gradient(135deg, #191322, #0b0d13);
+    border: 1px solid rgba(183,122,255,.3);
+    border-radius: 12px;
+    transition: .3s ease;
+}
+
+.slots-card:hover {
+    transform: translateY(-5px);
+    border-color: #b77aff;
+    box-shadow: 0 10px 30px rgba(183,122,255,.15);
+}
+
+.slots-top, .slots-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.slots-icon {
+    font-size: 26px;
+    filter: drop-shadow(0 0 9px #b77aff);
+}
+
+.slots-status {
+    color: #d3a7ff;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 9px;
+    letter-spacing: 2px;
+    padding: 6px 9px;
+    border: 1px solid rgba(183,122,255,.3);
+    border-radius: 4px;
+}
+
+.slots-info {
+    margin: 20px 0;
+}
+
+.slots-label {
+    color: #987cae;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 9px;
+    letter-spacing: 2px;
+}
+
+.slots-info h2 {
+    margin: 8px 0 5px;
+    color: #d3a7ff;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 23px;
+    letter-spacing: 2px;
+}
+
+.slots-info p {
+    color: #89818f;
+    font-size: 12px;
+}
+
+.slots-bottom {
+    padding-top: 13px;
+    border-top: 1px solid rgba(183,122,255,.15);
+    color: #d3a7ff;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+}
+
+.slots-arrow {
+    font-size: 19px;
+    transition: .3s;
+}
+
+.slots-card:hover .slots-arrow {
+    transform: translate(4px, -4px);
+}
+</style>
