@@ -1,0 +1,294 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RNGdle | NULL NOIR</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #080a0d;
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* Background lighting */
+
+body::before {
+    content: "";
+    position: fixed;
+    width: 600px;
+    height: 600px;
+    background: #00ffcc;
+    filter: blur(180px);
+    opacity: 0.055;
+    top: -300px;
+    left: -200px;
+    pointer-events: none;
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    width: 500px;
+    height: 500px;
+    background: #7b2cff;
+    filter: blur(180px);
+    opacity: 0.07;
+    bottom: -300px;
+    right: -150px;
+    pointer-events: none;
+}
+
+/* Main */
+
+.container {
+    width: 90%;
+    max-width: 750px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.back {
+    display: inline-block;
+    color: #626d75;
+    text-decoration: none;
+    font-size: 10px;
+    letter-spacing: 3px;
+    margin-bottom: 45px;
+    transition: .3s;
+}
+
+.back:hover {
+    color: #00ffcc;
+}
+
+.subtitle {
+    color: #00ffcc;
+    font-size: 10px;
+    letter-spacing: 6px;
+    margin-bottom: 18px;
+}
+
+h1 {
+    font-size: clamp(35px, 8vw, 60px);
+    letter-spacing: 4px;
+    text-shadow: 0 0 25px #00ffcc55;
+    margin-bottom: 15px;
+}
+
+.description {
+    color: #77818b;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    margin-bottom: 50px;
+}
+
+/* Mode cards */
+
+.modes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.mode {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 220px;
+    padding: 30px 20px;
+    text-decoration: none;
+    color: white;
+    background: rgba(255,255,255,0.025);
+    border: 1px solid #252b33;
+    border-radius: 7px;
+    overflow: hidden;
+    transition: .35s ease;
+}
+
+.mode-icon {
+    font-size: 35px;
+    margin-bottom: 25px;
+    transition: .4s;
+}
+
+.mode h2 {
+    font-size: 15px;
+    letter-spacing: 3px;
+    margin-bottom: 12px;
+}
+
+.mode p {
+    color: #78828b;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+/* Normal mode - green glow */
+
+.normal:hover {
+    border-color: #00ffcc;
+    background: rgba(0,255,204,0.045);
+    box-shadow:
+        0 0 15px #00ffcc25,
+        0 0 45px #00ffcc12,
+        inset 0 0 20px #00ffcc08;
+    transform: translateY(-7px);
+}
+
+.normal:hover .mode-icon {
+    transform: rotate(360deg) scale(1.15);
+}
+
+.normal:hover h2 {
+    color: #00ffcc;
+}
+
+/* Gambling mode - purple light sweep */
+
+.gambling::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -120%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        110deg,
+        transparent,
+        rgba(168,85,255,0.2),
+        transparent
+    );
+    transition: .7s;
+}
+
+.gambling:hover::before {
+    left: 120%;
+}
+
+.gambling:hover {
+    border-color: #a855ff;
+    box-shadow: 0 0 30px #a855ff25;
+    transform: translateY(-7px);
+}
+
+.gambling:hover .mode-icon {
+    transform: scale(1.25);
+    filter: drop-shadow(0 0 12px #a855ff);
+}
+
+.gambling:hover h2 {
+    color: #c58aff;
+}
+
+/* Footer */
+
+.footer {
+    margin-top: 55px;
+    color: #414853;
+    font-size: 9px;
+    letter-spacing: 3px;
+}
+
+/* Mobile */
+
+@media(max-width: 550px) {
+    .modes {
+        grid-template-columns: 1fr;
+    }
+
+    .mode {
+        min-height: 180px;
+    }
+
+    .description {
+        margin-bottom: 30px;
+    }
+
+    .back {
+        margin-bottom: 30px;
+    }
+
+    body {
+        overflow-y: auto;
+        padding: 40px 0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <a href="##" class="back">← BACK TO HOME</a>
+
+    <div class="subtitle">NULL NOIR // GAME SELECTION</div>
+
+    <h1>RNGDLE.</h1>
+
+    <p class="description">
+        Choose how you want to play.
+    </p>
+
+    <div class="modes">
+
+        <!-- NORMAL MODE -->
+
+        <a href="##" class="mode normal">
+
+            <div class="mode-icon">∞</div>
+
+            <h2>NORMAL MODE</h2>
+
+            <p>
+                Pure randomness.<br>
+                No bets. No money. Just numbers.
+            </p>
+
+        </a>
+
+        <!-- GAMBLING MODE -->
+
+        <a href="##" class="mode gambling">
+
+            <div class="mode-icon">♠</div>
+
+            <h2>GAMBLING MODE</h2>
+
+            <p>
+                Put your virtual balance to work.<br>
+                Take risks and test your luck.
+            </p>
+
+        </a>
+
+    </div>
+
+    <div class="footer">
+        NULL NOIR CASINO &nbsp; // &nbsp; 2026
+    </div>
+
+</div>
+
+</body>
+</html>
