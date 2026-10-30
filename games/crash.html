@@ -654,13 +654,16 @@ function playCrashSound() {
 function generateCrashPoint() {
     const random = Math.random();
 
-    if (random < 0.01) {
-        return 1.00;
-    }
+    // 1% chance of an instant crash.
+    if (random < 0.01) return 1.00;
 
+    // Most rounds crash at relatively low multipliers.
     const point = 0.99 / (1 - random);
 
-    return Math.max(1, Math.floor(point * 100) / 100);
+    return Math.min(
+        100,
+        Math.max(1.01, Math.floor(point * 100) / 100)
+    );
 }
 
 // ========================================
