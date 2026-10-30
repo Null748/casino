@@ -129,6 +129,120 @@ h1 {
     margin-bottom: 18px;
 }
 
+.info-button {
+    position: fixed;
+    top: 18px;
+    right: 20px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid #00ffcc;
+    background: #101820;
+    color: #00ffcc;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+    z-index: 100;
+    box-shadow: 0 0 12px #00ffcc22;
+    transition: 0.2s;
+}
+
+.info-button:hover {
+    background: #00ffcc22;
+    box-shadow: 0 0 18px #00ffcc55;
+}
+
+.info-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #000000c9;
+    backdrop-filter: blur(7px);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+}
+
+.info-overlay.active {
+    display: flex;
+}
+
+.info-panel {
+    position: relative;
+    width: 100%;
+    max-width: 430px;
+    max-height: 85vh;
+    overflow-y: auto;
+    background: linear-gradient(145deg, #171d27, #090c11);
+    border: 1px solid #303945;
+    border-radius: 9px;
+    padding: 25px;
+    text-align: left;
+    box-shadow: 0 0 30px #00ffcc12;
+}
+
+.info-close {
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: #77818e;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.info-close:hover {
+    color: #00ffcc;
+}
+
+.info-heading {
+    color: #00ffcc;
+    font-size: 11px;
+    letter-spacing: 3px;
+    margin: 10px 0 13px;
+}
+
+.info-description {
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    line-height: 1.7;
+    color: #8994a1;
+    margin: 0 0 22px;
+}
+
+.payout-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.payout-list div {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #111820;
+    border: 1px solid #293540;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 15px;
+}
+
+.payout-list span {
+    flex: 1;
+    color: #8994a1;
+    font-size: 9px;
+    letter-spacing: 2px;
+}
+
+.payout-list strong {
+    color: #00ffcc;
+    font-size: 12px;
+}
+
 .card-wrapper {
     width: 100%;
     max-width: 430px;
@@ -901,6 +1015,30 @@ window.addEventListener("resize", () => {
 
 resizeCanvas();
 updateDisplay();
+
+const infoButton = document.getElementById("infoButton");
+const infoOverlay = document.getElementById("infoOverlay");
+const infoClose = document.getElementById("infoClose");
+
+infoButton.addEventListener("click", () => {
+    infoOverlay.classList.add("active");
+});
+
+infoClose.addEventListener("click", () => {
+    infoOverlay.classList.remove("active");
+});
+
+infoOverlay.addEventListener("click", (event) => {
+    if (event.target === infoOverlay) {
+        infoOverlay.classList.remove("active");
+    }
+});
+
+document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+        infoOverlay.classList.remove("active");
+    }
+});
 </script>
 
 </body>
