@@ -1,1 +1,1145 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080a0d">
+<title>RNGdle // Gambling Mode | Null Casino</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    color-scheme: dark;
+    --bg: #080a0d;
+    --panel: #101519;
+    --inner: #090e11;
+    --border: #263238;
+    --green: #00ffad;
+    --purple: #a855ff;
+    --muted: #77858a;
+    --white: #f4f7f8;
+    --standard: #77858a;
+    --notable: #d4dce0;
+    --distinct: #e7c85b;
+    --rare: #ff9d43;
+    --exceptional: #ff5757;
+    --extreme: #c15cff;
+    --singular: #00ffad;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    padding: 34px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg);
+    color: var(--white);
+    font-family: Inter, Arial, sans-serif;
+    overflow-x: hidden;
+}
+
+body::before, body::after {
+    content: "";
+    position: fixed;
+    width: 520px;
+    height: 520px;
+    filter: blur(180px);
+    opacity: .045;
+    pointer-events: none;
+}
+
+body::before {
+    background: var(--green);
+    top: -280px;
+    left: -200px;
+}
+
+body::after {
+    background: #813dff;
+    bottom: -300px;
+    right: -180px;
+}
+
+button, input {
+    font: inherit;
+}
+
+.container {
+    width: 100%;
+    max-width: 620px;
+    padding: 28px;
+    position: relative;
+    z-index: 1;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: 0 20px 70px #0009;
+}
+
+.container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--green), var(--purple), transparent);
+    box-shadow: 0 0 15px #00ffad55;
+}
+
+header {
+    text-align: center;
+    padding: 5px 0 23px;
+    margin-bottom: 22px;
+    border-bottom: 1px solid var(--border);
+}
+
+.eyebrow {
+    color: var(--green);
+    font-family: Orbitron, sans-serif;
+    font-size: 9px;
+    letter-spacing: 4px;
+    margin-bottom: 13px;
+}
+
+.logo-title {
+    font-family: Orbitron, sans-serif;
+    font-size: clamp(30px, 7vw, 43px);
+    font-weight: 800;
+    letter-spacing: 2px;
+    line-height: 1.2;
+    text-shadow: 0 0 22px #00ffad25;
+}
+
+.logo-title span {
+    color: var(--green);
+}
+
+header p {
+    margin-top: 9px;
+    color: var(--muted);
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.mode-line {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 15px;
+    color: #ffb45e;
+    font-family: Orbitron, sans-serif;
+    font-size: 9px;
+    letter-spacing: 2px;
+}
+
+.mode-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #ff9d43;
+    box-shadow: 0 0 9px #ff9d43;
+}
+
+.display {
+    position: relative;
+    overflow: hidden;
+    padding: 34px 16px 28px;
+    margin-bottom: 14px;
+    text-align: center;
+    background: var(--inner);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+}
+
+.display::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, #00ffad0c, transparent 70%);
+    pointer-events: none;
+}
+
+.display-label {
+    position: relative;
+    color: var(--muted);
+    font: 9px Orbitron, sans-serif;
+    letter-spacing: 3px;
+    margin-bottom: 14px;
+}
+
+.num-view {
+    position: relative;
+    min-height: 1em;
+    margin-bottom: 18px;
+    overflow-wrap: anywhere;
+    font: 800 clamp(38px, 10vw, 65px)/1.15 Orbitron, sans-serif;
+    letter-spacing: -2px;
+    color: var(--muted);
+    transition: color .25s, text-shadow .25s;
+}
+
+.num-view.pop {
+    animation: numberPop .38s ease;
+}
+
+@keyframes numberPop {
+    0% {
+        opacity: .35;
+        transform: translateY(7px) scale(.97);
+    }
+    65% {
+        opacity: 1;
+        transform: translateY(-2px) scale(1.015);
+    }
+    100% {
+        transform: translateY(0) scale(1);
+    }
+}
+
+.badge {
+    position: relative;
+    display: inline-block;
+    padding: 8px 17px;
+    border: 1px solid currentColor;
+    border-radius: 4px;
+    color: var(--standard);
+    background: #77858a18;
+    font: 800 10px Orbitron, sans-serif;
+    letter-spacing: 2px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.card {
+    min-width: 0;
+    padding: 14px;
+    background: var(--inner);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+}
+
+.label {
+    margin-bottom: 8px;
+    color: var(--muted);
+    font: 9px Orbitron, sans-serif;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.val {
+    color: var(--white);
+    font: 700 clamp(16px, 4vw, 21px) Orbitron, sans-serif;
+    overflow-wrap: anywhere;
+}
+
+.val.green {
+    color: var(--green);
+}
+
+.val.orange {
+    color: #ffb45e;
+}
+
+.val.purple {
+    color: #c58aff;
+}
+
+.wallet-note {
+    margin: -3px 0 17px;
+    color: var(--muted);
+    font-size: 10px;
+    line-height: 1.5;
+    text-align: center;
+}
+
+.btn {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #35444a;
+    border-radius: 5px;
+    background: #172126;
+    color: var(--white);
+    font: 700 10px Orbitron, sans-serif;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: .22s ease;
+}
+
+.btn:hover:not(:disabled) {
+    color: var(--green);
+    border-color: var(--green);
+    background: #00ffad0c;
+    box-shadow: 0 0 20px #00ffad18;
+    transform: translateY(-2px);
+}
+
+.btn:active:not(:disabled) {
+    transform: scale(.985);
+}
+
+.btn:disabled {
+    opacity: .4;
+    cursor: not-allowed;
+}
+
+.roll-btn {
+    padding: 17px;
+    color: #06110e;
+    border-color: var(--green);
+    background: var(--green);
+    box-shadow: 0 0 20px #00ffad20;
+}
+
+.roll-btn:hover:not(:disabled) {
+    color: #06110e;
+    background: #70ffd5;
+    box-shadow: 0 0 27px #00ffad45;
+}
+
+.roll-btn:disabled {
+    color: var(--muted);
+    background: #172126;
+    border-color: var(--border);
+}
+
+.cost-caption {
+    margin: 9px 0 0;
+    color: var(--muted);
+    font-size: 10px;
+    text-align: center;
+}
+
+.input-section {
+    margin-top: 18px;
+}
+
+.section-label {
+    margin-bottom: 9px;
+    color: var(--muted);
+    font: 9px Orbitron, sans-serif;
+    letter-spacing: 2px;
+}
+
+.input-row {
+    display: flex;
+    gap: 9px;
+}
+
+.input-field {
+    min-width: 0;
+    flex: 1;
+    padding: 13px;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    outline: none;
+    background: var(--inner);
+    color: white;
+    font-size: 13px;
+}
+
+.input-field:focus {
+    border-color: var(--green);
+    box-shadow: 0 0 12px #00ffad15;
+}
+
+.input-field::placeholder {
+    color: #536168;
+}
+
+.btn-sub {
+    width: auto;
+    padding: 13px 19px;
+}
+
+.analysis-note {
+    margin-top: 7px;
+    color: #58666c;
+    font-size: 10px;
+}
+
+.dna {
+    margin-top: 25px;
+}
+
+.dna h2 {
+    margin-bottom: 12px;
+    padding-left: 10px;
+    border-left: 2px solid var(--green);
+    color: var(--muted);
+    font: 700 10px Orbitron, sans-serif;
+    letter-spacing: 2px;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--green);
+    border-radius: 4px;
+    background: var(--inner);
+    font-size: 12px;
+    animation: appear .25s ease both;
+}
+
+.row span:first-child {
+    font-weight: 600;
+}
+
+.points {
+    flex-shrink: 0;
+    color: var(--green);
+    font: 700 10px Orbitron, sans-serif;
+}
+
+.empty {
+    padding: 21px 14px;
+    border: 1px dashed var(--border);
+    border-radius: 5px;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.6;
+    text-align: center;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.controls {
+    display: flex;
+    gap: 9px;
+    margin-top: 16px;
+}
+
+.controls .btn {
+    flex: 1;
+    padding: 12px 8px;
+    font-size: 9px;
+    letter-spacing: 1px;
+}
+
+.reset-btn:hover:not(:disabled) {
+    color: #ff9d9d;
+    border-color: #ff5757;
+    background: #ff57570c;
+}
+
+.message {
+    min-height: 16px;
+    margin-top: 12px;
+    color: var(--muted);
+    font-size: 10px;
+    line-height: 1.5;
+    text-align: center;
+}
+
+.message.warning {
+    color: #ff9d43;
+}
+
+.footer {
+    margin-top: 23px;
+    color: #526066;
+    font: 9px Orbitron, sans-serif;
+    letter-spacing: 2px;
+    text-align: center;
+}
+
+.status {
+    margin-top: 10px;
+    color: var(--green);
+    font: 9px Orbitron, sans-serif;
+    letter-spacing: 2px;
+    text-align: center;
+}
+
+.status::before {
+    content: "●";
+    margin-right: 8px;
+    animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: .2;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 16px 10px;
+        align-items: flex-start;
+    }
+
+    .container {
+        padding: 23px 16px;
+    }
+
+    .input-row {
+        flex-direction: column;
+    }
+
+    .btn-sub {
+        width: 100%;
+    }
+
+    .grid {
+        gap: 8px;
+    }
+
+    .card {
+        padding: 12px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<main class="container">
+
+    <header>
+        <div class="eyebrow">NULL CASINO // RNG SYSTEM</div>
+
+        <h1 class="logo-title">RNG<span>DLE.</span></h1>
+
+        <p>Structural rarity & anomaly detection</p>
+
+        <div class="mode-line">
+            <span class="mode-dot"></span>
+            GAMBLING MODE
+        </div>
+    </header>
+
+    <section class="display" aria-live="polite">
+
+        <div class="display-label">LATEST NUMBER GENERATED</div>
+
+        <div id="num-disp" class="num-view">------</div>
+
+        <div id="badge" class="badge">AWAITING ROLL</div>
+
+    </section>
+
+    <section class="grid" aria-label="Game statistics">
+
+        <div class="card">
+            <div class="label">Total Rolls</div>
+            <div id="rolls" class="val">0</div>
+        </div>
+
+        <div class="card">
+            <div class="label">Best Score</div>
+            <div id="best" class="val">0</div>
+        </div>
+
+        <div class="card">
+            <div class="label">Wallet Balance</div>
+            <div id="wallet-balance" class="val green">$500.00</div>
+        </div>
+
+        <div class="card">
+            <div class="label">Next Roll Cost</div>
+            <div id="roll-cost-display" class="val orange">$5.00</div>
+        </div>
+
+    </section>
+
+    <button id="roll-btn" class="btn roll-btn">
+        ↻ &nbsp; ROLL RANDOMLY
+    </button>
+
+    <p class="cost-caption">
+        Each roll costs money. The price increases by 30% after every roll.
+    </p>
+
+    <section class="input-section">
+
+        <div class="section-label">MANUAL NUMBER ANALYSIS</div>
+
+        <div class="input-row">
+
+            <input
+                type="number"
+                id="num-input"
+                class="input-field"
+                placeholder="Enter a number (0 – 1,000,000)"
+                min="0"
+                max="1000000"
+                step="1"
+            >
+
+            <button id="analyze-btn" class="btn btn-sub">
+                ANALYZE
+            </button>
+
+        </div>
+
+        <p class="analysis-note">
+            Free analysis — does not use wallet funds or count as a roll.
+        </p>
+
+    </section>
+
+    <section class="dna">
+
+        <h2>DETECTED TRAITS</h2>
+
+        <div id="list">
+            <div class="empty">
+                Roll a number or analyze one manually to reveal its traits.
+            </div>
+        </div>
+
+    </section>
+
+    <div class="controls">
+        <button id="reset-btn" class="btn reset-btn">
+            RESET SESSION
+        </button>
+    </div>
+
+    <div id="message" class="message" role="status"></div>
+
+    <footer class="footer">
+        NULL CASINO &nbsp; // &nbsp; RNGDLE LAB
+    </footer>
+
+    <div class="status">SYSTEM ONLINE</div>
+
+</main>
+
+<script>
+"use strict";
+
+// =====================================
+// GAME SETTINGS
+// =====================================
+
+const STARTING_BALANCE = 500;
+const STARTING_COST = 5;
+const COST_MULTIPLIER = 1.30;
+const MAX_NUMBER = 1000000;
+
+let rolls = 0;
+let best = 0;
+let walletBalance = STARTING_BALANCE;
+let nextRollCost = STARTING_COST;
+
+// =====================================
+// RARITY SYSTEM
+// =====================================
+
+const TIERS = [
+    { name: "Singular", min: 110, color: "#00ffad" },
+    { name: "Extreme", min: 70, color: "#c15cff" },
+    { name: "Exceptional", min: 45, color: "#ff5757" },
+    { name: "Rare", min: 35, color: "#ff9d43" },
+    { name: "Distinct", min: 20, color: "#e7c85b" },
+    { name: "Notable", min: 10, color: "#d4dce0" },
+    { name: "Standard", min: 0, color: "#77858a" }
+];
+
+const $ = id => document.getElementById(id);
+
+// =====================================
+// PRIME NUMBER DETECTION
+// =====================================
+
+function isPrime(n) {
+
+    if (n < 2) return false;
+
+    for (let i = 2; i * i <= n; i++) {
+        if (n % i === 0) return false;
+    }
+
+    return true;
+}
+
+// =====================================
+// NUMBER TRAITS
+// =====================================
+
+function getTraits(num) {
+
+    const traits = [];
+
+    const str = String(num);
+
+    const digits = str.split("").map(Number);
+
+    const unique = new Set(digits);
+
+    // Prime Number
+
+    if (isPrime(num)) {
+        traits.push({
+            name: "Prime Number",
+            score: 35
+        });
+    }
+
+    // Palindrome
+
+    if (
+        str.length > 1 &&
+        str === [...str].reverse().join("")
+    ) {
+        traits.push({
+            name: "Palindrome",
+            score: 40
+        });
+    }
+
+    // Repeated Digits
+
+    if (unique.size === 1 && str.length > 1) {
+
+        traits.push({
+            name: "Solid Monodigit",
+            score: 50
+        });
+
+    } else if (unique.size === 2 && str.length > 2) {
+
+        traits.push({
+            name: "Binary Makeup",
+            score: 15
+        });
+
+    }
+
+    // Harshad Number
+
+    const digitSum = digits.reduce(
+        (sum, digit) => sum + digit,
+        0
+    );
+
+    if (digitSum > 0 && num % digitSum === 0) {
+
+        traits.push({
+            name: "Harshad Number",
+            score: 10
+        });
+
+    }
+
+    // Sequential Patterns
+
+    if (digits.length >= 3) {
+
+        let ascending = true;
+        let descending = true;
+        let zigzag = true;
+
+        for (let i = 0; i < digits.length - 1; i++) {
+
+            if (digits[i] >= digits[i + 1]) {
+                ascending = false;
+            }
+
+            if (digits[i] <= digits[i + 1]) {
+                descending = false;
+            }
+
+            if (i > 0) {
+
+                const peak =
+                    digits[i] > digits[i - 1] &&
+                    digits[i] > digits[i + 1];
+
+                const valley =
+                    digits[i] < digits[i - 1] &&
+                    digits[i] < digits[i + 1];
+
+                if (!peak && !valley) {
+                    zigzag = false;
+                }
+
+            }
+
+        }
+
+        if (ascending || descending) {
+
+            traits.push({
+                name: "Pure Straight",
+                score: 45
+            });
+
+        } else if (digits.length >= 4 && zigzag) {
+
+            traits.push({
+                name: "Zigzag Order",
+                score: 20
+            });
+
+        }
+
+    }
+
+    // Round Numbers
+
+    if (num > 0 && num % 100 === 0) {
+
+        traits.push({
+            name: "Round Base",
+            score: 15
+        });
+
+    }
+
+    // Triple 7
+
+    if (str.includes("777")) {
+
+        traits.push({
+            name: "Triple 7 Block",
+            score: 15
+        });
+
+    }
+
+    return traits;
+}
+
+// =====================================
+// RARITY CALCULATION
+// =====================================
+
+function getTier(score) {
+
+    return TIERS.find(tier => score >= tier.min);
+
+}
+
+// =====================================
+// WALLET DISPLAY
+// =====================================
+
+function updateWallet() {
+
+    $("wallet-balance").textContent =
+        `$${walletBalance.toFixed(2)}`;
+
+    $("roll-cost-display").textContent =
+        `$${nextRollCost.toFixed(2)}`;
+
+    $("roll-btn").disabled =
+        walletBalance + 0.000001 < nextRollCost;
+
+    $("roll-btn").textContent =
+        $("roll-btn").disabled
+            ? "INSUFFICIENT FUNDS"
+            : "↻  ROLL RANDOMLY";
+}
+
+// =====================================
+// STATUS MESSAGE
+// =====================================
+
+function showMessage(text, warning = false) {
+
+    const message = $("message");
+
+    message.textContent = text;
+
+    message.classList.toggle("warning", warning);
+
+}
+
+// =====================================
+// EVALUATE AND DISPLAY NUMBER
+// =====================================
+
+function evaluateAndDisplay(number, isRandomRoll) {
+
+    if (isRandomRoll) {
+
+        rolls++;
+
+        $("rolls").textContent = rolls;
+
+    }
+
+    const traits = getTraits(number);
+
+    const score = traits.reduce(
+        (total, trait) => total + trait.score,
+        0
+    );
+
+    const tier = getTier(score);
+
+    // Update Best Score
+
+    if (score > best) {
+
+        best = score;
+
+        $("best").textContent = best;
+
+    }
+
+    // Display Number
+
+    const display = $("num-disp");
+
+    display.textContent = number.toLocaleString("en-US");
+
+    display.style.color = tier.color;
+
+    display.style.textShadow = `0 0 22px ${tier.color}35`;
+
+    display.classList.remove("pop");
+
+    void display.offsetWidth;
+
+    display.classList.add("pop");
+
+    // Display Rarity Badge
+
+    const badge = $("badge");
+
+    badge.textContent = tier.name.toUpperCase();
+
+    badge.style.color = tier.color;
+
+    badge.style.borderColor = `${tier.color}88`;
+
+    badge.style.backgroundColor = `${tier.color}18`;
+
+    // Display Traits
+
+    const list = $("list");
+
+    if (traits.length === 0) {
+
+        list.innerHTML = `
+            <div class="empty">
+                STANDARD CHAOS — No special patterns detected.
+            </div>
+        `;
+
+    } else {
+
+        list.innerHTML = traits.map((trait, index) => `
+
+            <div
+                class="row"
+                style="
+                    border-left-color: ${tier.color};
+                    animation-delay: ${index * 45}ms;
+                "
+            >
+
+                <span>✦ ${trait.name}</span>
+
+                <span class="points">
+                    +${trait.score} PTS
+                </span>
+
+            </div>
+
+        `).join("");
+
+    }
+
+}
+
+// =====================================
+// RANDOM ROLL
+// =====================================
+
+$("roll-btn").addEventListener("click", () => {
+
+    if (walletBalance + 0.000001 < nextRollCost) {
+
+        showMessage(
+            "Not enough funds for another roll. Reset the session to start again.",
+            true
+        );
+
+        updateWallet();
+
+        return;
+
+    }
+
+    walletBalance = Math.max(
+        0,
+        walletBalance - nextRollCost
+    );
+
+    const rollCostPaid = nextRollCost;
+
+    const roll = Math.floor(
+        Math.random() * (MAX_NUMBER + 1)
+    );
+
+    evaluateAndDisplay(roll, true);
+
+    nextRollCost = Number(
+        (nextRollCost * COST_MULTIPLIER).toFixed(2)
+    );
+
+    updateWallet();
+
+    showMessage(
+        `Roll complete. $${rollCostPaid.toFixed(2)} deducted from your wallet.`
+    );
+
+});
+
+// =====================================
+// MANUAL NUMBER ANALYSIS
+// =====================================
+
+function analyzeNumber() {
+
+    const raw = $("num-input").value.trim();
+
+    if (raw === "") {
+
+        showMessage("Enter a number to analyze.", true);
+
+        $("num-input").focus();
+
+        return;
+
+    }
+
+    const number = Number(raw);
+
+    if (
+        !Number.isSafeInteger(number) ||
+        number < 0 ||
+        number > MAX_NUMBER
+    ) {
+
+        showMessage(
+            "Enter a whole number between 0 and 1,000,000.",
+            true
+        );
+
+        return;
+
+    }
+
+    evaluateAndDisplay(number, false);
+
+    showMessage("Analysis complete. No funds were used.");
+
+}
+
+$("analyze-btn").addEventListener(
+    "click",
+    analyzeNumber
+);
+
+$("num-input").addEventListener("keydown", event => {
+
+    if (event.key === "Enter") {
+        analyzeNumber();
+    }
+
+});
+
+// =====================================
+// RESET SESSION
+// =====================================
+
+$("reset-btn").addEventListener("click", () => {
+
+    rolls = 0;
+
+    best = 0;
+
+    walletBalance = STARTING_BALANCE;
+
+    nextRollCost = STARTING_COST;
+
+    $("rolls").textContent = "0";
+
+    $("best").textContent = "0";
+
+    $("num-disp").textContent = "------";
+
+    $("num-disp").style.color = "var(--muted)";
+
+    $("num-disp").style.textShadow = "none";
+
+    $("badge").textContent = "AWAITING ROLL";
+
+    $("badge").style.color = "var(--standard)";
+
+    $("badge").style.borderColor = "var(--border)";
+
+    $("badge").style.backgroundColor = "transparent";
+
+    $("list").innerHTML = `
+        <div class="empty">
+            Roll a number or analyze one manually to reveal its traits.
+        </div>
+    `;
+
+    $("num-input").value = "";
+
+    updateWallet();
+
+    showMessage(
+        "Session reset. Your $500 starting balance has been restored."
+    );
+
+});
+
+// =====================================
+// INITIALIZE GAME
+// =====================================
+
+updateWallet();
+
+</script>
+
+</body>
+</html>
+
