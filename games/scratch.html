@@ -1,0 +1,873 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Null Casino - Scratch Cards</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: #080a0d;
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+    display: flex;
+    justify-content: center;
+    padding: 35px 15px;
+    overflow-x: hidden;
+}
+
+body::before,
+body::after {
+    content: "";
+    position: fixed;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    filter: blur(130px);
+    opacity: 0.13;
+    pointer-events: none;
+    z-index: 0;
+}
+
+body::before {
+    background: #00ffcc;
+    top: -100px;
+    left: -100px;
+}
+
+body::after {
+    background: #7b2cff;
+    bottom: -100px;
+    right: -100px;
+}
+
+.container {
+    width: 100%;
+    max-width: 700px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.subtitle {
+    color: #00ffcc;
+    font-size: 10px;
+    letter-spacing: 6px;
+    margin-bottom: 15px;
+}
+
+h1 {
+    font-size: clamp(36px, 8vw, 62px);
+    font-weight: 800;
+    letter-spacing: 4px;
+    margin: 0;
+    text-shadow: 0 0 20px #00ffcc55;
+}
+
+.description {
+    font-family: Arial, sans-serif;
+    color: #777f8c;
+    font-size: 14px;
+    margin: 12px 0 30px;
+}
+
+.info-bar {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.info-box {
+    flex: 1;
+    background: #11161e;
+    border: 1px solid #29313c;
+    border-radius: 6px;
+    padding: 13px 8px;
+}
+
+.info-label {
+    color: #707987;
+    font-size: 9px;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+}
+
+.info-value {
+    color: #00ffcc;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.machine {
+    background: linear-gradient(145deg, #171d27, #090c11);
+    border: 1px solid #303945;
+    border-radius: 10px;
+    padding: 22px 15px;
+    box-shadow: 0 0 25px #00ffcc0a, inset 0 0 25px #00ffcc05;
+}
+
+.machine-top {
+    color: #555f6c;
+    font-size: 9px;
+    letter-spacing: 3px;
+    margin-bottom: 25px;
+}
+
+.board-title {
+    color: #00ffcc;
+    font-size: 11px;
+    letter-spacing: 3px;
+    margin-bottom: 18px;
+}
+
+.card-wrapper {
+    width: 100%;
+    max-width: 430px;
+    margin: 0 auto;
+    padding: 12px;
+    background: radial-gradient(circle, #17232b, #090d12);
+    border: 1px solid #34404c;
+    border-radius: 9px;
+    box-shadow: inset 0 0 25px #00ffcc0b;
+}
+
+.scratch-card {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #101820;
+    touch-action: none;
+    user-select: none;
+}
+
+.symbol-grid {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 5px;
+    padding: 5px;
+    background: #0b1016;
+}
+
+.symbol-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(145deg, #1b2530, #10151c);
+    border: 1px solid #303d49;
+    border-radius: 5px;
+    gap: 7px;
+}
+
+.symbol {
+    font-size: clamp(26px, 7vw, 43px);
+    line-height: 1;
+}
+
+.symbol-name {
+    color: #788694;
+    font-size: 8px;
+    letter-spacing: 1px;
+}
+
+.scratch-card canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    cursor: crosshair;
+    touch-action: none;
+}
+
+.scratch-hint {
+    color: #66717e;
+    font-size: 9px;
+    letter-spacing: 2px;
+    margin-top: 15px;
+    min-height: 12px;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin: 25px 0;
+}
+
+.control-button {
+    width: 43px;
+    height: 43px;
+    border: 1px solid #34404c;
+    background: #111820;
+    color: #00ffcc;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 22px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.control-button:hover {
+    background: #00ffcc18;
+    border-color: #00ffcc;
+}
+
+.control-button:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+.bet-display {
+    min-width: 115px;
+}
+
+.bet-label {
+    font-size: 9px;
+    color: #697583;
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+}
+
+.bet-value {
+    font-size: 19px;
+    color: white;
+    font-weight: 700;
+}
+
+.drop-button {
+    width: 100%;
+    padding: 20px;
+    background: #00ffcc12;
+    border: 1px solid #00ffcc;
+    border-radius: 5px;
+    color: #00ffcc;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.drop-button:hover {
+    background: #00ffcc25;
+    box-shadow: 0 0 20px #00ffcc25;
+}
+
+.drop-button:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.result {
+    min-height: 24px;
+    margin-top: 20px;
+    color: #77818e;
+    font-size: 11px;
+    letter-spacing: 2px;
+}
+
+.result.win {
+    color: #00ffcc;
+    text-shadow: 0 0 12px #00ffcc66;
+}
+
+.result.big {
+    color: #ffe66d;
+    text-shadow: 0 0 12px #ffe66d66;
+}
+
+.history {
+    margin-top: 20px;
+    background: #10151c;
+    border: 1px solid #29313c;
+    border-radius: 7px;
+    padding: 15px;
+    text-align: left;
+}
+
+.history-title {
+    color: #00ffcc;
+    font-size: 9px;
+    letter-spacing: 3px;
+    margin-bottom: 12px;
+}
+
+.history-items {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 3px;
+}
+
+.history-item {
+    flex: 0 0 auto;
+    background: #1a222c;
+    border: 1px solid #303945;
+    border-radius: 4px;
+    padding: 9px 12px;
+    font-size: 10px;
+    color: #8a96a4;
+}
+
+.history-item.win {
+    color: #00ffcc;
+    border-color: #00ffcc55;
+}
+
+.history-item.loss {
+    color: #ff6677;
+    border-color: #ff667755;
+}
+
+.footer {
+    color: #414853;
+    font-size: 9px;
+    letter-spacing: 3px;
+    margin-top: 28px;
+}
+
+.back {
+    display: inline-block;
+    color: #687381;
+    text-decoration: none;
+    font-size: 10px;
+    letter-spacing: 2px;
+    margin-top: 15px;
+    transition: 0.2s;
+}
+
+.back:hover {
+    color: #00ffcc;
+}
+
+@media (max-width: 500px) {
+    body {
+        padding: 25px 12px;
+    }
+
+    .machine {
+        padding: 18px 10px;
+    }
+
+    .info-value {
+        font-size: 17px;
+    }
+
+    .subtitle {
+        letter-spacing: 4px;
+    }
+
+    .drop-button {
+        font-size: 11px;
+        letter-spacing: 2px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="subtitle">NULL CASINO // GAME 008</div>
+    <h1>SCRATCH.</h1>
+    <p class="description">Scratch the card. Reveal your symbols. Claim your prize.</p>
+
+    <div class="info-bar">
+        <div class="info-box">
+            <div class="info-label">BALANCE</div>
+            <div class="info-value" id="balance">$1,000</div>
+        </div>
+
+        <div class="info-box">
+            <div class="info-label">TOTAL WON</div>
+            <div class="info-value" id="totalWon">$0</div>
+        </div>
+    </div>
+
+    <div class="machine">
+
+        <div class="machine-top">NULL CASINO // AUTOMATED GAMING</div>
+
+        <div class="board-title">SCRATCH CARD</div>
+
+        <div class="card-wrapper">
+            <div class="scratch-card" id="scratchCard">
+
+                <div class="symbol-grid" id="symbolGrid">
+                    <div class="symbol-cell">
+                        <div class="symbol">❔</div>
+                        <div class="symbol-name">UNKNOWN</div>
+                    </div>
+                    <div class="symbol-cell">
+                        <div class="symbol">❔</div>
+                        <div class="symbol-name">UNKNOWN</div>
+                    </div>
+                    <div class="symbol-cell">
+                        <div class="symbol">❔</div>
+                        <div class="symbol-name">UNKNOWN</div>
+                    </div>
+                    <div class="symbol-cell">
+                        <div class="symbol">❔</div>
+                        <div class="symbol-name">UNKNOWN</div>
+                    </div>
+                    <div class="symbol-cell">
+                        <div class="symbol">❔</div>
+                        <div class="symbol-name">UNKNOWN</div>
+                    </div>
+                    <div class="symbol-cell">
+                        <div class="symbol">❔</div>
+                        <div class="symbol-name">UNKNOWN</div>
+                    </div>
+                    <div class="symbol-cell">
+                        <div class="symbol">❔</div>
+                        <div class="symbol-name">UNKNOWN</div>
+                    </div>
+                    <div class="symbol-cell">
+                        <div class="symbol">❔</div>
+                        <div class="symbol-name">UNKNOWN</div>
+                    </div>
+                    <div class="symbol-cell">
+                        <div class="symbol">❔</div>
+                        <div class="symbol-name">UNKNOWN</div>
+                    </div>
+                </div>
+
+                <canvas id="scratchCanvas"></canvas>
+
+            </div>
+        </div>
+
+        <div class="scratch-hint" id="scratchHint">
+            PURCHASE A CARD TO BEGIN
+        </div>
+
+        <div class="controls">
+            <button class="control-button" id="minus">−</button>
+
+            <div class="bet-display">
+                <div class="bet-label">YOUR BET</div>
+                <div class="bet-value" id="bet">$10</div>
+            </div>
+
+            <button class="control-button" id="plus">+</button>
+        </div>
+
+        <button class="drop-button" id="buyButton">
+            BUY SCRATCH CARD
+        </button>
+
+        <div class="result" id="result">READY TO PLAY</div>
+
+    </div>
+
+    <div class="history">
+        <div class="history-title">RECENT RESULTS</div>
+        <div class="history-items" id="historyItems">
+            <div class="history-item">NO RESULTS YET</div>
+        </div>
+    </div>
+
+    <div class="footer">NULL CASINO // 2026</div>
+
+    <a href="../index.html" class="back">← RETURN TO MAIN MENU</a>
+
+</div>
+
+<script>
+const symbols = [
+    { emoji: "🍒", name: "CHERRY", multiplier: 2, weight: 30 },
+    { emoji: "🍋", name: "LEMON", multiplier: 3, weight: 24 },
+    { emoji: "🔔", name: "BELL", multiplier: 5, weight: 18 },
+    { emoji: "💎", name: "DIAMOND", multiplier: 10, weight: 12 },
+    { emoji: "⭐", name: "STAR", multiplier: 20, weight: 8 },
+    { emoji: "7️⃣", name: "SEVEN", multiplier: 50, weight: 4 },
+    { emoji: "👑", name: "CROWN", multiplier: 100, weight: 2 },
+    { emoji: "💰", name: "MONEY", multiplier: 200, weight: 1 }
+];
+
+let balance = 1000;
+let totalWon = 0;
+let bet = 10;
+
+let cardActive = false;
+let cardFinished = true;
+let scratching = false;
+let scratchChecked = false;
+let currentSymbols = [];
+
+const balanceEl = document.getElementById("balance");
+const totalWonEl = document.getElementById("totalWon");
+const betEl = document.getElementById("bet");
+const resultEl = document.getElementById("result");
+const hintEl = document.getElementById("scratchHint");
+const buyButton = document.getElementById("buyButton");
+const canvas = document.getElementById("scratchCanvas");
+const ctx = canvas.getContext("2d");
+
+const card = document.getElementById("scratchCard");
+const grid = document.getElementById("symbolGrid");
+
+const MIN_BET = 10;
+const MAX_BET = 500;
+const BET_STEP = 10;
+
+function updateDisplay() {
+    balanceEl.textContent = "$" + balance.toLocaleString();
+    totalWonEl.textContent = "$" + totalWon.toLocaleString();
+    betEl.textContent = "$" + bet.toLocaleString();
+
+    document.getElementById("minus").disabled =
+        bet <= MIN_BET || cardActive;
+
+    document.getElementById("plus").disabled =
+        bet >= MAX_BET || cardActive;
+
+    buyButton.disabled = cardActive || balance < bet;
+}
+
+function setResult(message, type = "") {
+    resultEl.textContent = message;
+    resultEl.className = "result " + type;
+}
+
+function randomSymbol() {
+    const totalWeight = symbols.reduce((sum, s) => sum + s.weight, 0);
+    let roll = Math.random() * totalWeight;
+
+    for (const symbol of symbols) {
+        roll -= symbol.weight;
+        if (roll <= 0) return symbol;
+    }
+
+    return symbols[0];
+}
+
+function createCard() {
+    currentSymbols = [];
+
+    for (let i = 0; i < 9; i++) {
+        currentSymbols.push(randomSymbol());
+    }
+
+    grid.innerHTML = "";
+
+    currentSymbols.forEach(symbol => {
+        const cell = document.createElement("div");
+        cell.className = "symbol-cell";
+
+        cell.innerHTML = `
+            <div class="symbol">${symbol.emoji}</div>
+            <div class="symbol-name">${symbol.name}</div>
+        `;
+
+        grid.appendChild(cell);
+    });
+}
+
+function resizeCanvas() {
+    const rect = card.getBoundingClientRect();
+    const dpr = Math.max(1, window.devicePixelRatio || 1);
+
+    canvas.width = Math.round(rect.width * dpr);
+    canvas.height = Math.round(rect.height * dpr);
+
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    if (cardActive) {
+        drawCover();
+    } else {
+        ctx.clearRect(0, 0, rect.width, rect.height);
+    }
+}
+
+function drawCover() {
+    const rect = card.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+
+    ctx.globalCompositeOperation = "source-over";
+
+    const gradient = ctx.createLinearGradient(0, 0, width, height);
+    gradient.addColorStop(0, "#46515e");
+    gradient.addColorStop(0.45, "#27323d");
+    gradient.addColorStop(1, "#3b4652");
+
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, width, height);
+
+    // Metallic scratch-card texture
+    for (let i = 0; i < 1800; i++) {
+        const x = Math.random() * width;
+        const y = Math.random() * height;
+
+        ctx.fillStyle = Math.random() > 0.5
+            ? "rgba(255,255,255,0.09)"
+            : "rgba(0,0,0,0.08)";
+
+        ctx.fillRect(x, y, 2, 2);
+    }
+
+    ctx.strokeStyle = "#778491";
+    ctx.lineWidth = 2;
+    ctx.strokeRect(7, 7, width - 14, height - 14);
+
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    ctx.fillStyle = "#d9e0e6";
+    ctx.font = "800 17px Orbitron";
+    ctx.fillText("NULL CASINO", width / 2, height / 2 - 20);
+
+    ctx.fillStyle = "#aeb8c2";
+    ctx.font = "600 11px Orbitron";
+    ctx.fillText("SCRATCH TO REVEAL", width / 2, height / 2 + 12);
+
+    ctx.fillStyle = "#87939f";
+    ctx.font = "10px Orbitron";
+    ctx.fillText("✦  ✦  ✦", width / 2, height / 2 + 40);
+
+    ctx.globalCompositeOperation = "source-over";
+}
+
+function buyCard() {
+    if (cardActive || balance < bet) return;
+
+    balance -= bet;
+    cardActive = true;
+    cardFinished = false;
+    scratchChecked = false;
+
+    createCard();
+
+    resizeCanvas();
+
+    hintEl.textContent = "SCRATCH THE CARD TO REVEAL YOUR SYMBOLS";
+    setResult("GOOD LUCK.");
+
+    buyButton.textContent = "SCRATCH YOUR CARD";
+    updateDisplay();
+}
+
+function getPointerPosition(event) {
+    const rect = canvas.getBoundingClientRect();
+
+    return {
+        x: event.clientX - rect.left,
+        y: event.clientY - rect.top
+    };
+}
+
+function scratchAt(x, y) {
+    if (!cardActive || cardFinished) return;
+
+    ctx.globalCompositeOperation = "destination-out";
+    ctx.beginPath();
+    ctx.arc(x, y, 23, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.globalCompositeOperation = "source-over";
+}
+
+function getScratchPercentage() {
+    const width = canvas.width;
+    const height = canvas.height;
+
+    const image = ctx.getImageData(0, 0, width, height);
+    const data = image.data;
+
+    let cleared = 0;
+    let total = 0;
+
+    // Sample pixels rather than checking every pixel.
+    const step = 12;
+
+    for (let y = 0; y < height; y += step) {
+        for (let x = 0; x < width; x += step) {
+            const alpha = data[(y * width + x) * 4 + 3];
+
+            total++;
+
+            if (alpha < 100) {
+                cleared++;
+            }
+        }
+    }
+
+    return cleared / total;
+}
+
+function checkScratchProgress() {
+    if (!cardActive || cardFinished || scratchChecked) return;
+
+    const progress = getScratchPercentage();
+
+    const percentage = Math.min(100, Math.floor(progress * 100));
+
+    hintEl.textContent = "CARD REVEALED: " + percentage + "%";
+
+    if (progress >= 0.45) {
+        finishCard();
+    }
+}
+
+function startScratch(event) {
+    if (!cardActive || cardFinished) return;
+
+    scratching = true;
+    canvas.setPointerCapture(event.pointerId);
+
+    const pos = getPointerPosition(event);
+    scratchAt(pos.x, pos.y);
+}
+
+function moveScratch(event) {
+    if (!scratching || !cardActive || cardFinished) return;
+
+    const pos = getPointerPosition(event);
+    scratchAt(pos.x, pos.y);
+
+    if (Math.random() < 0.12) {
+        checkScratchProgress();
+    }
+}
+
+function stopScratch() {
+    if (!scratching) return;
+
+    scratching = false;
+    checkScratchProgress();
+}
+
+canvas.addEventListener("pointerdown", startScratch);
+canvas.addEventListener("pointermove", moveScratch);
+canvas.addEventListener("pointerup", stopScratch);
+canvas.addEventListener("pointercancel", stopScratch);
+canvas.addEventListener("lostpointercapture", stopScratch);
+
+function finishCard() {
+    if (cardFinished) return;
+
+    cardFinished = true;
+    cardActive = false;
+    scratchChecked = true;
+    scratching = false;
+
+    const rect = card.getBoundingClientRect();
+
+    // Reveal the rest of the card.
+    ctx.globalCompositeOperation = "destination-out";
+    ctx.fillRect(0, 0, rect.width, rect.height);
+    ctx.globalCompositeOperation = "source-over";
+
+    const counts = {};
+
+    currentSymbols.forEach(symbol => {
+        counts[symbol.name] = (counts[symbol.name] || 0) + 1;
+    });
+
+    let winningSymbol = null;
+
+    for (const symbol of symbols) {
+        if (counts[symbol.name] >= 3) {
+            winningSymbol = symbol;
+            break;
+        }
+    }
+
+    let payout = 0;
+
+    if (winningSymbol) {
+        payout = bet * winningSymbol.multiplier;
+        balance += payout;
+        totalWon += payout;
+
+        if (winningSymbol.multiplier >= 20) {
+            setResult(
+                "JACKPOT! " + winningSymbol.name + " — $" + payout.toLocaleString(),
+                "big"
+            );
+        } else {
+            setResult(
+                "YOU WON $" + payout.toLocaleString() + "!",
+                "win"
+            );
+        }
+    } else {
+        setResult("NO MATCH — BET LOST");
+    }
+
+    hintEl.textContent = "CARD COMPLETE";
+
+    addHistory(payout, winningSymbol);
+
+    buyButton.textContent = "BUY ANOTHER CARD";
+
+    updateDisplay();
+}
+
+function addHistory(payout, symbol) {
+    const history = document.getElementById("historyItems");
+
+    if (history.children.length === 1 &&
+        history.children[0].textContent === "NO RESULTS YET") {
+        history.innerHTML = "";
+    }
+
+    const item = document.createElement("div");
+
+    if (payout > 0) {
+        item.className = "history-item win";
+        item.textContent = "+" + "$" + payout.toLocaleString();
+    } else {
+        item.className = "history-item loss";
+        item.textContent = "-$" + bet.toLocaleString();
+    }
+
+    history.prepend(item);
+
+    while (history.children.length > 12) {
+        history.removeChild(history.lastChild);
+    }
+}
+
+document.getElementById("minus").addEventListener("click", () => {
+    if (cardActive) return;
+    bet = Math.max(MIN_BET, bet - BET_STEP);
+    updateDisplay();
+});
+
+document.getElementById("plus").addEventListener("click", () => {
+    if (cardActive) return;
+    bet = Math.min(MAX_BET, bet + BET_STEP);
+    updateDisplay();
+});
+
+buyButton.addEventListener("click", buyCard);
+
+window.addEventListener("resize", () => {
+    resizeCanvas();
+});
+
+resizeCanvas();
+updateDisplay();
+</script>
+
+</body>
+</html>
