@@ -769,7 +769,7 @@ function updateGame(now) {
     const elapsed = now - startTime;
 
     // Multiplier rises continuously.
-    currentMultiplier = Math.exp(elapsed * 0.00012);
+    currentMultiplier = Math.exp(elapsed * 0.00035);
 
     points.push({
         x: elapsed,
