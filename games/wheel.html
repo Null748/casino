@@ -9,348 +9,401 @@
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+* { margin:0; padding:0; box-sizing:border-box; }
 
 body {
-    background: #080a0d;
-    color: white;
-    font-family: 'Orbitron', sans-serif;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    padding: 35px 15px;
-    overflow-x: hidden;
+    background:#080a0d;
+    color:white;
+    font-family:'Orbitron',sans-serif;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    padding:35px 15px;
+    overflow-x:hidden;
 }
 
 body::before {
-    content: "";
-    position: fixed;
-    width: 600px;
-    height: 600px;
-    background: #00ffcc;
-    filter: blur(180px);
-    opacity: .055;
-    top: -300px;
-    left: -200px;
-    pointer-events: none;
+    content:"";
+    position:fixed;
+    width:600px;
+    height:600px;
+    background:#00ffcc;
+    filter:blur(180px);
+    opacity:.055;
+    top:-300px;
+    left:-200px;
+    pointer-events:none;
 }
 
 body::after {
-    content: "";
-    position: fixed;
-    width: 500px;
-    height: 500px;
-    background: #7b2cff;
-    filter: blur(180px);
-    opacity: .07;
-    bottom: -300px;
-    right: -150px;
-    pointer-events: none;
+    content:"";
+    position:fixed;
+    width:500px;
+    height:500px;
+    background:#7b2cff;
+    filter:blur(180px);
+    opacity:.07;
+    bottom:-300px;
+    right:-150px;
+    pointer-events:none;
 }
 
 .container {
-    width: 100%;
-    max-width: 700px;
-    text-align: center;
-    position: relative;
-    z-index: 1;
+    width:100%;
+    max-width:700px;
+    text-align:center;
+    position:relative;
+    z-index:1;
 }
 
 .subtitle {
-    color: #00ffcc;
-    font-size: 10px;
-    letter-spacing: 6px;
-    margin-bottom: 15px;
+    color:#00ffcc;
+    font-size:10px;
+    letter-spacing:6px;
+    margin-bottom:15px;
 }
 
 h1 {
-    font-size: clamp(36px, 8vw, 62px);
-    font-weight: 800;
-    letter-spacing: 4px;
-    text-shadow: 0 0 10px rgba(0,255,204,.5),
-                 0 0 30px rgba(0,255,204,.2);
+    font-size:clamp(36px,8vw,62px);
+    font-weight:800;
+    letter-spacing:4px;
+    text-shadow:0 0 10px rgba(0,255,204,.5),
+                0 0 30px rgba(0,255,204,.2);
 }
 
 .description {
-    color: #777f8c;
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    margin: 12px 0 30px;
+    color:#777f8c;
+    font-family:Arial,sans-serif;
+    font-size:14px;
+    margin:12px 0 30px;
 }
 
 /* ACCOUNT */
 
 .info-bar {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 18px;
+    display:flex;
+    gap:12px;
+    margin-bottom:18px;
 }
 
 .info-box {
-    flex: 1;
-    padding: 15px 10px;
-    background: rgba(255,255,255,.025);
-    border: 1px solid #252b33;
-    border-radius: 5px;
+    flex:1;
+    padding:15px 10px;
+    background:rgba(255,255,255,.025);
+    border:1px solid #252b33;
+    border-radius:5px;
 }
 
 .info-label {
-    color: #68717e;
-    font-size: 9px;
-    letter-spacing: 2px;
-    margin-bottom: 8px;
+    color:#68717e;
+    font-size:9px;
+    letter-spacing:2px;
+    margin-bottom:8px;
 }
 
 .info-value {
-    color: #00ffcc;
-    font-size: clamp(15px, 4vw, 21px);
-    font-weight: 700;
+    color:#00ffcc;
+    font-size:clamp(15px,4vw,21px);
+    font-weight:700;
 }
 
 /* MACHINE */
 
 .machine {
-    background: linear-gradient(145deg, #171d27, #090c11);
-    border: 1px solid #303945;
-    border-radius: 10px;
-    padding: 22px 15px;
-    box-shadow: 0 15px 50px rgba(0,0,0,.5),
-                inset 0 0 30px rgba(0,255,204,.025);
+    background:linear-gradient(145deg,#171d27,#090c11);
+    border:1px solid #303945;
+    border-radius:10px;
+    padding:22px 15px;
+    box-shadow:0 15px 50px rgba(0,0,0,.5),
+               inset 0 0 30px rgba(0,255,204,.025);
 }
 
 .machine-top {
-    color: #4d5967;
-    font-size: 9px;
-    letter-spacing: 3px;
-    margin-bottom: 18px;
+    color:#4d5967;
+    font-size:9px;
+    letter-spacing:3px;
+    margin-bottom:18px;
 }
 
 .board-title {
-    color: #00ffcc;
-    font-size: 10px;
-    letter-spacing: 3px;
-    margin-bottom: 18px;
+    color:#00ffcc;
+    font-size:10px;
+    letter-spacing:3px;
+    margin-bottom:18px;
+}
+
+/* WHEEL SIZE SELECTOR */
+
+.size-section {
+    margin:0 auto 22px;
+}
+
+.section-label {
+    color:#68717e;
+    font-size:9px;
+    letter-spacing:3px;
+    margin-bottom:12px;
+}
+
+.size-buttons {
+    display:flex;
+    justify-content:center;
+    gap:10px;
+}
+
+.size-button {
+    padding:12px 20px;
+    min-width:145px;
+    background:#111720;
+    border:1px solid #303945;
+    border-radius:5px;
+    color:#68717e;
+    font-family:inherit;
+    font-size:10px;
+    font-weight:700;
+    letter-spacing:2px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.size-button:hover:not(:disabled) {
+    border-color:#00ffcc;
+    color:#00ffcc;
+}
+
+.size-button.active {
+    background:rgba(0,255,204,.08);
+    border-color:#00ffcc;
+    color:#00ffcc;
+    box-shadow:0 0 13px rgba(0,255,204,.12);
+}
+
+.size-button:disabled {
+    opacity:.35;
+    cursor:not-allowed;
 }
 
 /* WHEEL */
 
 .wheel-area {
-    position: relative;
-    width: min(100%, 440px);
-    aspect-ratio: 1;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    position:relative;
+    width:min(100%,440px);
+    aspect-ratio:1;
+    margin:0 auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:width .3s;
+}
+
+.wheel-area.large {
+    width:min(100%,560px);
 }
 
 #wheelCanvas {
-    width: 100%;
-    height: 100%;
-    display: block;
-    filter: drop-shadow(0 0 15px rgba(0,255,204,.12));
+    width:100%;
+    height:100%;
+    display:block;
+    filter:drop-shadow(0 0 15px rgba(0,255,204,.12));
 }
 
 .wheel-pointer {
-    position: absolute;
-    top: -5px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 3;
-    width: 0;
-    height: 0;
-    border-left: 15px solid transparent;
-    border-right: 15px solid transparent;
-    border-top: 32px solid #00ffcc;
-    filter: drop-shadow(0 0 8px rgba(0,255,204,.65));
+    position:absolute;
+    top:-5px;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:3;
+    width:0;
+    height:0;
+    border-left:15px solid transparent;
+    border-right:15px solid transparent;
+    border-top:32px solid #00ffcc;
+    filter:drop-shadow(0 0 8px rgba(0,255,204,.65));
 }
 
 .wheel-center {
-    position: absolute;
-    width: 16%;
-    aspect-ratio: 1;
-    border-radius: 50%;
-    background: radial-gradient(circle, #202b36, #080a0d 75%);
-    border: 3px solid #00ffcc;
-    box-shadow: 0 0 15px rgba(0,255,204,.3),
-                inset 0 0 10px rgba(0,255,204,.15);
-    z-index: 2;
-    pointer-events: none;
+    position:absolute;
+    width:16%;
+    aspect-ratio:1;
+    border-radius:50%;
+    background:radial-gradient(circle,#202b36,#080a0d 75%);
+    border:3px solid #00ffcc;
+    box-shadow:0 0 15px rgba(0,255,204,.3),
+               inset 0 0 10px rgba(0,255,204,.15);
+    z-index:2;
+    pointer-events:none;
 }
 
 /* RESULT */
 
 .result {
-    min-height: 38px;
-    margin-top: 18px;
-    color: #68717e;
-    font-size: 11px;
-    letter-spacing: 2px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    min-height:38px;
+    margin-top:18px;
+    color:#68717e;
+    font-size:11px;
+    letter-spacing:2px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
 
 .result.win {
-    color: #00ff99;
-    text-shadow: 0 0 12px rgba(0,255,153,.5);
+    color:#00ff99;
+    text-shadow:0 0 12px rgba(0,255,153,.5);
 }
 
 .result.loss {
-    color: #ff647b;
-    text-shadow: 0 0 12px rgba(255,65,108,.3);
+    color:#ff647b;
+    text-shadow:0 0 12px rgba(255,65,108,.3);
 }
 
 /* BETTING */
 
 .controls {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-    margin-top: 22px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:15px;
+    margin-top:22px;
 }
 
 .control-button {
-    width: 43px;
-    height: 43px;
-    background: #111720;
-    border: 1px solid #303945;
-    color: #00ffcc;
-    font-family: inherit;
-    font-size: 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: .2s;
+    width:43px;
+    height:43px;
+    background:#111720;
+    border:1px solid #303945;
+    color:#00ffcc;
+    font-family:inherit;
+    font-size:20px;
+    border-radius:5px;
+    cursor:pointer;
+    transition:.2s;
 }
 
 .control-button:hover:not(:disabled) {
-    border-color: #00ffcc;
-    box-shadow: 0 0 12px rgba(0,255,204,.2);
+    border-color:#00ffcc;
+    box-shadow:0 0 12px rgba(0,255,204,.2);
 }
 
 .control-button:disabled {
-    opacity: .3;
-    cursor: not-allowed;
+    opacity:.3;
+    cursor:not-allowed;
 }
 
-.bet-display {
-    min-width: 120px;
-}
+.bet-display { min-width:120px; }
 
 .bet-label {
-    color: #68717e;
-    font-size: 9px;
-    letter-spacing: 2px;
-    margin-bottom: 7px;
+    color:#68717e;
+    font-size:9px;
+    letter-spacing:2px;
+    margin-bottom:7px;
 }
 
-.bet-amount {
-    font-size: 20px;
-}
+.bet-amount { font-size:20px; }
 
 /* SPIN BUTTON */
 
 .drop-button {
-    width: 100%;
-    padding: 20px;
-    margin-top: 25px;
-    background: rgba(0,255,204,.045);
-    border: 1px solid #00a98b;
-    border-radius: 5px;
-    color: #00ffcc;
-    font-family: inherit;
-    font-size: 14px;
-    font-weight: 800;
-    letter-spacing: 5px;
-    cursor: pointer;
-    transition: .3s;
+    width:100%;
+    padding:20px;
+    margin-top:25px;
+    background:rgba(0,255,204,.045);
+    border:1px solid #00a98b;
+    border-radius:5px;
+    color:#00ffcc;
+    font-family:inherit;
+    font-size:14px;
+    font-weight:800;
+    letter-spacing:5px;
+    cursor:pointer;
+    transition:.3s;
 }
 
 .drop-button:hover:not(:disabled) {
-    background: rgba(0,255,204,.13);
-    box-shadow: 0 0 25px rgba(0,255,204,.22);
-    transform: scale(1.015);
+    background:rgba(0,255,204,.13);
+    box-shadow:0 0 25px rgba(0,255,204,.22);
+    transform:scale(1.015);
 }
 
 .drop-button:disabled {
-    opacity: .35;
-    cursor: not-allowed;
+    opacity:.35;
+    cursor:not-allowed;
 }
 
 /* HISTORY */
 
 .history {
-    margin-top: 20px;
-    padding: 16px;
-    background: rgba(255,255,255,.02);
-    border: 1px solid #252b33;
-    border-radius: 5px;
-    text-align: left;
+    margin-top:20px;
+    padding:16px;
+    background:rgba(255,255,255,.02);
+    border:1px solid #252b33;
+    border-radius:5px;
+    text-align:left;
 }
 
 .history-title {
-    color: #00ffcc;
-    font-size: 9px;
-    letter-spacing: 3px;
-    margin-bottom: 13px;
+    color:#00ffcc;
+    font-size:9px;
+    letter-spacing:3px;
+    margin-bottom:13px;
 }
 
 .history-items {
-    display: flex;
-    gap: 7px;
-    overflow-x: auto;
+    display:flex;
+    gap:7px;
+    overflow-x:auto;
 }
 
 .history-item {
-    flex: 0 0 auto;
-    padding: 9px 11px;
-    border-radius: 4px;
-    background: #111720;
-    border: 1px solid #303945;
-    font-size: 9px;
-    color: #8993a0;
+    flex:0 0 auto;
+    padding:9px 11px;
+    border-radius:4px;
+    background:#111720;
+    border:1px solid #303945;
+    font-size:9px;
+    color:#8993a0;
 }
 
 .history-item.win {
-    border-color: rgba(0,255,153,.4);
-    color: #00ff99;
+    border-color:rgba(0,255,153,.4);
+    color:#00ff99;
 }
 
 .history-item.loss {
-    border-color: rgba(255,65,108,.3);
-    color: #ff647b;
+    border-color:rgba(255,65,108,.3);
+    color:#ff647b;
 }
 
 /* FOOTER */
 
 .footer {
-    color: #414853;
-    font-size: 9px;
-    letter-spacing: 3px;
-    margin-top: 28px;
+    color:#414853;
+    font-size:9px;
+    letter-spacing:3px;
+    margin-top:28px;
 }
 
 .back {
-    display: inline-block;
-    color: #68717e;
-    font-size: 10px;
-    letter-spacing: 2px;
-    text-decoration: none;
-    margin-top: 15px;
+    display:inline-block;
+    color:#68717e;
+    font-size:10px;
+    letter-spacing:2px;
+    text-decoration:none;
+    margin-top:15px;
 }
 
-.back:hover {
-    color: #00ffcc;
-}
+.back:hover { color:#00ffcc; }
 
-@media(max-width: 500px) {
-    .machine { padding: 15px 9px; }
-    .wheel-area { width: 100%; }
+@media(max-width:500px) {
+    .machine { padding:15px 9px; }
+    .wheel-area { width:100%; }
+    .wheel-area.large { width:100%; }
+    .size-button {
+        min-width:0;
+        flex:1;
+        padding:12px 8px;
+        font-size:9px;
+    }
 }
 </style>
 </head>
@@ -387,7 +440,21 @@ h1 {
 
         <div class="board-title">MULTIPLIER WHEEL</div>
 
-        <div class="wheel-area">
+        <div class="size-section">
+            <div class="section-label">SELECT WHEEL SIZE</div>
+
+            <div class="size-buttons">
+                <button class="size-button active" id="smallButton">
+                    SMALL WHEEL
+                </button>
+
+                <button class="size-button" id="largeButton">
+                    LARGE WHEEL
+                </button>
+            </div>
+        </div>
+
+        <div class="wheel-area" id="wheelArea">
             <div class="wheel-pointer"></div>
             <canvas id="wheelCanvas" width="600" height="600"></canvas>
             <div class="wheel-center"></div>
@@ -398,7 +465,6 @@ h1 {
         </div>
 
         <div class="controls">
-
             <button class="control-button" id="minus">−</button>
 
             <div class="bet-display">
@@ -407,7 +473,6 @@ h1 {
             </div>
 
             <button class="control-button" id="plus">+</button>
-
         </div>
 
         <button class="drop-button" id="spinButton">
@@ -424,9 +489,7 @@ h1 {
         </div>
     </div>
 
-    <div class="footer">
-        NULL CASINO // 2026
-    </div>
+    <div class="footer">NULL CASINO // 2026</div>
 
     <a href="/" class="back">← RETURN TO MAIN MENU</a>
 
@@ -445,6 +508,8 @@ let totalWon = 0;
 let spinning = false;
 let totalRotation = 0;
 let animationFrame = null;
+
+let wheelType = "small";
 
 const currency = amount =>
     "$" + amount.toLocaleString("en-US", {
@@ -470,33 +535,68 @@ const spinButton = document.getElementById("spinButton");
 const resultElement = document.getElementById("result");
 const historyElement = document.getElementById("history");
 
+const smallButton = document.getElementById("smallButton");
+const largeButton = document.getElementById("largeButton");
+const wheelArea = document.getElementById("wheelArea");
+
 const W = canvas.width;
 const H = canvas.height;
 const CX = W / 2;
 const CY = H / 2;
 
+const startAngle = -Math.PI / 2;
+
 // ========================================
-// WHEEL SEGMENTS
-// Each segment has an equal chance.
+// SMALL WHEEL
+// Original 12-segment wheel.
 // ========================================
 
-const segments = [
-    { label: "0x", multiplier: 0, color: "#252d38" },
-    { label: "1.5x", multiplier: 1.5, color: "#075b53" },
-    { label: "0.5x", multiplier: 0.5, color: "#32204e" },
-    { label: "2x", multiplier: 2, color: "#087b70" },
-    { label: "0x", multiplier: 0, color: "#252d38" },
-    { label: "3x", multiplier: 3, color: "#43266b" },
-    { label: "0.5x", multiplier: 0.5, color: "#075b53" },
-    { label: "1x", multiplier: 1, color: "#32204e" },
-    { label: "0x", multiplier: 0, color: "#252d38" },
-    { label: "5x", multiplier: 5, color: "#087b70" },
-    { label: "0.5x", multiplier: 0.5, color: "#43266b" },
-    { label: "0x", multiplier: 0, color: "#252d38" }
+const smallSegments = [
+    { label:"0x", multiplier:0, color:"#252d38" },
+    { label:"1.5x", multiplier:1.5, color:"#075b53" },
+    { label:"0.5x", multiplier:.5, color:"#32204e" },
+    { label:"2x", multiplier:2, color:"#087b70" },
+    { label:"0x", multiplier:0, color:"#252d38" },
+    { label:"3x", multiplier:3, color:"#43266b" },
+    { label:"0.5x", multiplier:.5, color:"#075b53" },
+    { label:"1x", multiplier:1, color:"#32204e" },
+    { label:"0x", multiplier:0, color:"#252d38" },
+    { label:"5x", multiplier:5, color:"#087b70" },
+    { label:"0.5x", multiplier:.5, color:"#43266b" },
+    { label:"0x", multiplier:0, color:"#252d38" }
 ];
 
-const slice = (Math.PI * 2) / segments.length;
-const startAngle = -Math.PI / 2;
+// ========================================
+// LARGE WHEEL
+// 20 segments with more variety.
+// ========================================
+
+const largeSegments = [
+    { label:"0x", multiplier:0, color:"#252d38" },
+    { label:"1.5x", multiplier:1.5, color:"#075b53" },
+    { label:"0.5x", multiplier:.5, color:"#32204e" },
+    { label:"2x", multiplier:2, color:"#087b70" },
+    { label:"0x", multiplier:0, color:"#252d38" },
+    { label:"1x", multiplier:1, color:"#43266b" },
+    { label:"0.5x", multiplier:.5, color:"#075b53" },
+    { label:"3x", multiplier:3, color:"#32204e" },
+    { label:"0x", multiplier:0, color:"#252d38" },
+    { label:"1.5x", multiplier:1.5, color:"#087b70" },
+    { label:"0.5x", multiplier:.5, color:"#43266b" },
+    { label:"5x", multiplier:5, color:"#075b53" },
+    { label:"0x", multiplier:0, color:"#252d38" },
+    { label:"2x", multiplier:2, color:"#32204e" },
+    { label:"0.5x", multiplier:.5, color:"#087b70" },
+    { label:"10x", multiplier:10, color:"#43266b" },
+    { label:"0x", multiplier:0, color:"#252d38" },
+    { label:"1x", multiplier:1, color:"#075b53" },
+    { label:"0.5x", multiplier:.5, color:"#32204e" },
+    { label:"3x", multiplier:3, color:"#087b70" }
+];
+
+function getSegments() {
+    return wheelType === "small" ? smallSegments : largeSegments;
+}
 
 // ========================================
 // AUDIO
@@ -510,9 +610,7 @@ function initAudio() {
 
         if (!Audio) return;
 
-        if (!audioContext) {
-            audioContext = new Audio();
-        }
+        if (!audioContext) audioContext = new Audio();
 
         if (audioContext.state === "suspended") {
             audioContext.resume().catch(() => {});
@@ -525,7 +623,6 @@ function initAudio() {
 function tone(freq, duration, volume = .04, type = "sine") {
     try {
         initAudio();
-
         if (!audioContext) return;
 
         const osc = audioContext.createOscillator();
@@ -545,9 +642,7 @@ function tone(freq, duration, volume = .04, type = "sine") {
 
         osc.start();
         osc.stop(audioContext.currentTime + duration);
-    } catch (error) {
-        // Audio is optional.
-    }
+    } catch (error) {}
 }
 
 function playWinSound() {
@@ -571,18 +666,19 @@ function playTickSound() {
 function drawWheel() {
     ctx.clearRect(0, 0, W, H);
 
+    const segments = getSegments();
+    const slice = Math.PI * 2 / segments.length;
+
     const radius = 275;
     const innerRadius = 55;
 
     ctx.save();
-
     ctx.translate(CX, CY);
     ctx.rotate(totalRotation);
 
-    // Outer wheel ring.
+    // Outer ring.
     ctx.beginPath();
     ctx.arc(0, 0, radius + 9, 0, Math.PI * 2);
-
     ctx.fillStyle = "#101720";
     ctx.fill();
 
@@ -591,10 +687,9 @@ function drawWheel() {
     ctx.shadowColor = "#00ffcc";
     ctx.shadowBlur = 15;
     ctx.stroke();
-
     ctx.shadowBlur = 0;
 
-    // Draw segments.
+    // Segments.
     segments.forEach((segment, i) => {
         const start = startAngle + i * slice;
         const end = start + slice;
@@ -611,9 +706,9 @@ function drawWheel() {
         ctx.lineWidth = 2;
         ctx.stroke();
 
-        // Segment labels.
+        // Labels.
         const middle = start + slice / 2;
-        const labelRadius = 195;
+        const labelRadius = wheelType === "small" ? 195 : 205;
 
         const x = Math.cos(middle) * labelRadius;
         const y = Math.sin(middle) * labelRadius;
@@ -624,7 +719,9 @@ function drawWheel() {
 
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-        ctx.font = "bold 25px Orbitron";
+        ctx.font = wheelType === "small"
+            ? "bold 25px Orbitron"
+            : "bold 19px Orbitron";
 
         ctx.fillStyle =
             segment.multiplier === 0 ? "#ff647b" : "#ffffff";
@@ -633,16 +730,14 @@ function drawWheel() {
             segment.multiplier === 0 ? "#ff416c" : "#00ffcc";
 
         ctx.shadowBlur = 8;
-
         ctx.fillText(segment.label, 0, 0);
 
         ctx.restore();
     });
 
-    // Inner border.
+    // Center.
     ctx.beginPath();
     ctx.arc(0, 0, innerRadius + 5, 0, Math.PI * 2);
-
     ctx.fillStyle = "#080a0d";
     ctx.fill();
 
@@ -651,11 +746,33 @@ function drawWheel() {
     ctx.shadowColor = "#00ffcc";
     ctx.shadowBlur = 12;
     ctx.stroke();
-
     ctx.shadowBlur = 0;
 
     ctx.restore();
 }
+
+// ========================================
+// WHEEL SIZE
+// ========================================
+
+function selectWheel(type) {
+    if (spinning || wheelType === type) return;
+
+    wheelType = type;
+
+    smallButton.classList.toggle("active", type === "small");
+    largeButton.classList.toggle("active", type === "large");
+
+    wheelArea.classList.toggle("large", type === "large");
+
+    // Reset rotation when changing wheel types.
+    totalRotation = 0;
+
+    drawWheel();
+}
+
+smallButton.addEventListener("click", () => selectWheel("small"));
+largeButton.addEventListener("click", () => selectWheel("large"));
 
 // ========================================
 // DISPLAY
@@ -672,6 +789,9 @@ function updateDisplay() {
         spinning || bet >= 500 || bet + 10 > balance;
 
     spinButton.disabled = spinning || balance < bet;
+
+    smallButton.disabled = spinning;
+    largeButton.disabled = spinning;
 }
 
 function setResult(message, type = "") {
@@ -686,11 +806,7 @@ function setResult(message, type = "") {
 function changeBet(amount) {
     if (spinning) return;
 
-    bet = Math.max(
-        10,
-        Math.min(500, bet + amount, balance)
-    );
-
+    bet = Math.max(10, Math.min(500, bet + amount, balance));
     updateDisplay();
 }
 
@@ -706,7 +822,9 @@ function spinWheel() {
 
     initAudio();
 
-    // Select the winning segment.
+    const segments = getSegments();
+    const slice = Math.PI * 2 / segments.length;
+
     const winningIndex = Math.floor(Math.random() * segments.length);
     const winningSegment = segments[winningIndex];
 
@@ -717,8 +835,8 @@ function spinWheel() {
 
     setResult("THE WHEEL IS SPINNING...");
 
-    // Calculate the exact rotation needed to land
-    // the selected segment underneath the top pointer.
+    // Position the center of the winning segment
+    // directly underneath the pointer at the top.
 
     const targetAngle = -((winningIndex + .5) * slice);
 
@@ -732,9 +850,7 @@ function spinWheel() {
 
     let difference = targetNormalized - currentNormalized;
 
-    if (difference < 0) {
-        difference += Math.PI * 2;
-    }
+    if (difference < 0) difference += Math.PI * 2;
 
     const extraSpins = 6 + Math.floor(Math.random() * 3);
 
@@ -754,14 +870,12 @@ function spinWheel() {
         const elapsed = now - startTime;
         const progress = Math.min(elapsed / duration, 1);
 
-        // Smooth, natural slowdown.
         const eased = 1 - Math.pow(1 - progress, 5);
 
         totalRotation =
             startingRotation +
             (finalRotation - startingRotation) * eased;
 
-        // Play ticks when passing segment boundaries.
         const currentSegment =
             Math.floor(
                 (((-totalRotation % (Math.PI * 2)) + Math.PI * 2) %
@@ -780,7 +894,6 @@ function spinWheel() {
         } else {
             totalRotation = finalRotation;
             drawWheel();
-
             finishSpin(winningSegment);
         }
     }
@@ -814,7 +927,6 @@ function finishSpin(segment) {
     }
 
     addHistory(multiplier);
-
     updateDisplay();
 }
 
@@ -832,9 +944,7 @@ function addHistory(multiplier) {
 
     const item = document.createElement("div");
 
-    item.className =
-        "history-item " + (multiplier > 0 ? "win" : "loss");
-
+    item.className = "history-item " + (multiplier > 0 ? "win" : "loss");
     item.textContent = multiplier + "x";
 
     historyElement.prepend(item);
