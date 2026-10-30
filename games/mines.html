@@ -1,0 +1,1047 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Null Casino - Mines</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: #080a0d;
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+    display: flex;
+    justify-content: center;
+    padding: 35px 15px;
+    overflow-x: hidden;
+}
+
+body::before,
+body::after {
+    content: "";
+    position: fixed;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    filter: blur(130px);
+    opacity: 0.13;
+    pointer-events: none;
+    z-index: 0;
+}
+
+body::before {
+    background: #00ffcc;
+    top: -100px;
+    left: -100px;
+}
+
+body::after {
+    background: #7b2cff;
+    bottom: -100px;
+    right: -100px;
+}
+
+.container {
+    width: 100%;
+    max-width: 700px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.subtitle {
+    color: #00ffcc;
+    font-size: 10px;
+    letter-spacing: 6px;
+    margin-bottom: 15px;
+}
+
+h1 {
+    font-size: clamp(36px, 8vw, 62px);
+    font-weight: 800;
+    letter-spacing: 4px;
+    margin: 0;
+    text-shadow: 0 0 20px #00ffcc55;
+}
+
+.description {
+    font-family: Arial, sans-serif;
+    color: #777f8c;
+    font-size: 14px;
+    margin: 12px 0 30px;
+}
+
+.info-bar {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.info-box {
+    flex: 1;
+    background: #11161e;
+    border: 1px solid #29313c;
+    border-radius: 6px;
+    padding: 13px 8px;
+}
+
+.info-label {
+    color: #707987;
+    font-size: 9px;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+}
+
+.info-value {
+    color: #00ffcc;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.machine {
+    background: linear-gradient(145deg, #171d27, #090c11);
+    border: 1px solid #303945;
+    border-radius: 10px;
+    padding: 22px 15px;
+    box-shadow: 0 0 25px #00ffcc0a, inset 0 0 25px #00ffcc05;
+}
+
+.machine-top {
+    color: #555f6c;
+    font-size: 9px;
+    letter-spacing: 3px;
+    margin-bottom: 25px;
+}
+
+.board-title {
+    color: #00ffcc;
+    font-size: 11px;
+    letter-spacing: 3px;
+    margin-bottom: 18px;
+}
+
+.settings {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.setting-label {
+    color: #77818e;
+    font-size: 9px;
+    letter-spacing: 2px;
+}
+
+.mine-select {
+    background: #111820;
+    color: #00ffcc;
+    border: 1px solid #34404c;
+    border-radius: 5px;
+    padding: 11px 15px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 11px;
+    outline: none;
+    cursor: pointer;
+}
+
+.mine-select:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.grid-wrapper {
+    width: 100%;
+    max-width: 440px;
+    margin: 0 auto;
+    padding: 10px;
+    background: radial-gradient(circle, #17232b, #090d12);
+    border: 1px solid #34404c;
+    border-radius: 9px;
+    box-shadow: inset 0 0 25px #00ffcc0b;
+}
+
+.mine-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+}
+
+.tile {
+    aspect-ratio: 1 / 1;
+    min-width: 0;
+    border: 1px solid #34404c;
+    border-radius: 6px;
+    background: linear-gradient(145deg, #202a35, #111820);
+    color: #00ffcc;
+    font-size: clamp(17px, 5vw, 29px);
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s, transform 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+}
+
+.tile:not(:disabled):hover {
+    border-color: #00ffcc;
+    background: #1b3035;
+    transform: scale(1.04);
+}
+
+.tile:disabled {
+    cursor: default;
+}
+
+.tile.safe {
+    background: #00ffcc16;
+    border-color: #00ffcc77;
+    color: #00ffcc;
+    cursor: default;
+}
+
+.tile.mine {
+    background: #ff334422;
+    border-color: #ff5268;
+    color: #ff5268;
+    cursor: default;
+}
+
+.tile.exploded {
+    background: #ff334455;
+    border-color: #ff5268;
+    box-shadow: 0 0 15px #ff526855;
+}
+
+.tile.missed {
+    background: #171d27;
+    border-color: #ff526855;
+    color: #ff5268;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin: 20px 0;
+}
+
+.stat-box {
+    background: #10161e;
+    border: 1px solid #293540;
+    border-radius: 5px;
+    padding: 12px 5px;
+}
+
+.stat-label {
+    color: #697583;
+    font-size: 8px;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+.stat-value {
+    color: #00ffcc;
+    font-size: clamp(12px, 3vw, 17px);
+    font-weight: 700;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin: 25px 0;
+}
+
+.control-button {
+    width: 43px;
+    height: 43px;
+    border: 1px solid #34404c;
+    background: #111820;
+    color: #00ffcc;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 22px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.control-button:hover {
+    background: #00ffcc18;
+    border-color: #00ffcc;
+}
+
+.control-button:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+.bet-display {
+    min-width: 115px;
+}
+
+.bet-label {
+    font-size: 9px;
+    color: #697583;
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+}
+
+.bet-value {
+    font-size: 19px;
+    color: white;
+    font-weight: 700;
+}
+
+.drop-button {
+    width: 100%;
+    padding: 20px;
+    background: #00ffcc12;
+    border: 1px solid #00ffcc;
+    border-radius: 5px;
+    color: #00ffcc;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.drop-button:hover:not(:disabled) {
+    background: #00ffcc25;
+    box-shadow: 0 0 20px #00ffcc25;
+}
+
+.drop-button:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+.cashout-button {
+    background: #00ffcc;
+    color: #080a0d;
+    border-color: #00ffcc;
+}
+
+.cashout-button:hover:not(:disabled) {
+    background: #7affdf;
+    box-shadow: 0 0 22px #00ffcc55;
+}
+
+.result {
+    min-height: 24px;
+    margin-top: 20px;
+    color: #77818e;
+    font-size: 11px;
+    letter-spacing: 2px;
+    line-height: 1.7;
+}
+
+.result.win {
+    color: #00ffcc;
+    text-shadow: 0 0 12px #00ffcc66;
+}
+
+.result.big {
+    color: #ffe66d;
+    text-shadow: 0 0 12px #ffe66d66;
+}
+
+.result.loss {
+    color: #ff5268;
+    text-shadow: 0 0 12px #ff526866;
+}
+
+.history {
+    margin-top: 20px;
+    background: #10151c;
+    border: 1px solid #29313c;
+    border-radius: 7px;
+    padding: 15px;
+    text-align: left;
+}
+
+.history-title {
+    color: #00ffcc;
+    font-size: 9px;
+    letter-spacing: 3px;
+    margin-bottom: 12px;
+}
+
+.history-items {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 3px;
+}
+
+.history-item {
+    flex: 0 0 auto;
+    background: #1a222c;
+    border: 1px solid #303945;
+    border-radius: 4px;
+    padding: 9px 12px;
+    font-size: 10px;
+    color: #8a96a4;
+}
+
+.history-item.win {
+    color: #00ffcc;
+    border-color: #00ffcc55;
+}
+
+.history-item.loss {
+    color: #ff6677;
+    border-color: #ff667755;
+}
+
+.footer {
+    color: #414853;
+    font-size: 9px;
+    letter-spacing: 3px;
+    margin-top: 28px;
+}
+
+.back {
+    display: inline-block;
+    color: #687381;
+    text-decoration: none;
+    font-size: 10px;
+    letter-spacing: 2px;
+    margin-top: 15px;
+    transition: 0.2s;
+}
+
+.back:hover {
+    color: #00ffcc;
+}
+
+/* INFO BUTTON */
+
+.info-button {
+    position: fixed;
+    top: 18px;
+    right: 20px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid #00ffcc;
+    background: #101820;
+    color: #00ffcc;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+    z-index: 100;
+    box-shadow: 0 0 12px #00ffcc22;
+    transition: 0.2s;
+}
+
+.info-button:hover {
+    background: #00ffcc22;
+    box-shadow: 0 0 18px #00ffcc55;
+}
+
+.info-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #000000c9;
+    backdrop-filter: blur(7px);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+}
+
+.info-overlay.active {
+    display: flex;
+}
+
+.info-panel {
+    position: relative;
+    width: 100%;
+    max-width: 430px;
+    max-height: 85vh;
+    overflow-y: auto;
+    background: linear-gradient(145deg, #171d27, #090c11);
+    border: 1px solid #303945;
+    border-radius: 9px;
+    padding: 25px;
+    text-align: left;
+    box-shadow: 0 0 30px #00ffcc12;
+}
+
+.info-close {
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: #77818e;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.info-close:hover {
+    color: #00ffcc;
+}
+
+.info-heading {
+    color: #00ffcc;
+    font-size: 11px;
+    letter-spacing: 3px;
+    margin: 10px 0 13px;
+}
+
+.info-description {
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    line-height: 1.7;
+    color: #8994a1;
+    margin: 0 0 22px;
+}
+
+.info-description strong {
+    color: #00ffcc;
+}
+
+@media (max-width: 500px) {
+    body {
+        padding: 25px 12px;
+    }
+
+    .machine {
+        padding: 18px 10px;
+    }
+
+    .info-value {
+        font-size: 17px;
+    }
+
+    .subtitle {
+        letter-spacing: 4px;
+    }
+
+    .drop-button {
+        font-size: 11px;
+        letter-spacing: 2px;
+    }
+
+    .mine-grid {
+        gap: 5px;
+    }
+
+    .grid-wrapper {
+        padding: 7px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<button class="info-button" id="infoButton">i</button>
+
+<div class="info-overlay" id="infoOverlay">
+    <div class="info-panel">
+        <button class="info-close" id="infoClose">×</button>
+
+        <div class="info-heading">HOW TO PLAY</div>
+        <p class="info-description">
+            Choose your bet and the number of mines, then start the
+            round. Click tiles to reveal hidden gems. Every safe tile
+            increases your multiplier. Cash out whenever you want!
+        </p>
+
+        <div class="info-heading">TILE KEY</div>
+        <p class="info-description">
+            💎 <strong>GEM:</strong> A safe tile. Your multiplier increases.<br><br>
+            💣 <strong>MINE:</strong> Hit one and lose your bet.<br><br>
+            <strong>HIDDEN TILE:</strong> Unknown until selected.
+        </p>
+
+        <div class="info-heading">IMPORTANT</div>
+        <p class="info-description">
+            • Choose between 1 and 24 mines before starting.<br>
+            • More mines mean higher potential multipliers.<br>
+            • Cash out to secure your current payout.<br>
+            • If you hit a mine, the entire bet is lost.
+        </p>
+    </div>
+</div>
+
+<div class="container">
+
+    <div class="subtitle">NULL CASINO // GAME 009</div>
+    <h1>MINES.</h1>
+    <p class="description">Find the gems. Avoid the mines. Cash out before it's too late.</p>
+
+    <div class="info-bar">
+        <div class="info-box">
+            <div class="info-label">BALANCE</div>
+            <div class="info-value" id="balance">$1,000</div>
+        </div>
+
+        <div class="info-box">
+            <div class="info-label">TOTAL WON</div>
+            <div class="info-value" id="totalWon">$0</div>
+        </div>
+    </div>
+
+    <div class="machine">
+
+        <div class="machine-top">NULL CASINO // AUTOMATED GAMING</div>
+
+        <div class="board-title">MINES FIELD</div>
+
+        <div class="settings">
+            <span class="setting-label">NUMBER OF MINES</span>
+            <select class="mine-select" id="mineSelect">
+                <option value="1">1 MINE</option>
+                <option value="2">2 MINES</option>
+                <option value="3" selected>3 MINES</option>
+                <option value="4">4 MINES</option>
+                <option value="5">5 MINES</option>
+                <option value="6">6 MINES</option>
+                <option value="7">7 MINES</option>
+                <option value="8">8 MINES</option>
+                <option value="9">9 MINES</option>
+                <option value="10">10 MINES</option>
+                <option value="11">11 MINES</option>
+                <option value="12">12 MINES</option>
+                <option value="13">13 MINES</option>
+                <option value="14">14 MINES</option>
+                <option value="15">15 MINES</option>
+                <option value="16">16 MINES</option>
+                <option value="17">17 MINES</option>
+                <option value="18">18 MINES</option>
+                <option value="19">19 MINES</option>
+                <option value="20">20 MINES</option>
+                <option value="21">21 MINES</option>
+                <option value="22">22 MINES</option>
+                <option value="23">23 MINES</option>
+                <option value="24">24 MINES</option>
+            </select>
+        </div>
+
+        <div class="grid-wrapper">
+            <div class="mine-grid" id="mineGrid"></div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-box">
+                <div class="stat-label">GEMS FOUND</div>
+                <div class="stat-value" id="gemsFound">0 / 22</div>
+            </div>
+
+            <div class="stat-box">
+                <div class="stat-label">MULTIPLIER</div>
+                <div class="stat-value" id="multiplier">1.00×</div>
+            </div>
+
+            <div class="stat-box">
+                <div class="stat-label">POSSIBLE PAYOUT</div>
+                <div class="stat-value" id="possiblePayout">$0</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="control-button" id="minus">−</button>
+
+            <div class="bet-display">
+                <div class="bet-label">YOUR BET</div>
+                <div class="bet-value" id="bet">$10</div>
+            </div>
+
+            <button class="control-button" id="plus">+</button>
+        </div>
+
+        <button class="drop-button" id="startButton">
+            START GAME
+        </button>
+
+        <button class="drop-button cashout-button" id="cashoutButton"
+            style="display:none; margin-top:10px;">
+            CASH OUT
+        </button>
+
+        <div class="result" id="result">CHOOSE YOUR MINES AND START PLAYING.</div>
+
+    </div>
+
+    <div class="history">
+        <div class="history-title">RECENT RESULTS</div>
+        <div class="history-items" id="historyItems">
+            <div class="history-item">NO RESULTS YET</div>
+        </div>
+    </div>
+
+    <div class="footer">NULL CASINO // 2026</div>
+
+    <a href="../index.html" class="back">← RETURN TO MAIN MENU</a>
+
+</div>
+
+<script>
+const SIZE = 25;
+const MIN_BET = 10;
+const MAX_BET = 500;
+const BET_STEP = 10;
+const HOUSE_EDGE = 0.97;
+
+let balance = 1000;
+let totalWon = 0;
+let bet = 10;
+
+let mineCount = 3;
+let minePositions = new Set();
+let revealedPositions = new Set();
+
+let gameActive = false;
+let gameOver = false;
+let gemsFound = 0;
+let currentMultiplier = 1;
+
+const grid = document.getElementById("mineGrid");
+const balanceEl = document.getElementById("balance");
+const totalWonEl = document.getElementById("totalWon");
+const betEl = document.getElementById("bet");
+
+const gemsEl = document.getElementById("gemsFound");
+const multiplierEl = document.getElementById("multiplier");
+const payoutEl = document.getElementById("possiblePayout");
+
+const resultEl = document.getElementById("result");
+const startButton = document.getElementById("startButton");
+const cashoutButton = document.getElementById("cashoutButton");
+const mineSelect = document.getElementById("mineSelect");
+
+function updateDisplay() {
+    balanceEl.textContent = "$" + balance.toLocaleString();
+    totalWonEl.textContent = "$" + totalWon.toLocaleString();
+    betEl.textContent = "$" + bet.toLocaleString();
+
+    gemsEl.textContent = gemsFound + " / " + (SIZE - mineCount);
+    multiplierEl.textContent = currentMultiplier.toFixed(2) + "×";
+
+    const payout = gemsFound > 0
+        ? Math.floor(bet * currentMultiplier)
+        : 0;
+
+    payoutEl.textContent = "$" + payout.toLocaleString();
+
+    document.getElementById("minus").disabled =
+        gameActive || bet <= MIN_BET;
+
+    document.getElementById("plus").disabled =
+        gameActive || bet >= MAX_BET;
+
+    mineSelect.disabled = gameActive;
+
+    startButton.disabled = gameActive || balance < bet;
+}
+
+function setResult(message, type = "") {
+    resultEl.textContent = message;
+    resultEl.className = "result " + type;
+}
+
+function createGrid() {
+    grid.innerHTML = "";
+
+    for (let i = 0; i < SIZE; i++) {
+        const tile = document.createElement("button");
+
+        tile.className = "tile";
+        tile.type = "button";
+        tile.textContent = "?";
+        tile.dataset.index = i;
+        tile.disabled = true;
+
+        tile.addEventListener("click", () => {
+            revealTile(i);
+        });
+
+        grid.appendChild(tile);
+    }
+}
+
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+
+    return array;
+}
+
+function generateMines() {
+    const positions = Array.from(
+        { length: SIZE },
+        (_, i) => i
+    );
+
+    shuffle(positions);
+
+    minePositions = new Set(
+        positions.slice(0, mineCount)
+    );
+}
+
+function calculateMultiplier(revealed) {
+    let multiplier = HOUSE_EDGE;
+
+    for (let i = 0; i < revealed; i++) {
+        multiplier *= (SIZE - i) / (SIZE - mineCount - i);
+    }
+
+    return multiplier;
+}
+
+function startGame() {
+    if (gameActive || balance < bet) return;
+
+    mineCount = Number(mineSelect.value);
+
+    if (mineCount < 1 || mineCount >= SIZE) return;
+
+    balance -= bet;
+
+    gemsFound = 0;
+    currentMultiplier = 1;
+    revealedPositions.clear();
+
+    gameOver = false;
+    gameActive = true;
+
+    generateMines();
+    createGrid();
+
+    document.querySelectorAll(".tile").forEach(tile => {
+        tile.disabled = false;
+    });
+
+    startButton.style.display = "none";
+    cashoutButton.style.display = "block";
+    cashoutButton.disabled = true;
+
+    setResult("FIND A GEM TO ENABLE CASH OUT.");
+
+    updateDisplay();
+}
+
+function revealTile(index) {
+    if (!gameActive || revealedPositions.has(index)) return;
+
+    revealedPositions.add(index);
+
+    const tile = grid.children[index];
+    tile.disabled = true;
+
+    if (minePositions.has(index)) {
+        tile.textContent = "💣";
+        tile.classList.add("exploded");
+
+        endGame(false);
+        return;
+    }
+
+    tile.textContent = "💎";
+    tile.classList.add("safe");
+
+    gemsFound++;
+
+    currentMultiplier = calculateMultiplier(gemsFound);
+
+    cashoutButton.disabled = false;
+
+    if (gemsFound === SIZE - mineCount) {
+        endGame(true);
+        return;
+    }
+
+    const possible = Math.floor(bet * currentMultiplier);
+
+    setResult(
+        "SAFE! " + currentMultiplier.toFixed(2) +
+        "× — CASH OUT $"+ possible.toLocaleString(),
+        "win"
+    );
+
+    updateDisplay();
+}
+
+function revealAllMines() {
+    for (const position of minePositions) {
+        const tile = grid.children[position];
+
+        if (!revealedPositions.has(position)) {
+            tile.textContent = "💣";
+            tile.classList.add("missed");
+        }
+
+        tile.disabled = true;
+    }
+
+    document.querySelectorAll(".tile").forEach(tile => {
+        tile.disabled = true;
+    });
+}
+
+function endGame(won) {
+    if (!gameActive) return;
+
+    gameActive = false;
+    gameOver = true;
+
+    revealAllMines();
+
+    cashoutButton.style.display = "none";
+    startButton.style.display = "block";
+    startButton.textContent = "PLAY AGAIN";
+
+    if (won) {
+        const payout = Math.floor(bet * currentMultiplier);
+
+        balance += payout;
+        totalWon += payout;
+
+        setResult(
+            "FIELD CLEARED! YOU WON $" + payout.toLocaleString() + "!",
+            "big"
+        );
+
+        addHistory(payout, true);
+    } else {
+        setResult("BOOM! YOU HIT A MINE. BET LOST.", "loss");
+        addHistory(0, false);
+    }
+
+    updateDisplay();
+}
+
+function cashOut() {
+    if (!gameActive || gemsFound === 0) return;
+
+    const payout = Math.floor(bet * currentMultiplier);
+
+    balance += payout;
+    totalWon += payout;
+
+    gameActive = false;
+    gameOver = true;
+
+    document.querySelectorAll(".tile").forEach(tile => {
+        tile.disabled = true;
+    });
+
+    cashoutButton.style.display = "none";
+    startButton.style.display = "block";
+    startButton.textContent = "PLAY AGAIN";
+
+    setResult(
+        "CASHED OUT! YOU WON $" + payout.toLocaleString() + "!",
+        "win"
+    );
+
+    addHistory(payout, true);
+    updateDisplay();
+}
+
+function addHistory(payout, won) {
+    const history = document.getElementById("historyItems");
+
+    if (
+        history.children.length === 1 &&
+        history.children[0].textContent === "NO RESULTS YET"
+    ) {
+        history.innerHTML = "";
+    }
+
+    const item = document.createElement("div");
+
+    item.className = "history-item " + (won ? "win" : "loss");
+
+    item.textContent = won
+        ? "+$" + payout.toLocaleString()
+        : "-$" + bet.toLocaleString();
+
+    history.prepend(item);
+
+    while (history.children.length > 12) {
+        history.removeChild(history.lastChild);
+    }
+}
+
+document.getElementById("minus").addEventListener("click", () => {
+    if (gameActive) return;
+
+    bet = Math.max(MIN_BET, bet - BET_STEP);
+    updateDisplay();
+});
+
+document.getElementById("plus").addEventListener("click", () => {
+    if (gameActive) return;
+
+    bet = Math.min(MAX_BET, bet + BET_STEP);
+    updateDisplay();
+});
+
+mineSelect.addEventListener("change", () => {
+    if (gameActive) return;
+
+    mineCount = Number(mineSelect.value);
+    currentMultiplier = 1;
+
+    updateDisplay();
+});
+
+startButton.addEventListener("click", startGame);
+cashoutButton.addEventListener("click", cashOut);
+
+// Information panel
+
+const infoButton = document.getElementById("infoButton");
+const infoOverlay = document.getElementById("infoOverlay");
+const infoClose = document.getElementById("infoClose");
+
+infoButton.addEventListener("click", () => {
+    infoOverlay.classList.add("active");
+});
+
+infoClose.addEventListener("click", () => {
+    infoOverlay.classList.remove("active");
+});
+
+infoOverlay.addEventListener("click", event => {
+    if (event.target === infoOverlay) {
+        infoOverlay.classList.remove("active");
+    }
+});
+
+document.addEventListener("keydown", event => {
+    if (event.key === "Escape") {
+        infoOverlay.classList.remove("active");
+    }
+});
+
+createGrid();
+updateDisplay();
+</script>
+
+</body>
+</html>
