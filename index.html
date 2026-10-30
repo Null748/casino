@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Null Casino</title>
 <link rel="icon" type="image/x-icon" href="https://chatgpt.com/s/m_6ae3e9c9de788191b247435a434618d8">
+
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&display=swap');
 
@@ -23,7 +24,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
+    overflow-x: hidden;
+    padding: 45px 15px;
 }
 
 /* Background glow */
@@ -88,7 +90,24 @@ h1 {
     color: #777f8c;
     font-family: Arial, sans-serif;
     font-size: 14px;
-    margin-bottom: 48px;
+    margin-bottom: 35px;
+}
+
+/* Section headings */
+
+.section-title {
+    color: #00ffcc;
+    font-size: 10px;
+    letter-spacing: 4px;
+    margin: 28px 0 14px;
+    text-align: left;
+    opacity: 0.8;
+}
+
+.section-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #303945, transparent);
+    margin: 25px 0;
 }
 
 /* Buttons */
@@ -96,18 +115,18 @@ h1 {
 .buttons {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 12px;
 }
 
 .game-button {
     position: relative;
     display: block;
-    padding: 21px;
+    padding: 19px;
     border: 1px solid #252b33;
     background: rgba(255,255,255,0.025);
     color: white;
     text-decoration: none;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 700;
     letter-spacing: 4px;
     overflow: hidden;
@@ -156,7 +175,7 @@ h1 {
     box-shadow: 0 0 25px rgba(168,85,255,0.2);
 }
 
-/* Third game - red pulse */
+/* Red pulse */
 
 .extra:hover {
     border-color: #ff416c;
@@ -173,10 +192,27 @@ h1 {
     }
 }
 
+/* Cyan glow */
+
+.cyan:hover {
+    border-color: #00ffcc;
+    color: #00ffcc;
+    box-shadow: 0 0 25px rgba(0,255,204,0.2);
+}
+
+/* Yellow glow */
+
+.lottery:hover {
+    border-color: #ffe66d;
+    color: #ffe66d;
+    background: rgba(255,230,109,0.05);
+    box-shadow: 0 0 25px rgba(255,230,109,0.18);
+}
+
 /* Footer */
 
 .footer {
-    margin-top: 45px;
+    margin-top: 35px;
     color: #414853;
     font-size: 9px;
     letter-spacing: 3px;
@@ -205,7 +241,12 @@ h1 {
     }
 
     .game-button {
-        padding: 19px;
+        padding: 17px;
+        font-size: 11px;
+    }
+
+    .section-title {
+        text-align: center;
     }
 }
 </style>
@@ -223,14 +264,14 @@ h1 {
         Welcome. Choose your game.
     </p>
 
+    <!-- CASINO GAMES -->
+
+    <div class="section-title">CASINO GAMES</div>
+
     <div class="buttons">
 
         <a href="/games/roulette.html" class="game-button roulette">
             ROULETTE
-        </a>
-
-        <a href="/games/rngdle/index.html" class="game-button rngdle">
-            RNGDLE
         </a>
 
         <a href="/games/blackjack.html" class="game-button extra">
@@ -241,8 +282,42 @@ h1 {
             SLOTS
         </a>
 
+        <a href="/games/crash.html" class="game-button extra">
+            CRASH
+        </a>
+
         <a href="/games/plinko.html" class="game-button roulette">
             PLINKO
+        </a>
+
+        <a href="/games/scratch.html" class="game-button cyan">
+            SCRATCH CARDS
+        </a>
+
+        <a href="/games/mines.html" class="game-button extra">
+            MINES
+        </a>
+
+        <a href="/games/wheel.html" class="game-button rngdle">
+            WHEEL
+        </a>
+
+        <a href="/games/rngdle/index.html" class="game-button rngdle">
+            RNGDLE
+        </a>
+
+    </div>
+
+    <!-- LOTTERY -->
+
+    <div class="section-divider"></div>
+
+    <div class="section-title">LOTTERY</div>
+
+    <div class="buttons">
+
+        <a href="/games/powerball.html" class="game-button lottery">
+            POWERBALL
         </a>
 
     </div>
@@ -254,10 +329,12 @@ h1 {
     <div class="status">
         SYSTEM ONLINE
     </div>
+
     <div class="footer">
-    Made for PC
+        Made for PC
     </div>
+
 </div>
-    
+
 </body>
 </html>
