@@ -1,1 +1,759 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RNGdle | NULL NOIR</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+    --bg: #080a0d;
+    --panel: #101519;
+    --inner: #090e11;
+    --border: #263238;
+    --green: #00ffad;
+    --muted: #77858a;
+
+    --standard: #77858a;
+    --notable: #d4dce0;
+    --distinct: #e7c85b;
+    --rare: #ff9d43;
+    --exceptional: #ff5757;
+    --extreme: #c15cff;
+    --singular: #00ffad;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    padding: 35px 15px;
+    background: var(--bg);
+    color: white;
+    font-family: Inter, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    width: 500px;
+    height: 500px;
+    background: var(--green);
+    filter: blur(180px);
+    opacity: .045;
+    top: -250px;
+    left: -180px;
+    pointer-events: none;
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    width: 450px;
+    height: 450px;
+    background: #813dff;
+    filter: blur(180px);
+    opacity: .045;
+    bottom: -250px;
+    right: -180px;
+    pointer-events: none;
+}
+
+.container {
+    width: 100%;
+    max-width: 570px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 28px;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 20px 70px #0008;
+}
+
+.container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--green), transparent);
+    box-shadow: 0 0 15px var(--green);
+}
+
+header {
+    text-align: center;
+    padding-bottom: 23px;
+    margin-bottom: 23px;
+    border-bottom: 1px solid var(--border);
+}
+
+.back {
+    display: inline-block;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 10px;
+    letter-spacing: 2px;
+    margin-bottom: 25px;
+    transition: .2s;
+}
+
+.back:hover {
+    color: var(--green);
+}
+
+.logo-title {
+    font-family: Orbitron, sans-serif;
+    font-size: clamp(30px, 7vw, 42px);
+    font-weight: 800;
+    letter-spacing: 3px;
+    color: white;
+    text-shadow: 0 0 20px #00ffad35;
+}
+
+.logo-title span {
+    color: var(--green);
+}
+
+header p {
+    color: var(--muted);
+    font-size: 10px;
+    letter-spacing: 3px;
+    margin-top: 10px;
+}
+
+/* Number display */
+
+.display {
+    background: var(--inner);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 35px 15px;
+    margin-bottom: 17px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.display::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, #00ffad0b, transparent 70%);
+    pointer-events: none;
+}
+
+.num-view {
+    position: relative;
+    font-family: Orbitron, sans-serif;
+    font-size: clamp(38px, 10vw, 65px);
+    font-weight: 800;
+    letter-spacing: -2px;
+    overflow-wrap: anywhere;
+    margin-bottom: 20px;
+    transition: .3s;
+}
+
+.badge {
+    display: inline-block;
+    padding: 8px 17px;
+    font-family: Orbitron, sans-serif;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    border-radius: 4px;
+    color: #080a0d;
+    background: var(--standard);
+    transition: .3s;
+}
+
+/* Statistics */
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 22px;
+}
+
+.card {
+    background: var(--inner);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 15px;
+}
+
+.label {
+    color: var(--muted);
+    font-size: 10px;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+}
+
+.val {
+    font-family: Orbitron, sans-serif;
+    font-size: 21px;
+    font-weight: 700;
+}
+
+/* Buttons */
+
+.btn {
+    width: 100%;
+    padding: 15px;
+    background: #172126;
+    color: white;
+    border: 1px solid #35444a;
+    border-radius: 5px;
+    font-family: Orbitron, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: .25s;
+}
+
+.btn:hover {
+    border-color: var(--green);
+    color: var(--green);
+    background: #00ffad0c;
+    box-shadow: 0 0 20px #00ffad18;
+    transform: translateY(-2px);
+}
+
+.btn:active {
+    transform: scale(.98);
+}
+
+.input-row {
+    display: flex;
+    gap: 9px;
+    margin-top: 12px;
+}
+
+.input-field {
+    min-width: 0;
+    flex: 1;
+    background: var(--inner);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 13px;
+    color: white;
+    font-family: Inter, sans-serif;
+    font-size: 13px;
+    outline: none;
+}
+
+.input-field:focus {
+    border-color: var(--green);
+    box-shadow: 0 0 12px #00ffad15;
+}
+
+.btn-sub {
+    width: auto;
+    padding: 13px 18px;
+}
+
+/* Traits */
+
+.dna {
+    margin-top: 27px;
+}
+
+.dna h2 {
+    font-family: Orbitron, sans-serif;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 3px;
+    margin-bottom: 13px;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--inner);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--green);
+    border-radius: 4px;
+    padding: 13px;
+    margin-bottom: 8px;
+    font-size: 12px;
+    animation: appear .3s ease;
+}
+
+.row span:first-child {
+    font-weight: 600;
+}
+
+.points {
+    font-family: Orbitron, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--green);
+}
+
+.empty {
+    color: var(--muted);
+    text-align: center;
+    padding: 22px;
+    border: 1px dashed var(--border);
+    border-radius: 5px;
+    font-size: 11px;
+}
+
+.footer {
+    text-align: center;
+    margin-top: 25px;
+    color: #526066;
+    font-size: 9px;
+    letter-spacing: 3px;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(7px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes glow {
+    0%, 100% { text-shadow: 0 0 10px currentColor; }
+    50% { text-shadow: 0 0 25px currentColor, 0 0 40px currentColor; }
+}
+
+.singular-glow {
+    animation: glow 1.8s infinite;
+}
+
+@media(max-width: 450px) {
+    .container {
+        padding: 20px 15px;
+    }
+
+    .input-row {
+        flex-direction: column;
+    }
+
+    .btn-sub {
+        width: 100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <header>
+        <a href="##" class="back">← BACK TO HOME</a>
+
+        <h1 class="logo-title">RNG<span>DLE.</span></h1>
+
+        <p>NULL NOIR // NUMBER RARITY LAB</p>
+    </header>
+
+    <div class="display">
+
+        <div id="num-disp" class="num-view">------</div>
+
+        <div id="badge" class="badge">AWAITING ROLL</div>
+
+    </div>
+
+    <div class="grid">
+
+        <div class="card">
+            <div class="label">TOTAL ROLLS</div>
+            <div id="rolls" class="val">0</div>
+        </div>
+
+        <div class="card">
+            <div class="label">BEST SCORE</div>
+            <div id="best" class="val">0</div>
+        </div>
+
+    </div>
+
+    <button id="roll-btn" class="btn">
+        ROLL RANDOMLY
+    </button>
+
+    <div class="input-row">
+
+        <input
+            type="number"
+            id="num-input"
+            class="input-field"
+            placeholder="Enter a number (0 - 1M)"
+            min="0"
+            max="1000000"
+        >
+
+        <button id="analyze-btn" class="btn btn-sub">
+            ANALYZE
+        </button>
+
+    </div>
+
+    <div class="dna">
+
+        <h2>DETECTED TRAITS</h2>
+
+        <div id="list">
+            <div class="empty">
+                Roll or analyze a number to discover its traits.
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        NULL NOIR CASINO // RNG SYSTEM
+    </div>
+
+</div>
+
+<script>
+
+// =====================================
+// GAME VARIABLES
+// =====================================
+
+let rolls = 0;
+let best = 0;
+
+// =====================================
+// RARITY SYSTEM
+// =====================================
+
+const TIERS = [
+    { name: 'Singular', min: 100, color: '#00ffad' },
+    { name: 'Extreme', min: 70, color: '#c15cff' },
+    { name: 'Exceptional', min: 45, color: '#ff5757' },
+    { name: 'Rare', min: 35, color: '#ff9d43' },
+    { name: 'Distinct', min: 20, color: '#e7c85b' },
+    { name: 'Notable', min: 10, color: '#d4dce0' },
+    { name: 'Standard', min: 0, color: '#77858a' }
+];
+
+// =====================================
+// PRIME NUMBER DETECTION
+// =====================================
+
+function isPrime(n) {
+
+    if (n < 2) return false;
+
+    for (let i = 2; i * i <= n; i++) {
+        if (n % i === 0) return false;
+    }
+
+    return true;
+}
+
+// =====================================
+// NUMBER TRAITS
+// =====================================
+
+function getTraits(num) {
+
+    const list = [];
+
+    const str = num.toString();
+
+    const digs = str.split('').map(Number);
+
+    const unique = new Set(digs);
+
+    // Prime
+
+    if (isPrime(num)) {
+        list.push({
+            n: "Prime Number",
+            s: 35
+        });
+    }
+
+    // Palindrome
+
+    if (
+        str.length > 1 &&
+        str === str.split('').reverse().join('')
+    ) {
+        list.push({
+            n: "Palindrome",
+            s: 40
+        });
+    }
+
+    // Repeated digits
+
+    if (unique.size === 1 && str.length > 1) {
+
+        list.push({
+            n: "Solid Monodigit",
+            s: 50
+        });
+
+    } else if (unique.size === 2 && str.length > 2) {
+
+        list.push({
+            n: "Binary Makeup",
+            s: 15
+        });
+
+    }
+
+    // Harshad number
+
+    const sum = digs.reduce((a, b) => a + b, 0);
+
+    if (sum > 0 && num % sum === 0) {
+
+        list.push({
+            n: "Harshad Number",
+            s: 10
+        });
+
+    }
+
+    // Sequential patterns
+
+    if (digs.length >= 3) {
+
+        let ascending = true;
+        let descending = true;
+        let zigzag = true;
+
+        for (let i = 0; i < digs.length - 1; i++) {
+
+            if (digs[i] >= digs[i + 1]) {
+                ascending = false;
+            }
+
+            if (digs[i] <= digs[i + 1]) {
+                descending = false;
+            }
+
+            if (i > 0) {
+
+                const peak =
+                    digs[i] > digs[i - 1] &&
+                    digs[i] > digs[i + 1];
+
+                const valley =
+                    digs[i] < digs[i - 1] &&
+                    digs[i] < digs[i + 1];
+
+                if (!peak && !valley) {
+                    zigzag = false;
+                }
+
+            }
+
+        }
+
+        if (ascending || descending) {
+
+            list.push({
+                n: "Pure Straight",
+                s: 45
+            });
+
+        } else if (digs.length >= 4 && zigzag) {
+
+            list.push({
+                n: "Zigzag Order",
+                s: 20
+            });
+
+        }
+
+    }
+
+    // Round numbers
+
+    if (num > 0 && num % 100 === 0) {
+
+        list.push({
+            n: "Round Base",
+            s: 15
+        });
+
+    }
+
+    // Triple 7
+
+    if (str.includes("777")) {
+
+        list.push({
+            n: "Triple 7 Block",
+            s: 15
+        });
+
+    }
+
+    return list;
+
+}
+
+// =====================================
+// EVALUATE NUMBER
+// =====================================
+
+function evaluateAndDisplay(targetNum, isRandomRoll) {
+
+    if (isRandomRoll) {
+
+        rolls++;
+
+        document.getElementById('rolls').textContent = rolls;
+
+    }
+
+    const display = document.getElementById('num-disp');
+
+    const badge = document.getElementById('badge');
+
+    const traits = getTraits(targetNum);
+
+    // Calculate score
+
+    const score = traits.reduce((a, b) => a + b.s, 0);
+
+    if (score > best) {
+
+        best = score;
+
+        document.getElementById('best').textContent = best;
+
+    }
+
+    // Find rarity
+
+    const tier = TIERS.find(t => score >= t.min);
+
+    // Display number
+
+    display.textContent = targetNum.toLocaleString();
+
+    display.style.color = tier.color;
+
+    display.classList.remove('singular-glow');
+
+    if (tier.name === 'Singular') {
+
+        display.classList.add('singular-glow');
+
+    }
+
+    // Display rarity
+
+    badge.textContent = tier.name.toUpperCase();
+
+    badge.style.backgroundColor = tier.color;
+
+    badge.style.color = '#080a0d';
+
+    // Display traits
+
+    const container = document.getElementById('list');
+
+    if (traits.length === 0) {
+
+        container.innerHTML = `
+            <div class="empty">
+                Standard Chaos — No special patterns detected.
+            </div>
+        `;
+
+    } else {
+
+        container.innerHTML = traits.map(t => `
+
+            <div class="row" style="border-left-color: ${tier.color};">
+
+                <span>✦ ${t.n}</span>
+
+                <span class="points">+${t.s} PTS</span>
+
+            </div>
+
+        `).join('');
+
+    }
+
+}
+
+// =====================================
+// RANDOM ROLL
+// =====================================
+
+document.getElementById('roll-btn').addEventListener('click', () => {
+
+    const roll = Math.floor(Math.random() * 1000001);
+
+    evaluateAndDisplay(roll, true);
+
+});
+
+// =====================================
+// MANUAL ANALYSIS
+// =====================================
+
+function analyzeNumber() {
+
+    const input = document.getElementById('num-input').value;
+
+    if (input.trim() === '') return;
+
+    const parsedNum = Number(input);
+
+    if (
+        !Number.isInteger(parsedNum) ||
+        parsedNum < 0 ||
+        parsedNum > 1000000
+    ) {
+
+        alert("Please enter a whole number between 0 and 1,000,000.");
+
+        return;
+
+    }
+
+    evaluateAndDisplay(parsedNum, false);
+
+}
+
+document.getElementById('analyze-btn').addEventListener('click', analyzeNumber);
+
+document.getElementById('num-input').addEventListener('keydown', e => {
+
+    if (e.key === 'Enter') {
+        analyzeNumber();
+    }
+
+});
+
+</script>
+
+</body>
+</html>
+
