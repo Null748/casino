@@ -717,12 +717,11 @@ function checkScratchProgress() {
     if (!cardActive || cardFinished || scratchChecked) return;
 
     const progress = getScratchPercentage();
-
     const percentage = Math.min(100, Math.floor(progress * 100));
 
     hintEl.textContent = "CARD REVEALED: " + percentage + "%";
 
-    if (progress >= 0.45) {
+    if (progress >= 0.90) {
         finishCard();
     }
 }
