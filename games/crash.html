@@ -524,8 +524,8 @@ canvas {
 
 </div>
 
-<script>
 
+<script>
 // ========================================
 // GAME SETTINGS
 // ========================================
@@ -542,8 +542,9 @@ let currentMultiplier = 1;
 let crashPoint = 1;
 let startTime = 0;
 
-let history = [];
+let points = [];
 let animationFrame = null;
+let audioContext = null;
 
 const currency = amount =>
     "$" + amount.toLocaleString("en-US", {
@@ -552,55 +553,82 @@ const currency = amount =>
     });
 
 // ========================================
-// CANVAS
+// ELEMENTS
 // ========================================
 
 const canvas = document.getElementById("board");
 const ctx = canvas.getContext("2d");
+
+const balanceElement = document.getElementById("balance");
+const totalWonElement = document.getElementById("totalWon");
+const betElement = document.getElementById("bet");
+
+const multiplierElement = document.getElementById("multiplier");
+const multiplierMessage = document.getElementById("multiplierMessage");
+
+const resultElement = document.getElementById("result");
+const mainButton = document.getElementById("mainButton");
+
+const minusButton = document.getElementById("minus");
+const plusButton = document.getElementById("plus");
+
+const autoInput = document.getElementById("autoInput");
+const historyElement = document.getElementById("history");
 
 const W = canvas.width;
 const H = canvas.height;
 
 const PADDING = 38;
 
-let audioContext = null;
-
 // ========================================
 // AUDIO
+// Audio must NEVER prevent gameplay.
 // ========================================
 
 function initAudio() {
-    if (!audioContext) {
-        audioContext = new (
-            window.AudioContext || window.webkitAudioContext
-        )();
-    }
+    try {
+        const Audio = window.AudioContext || window.webkitAudioContext;
 
-    if (audioContext.state === "suspended") {
-        audioContext.resume();
+        if (!Audio) return;
+
+        if (!audioContext) {
+            audioContext = new Audio();
+        }
+
+        if (audioContext.state === "suspended") {
+            audioContext.resume().catch(() => {});
+        }
+    } catch (error) {
+        audioContext = null;
     }
 }
 
 function tone(freq, duration, volume = 0.04, type = "sine") {
-    initAudio();
+    try {
+        initAudio();
 
-    const osc = audioContext.createOscillator();
-    const gain = audioContext.createGain();
+        if (!audioContext) return;
 
-    osc.type = type;
-    osc.frequency.setValueAtTime(freq, audioContext.currentTime);
+        const osc = audioContext.createOscillator();
+        const gain = audioContext.createGain();
 
-    gain.gain.setValueAtTime(volume, audioContext.currentTime);
-    gain.gain.exponentialRampToValueAtTime(
-        0.001,
-        audioContext.currentTime + duration
-    );
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioContext.currentTime);
 
-    osc.connect(gain);
-    gain.connect(audioContext.destination);
+        gain.gain.setValueAtTime(volume, audioContext.currentTime);
+        gain.gain.exponentialRampToValueAtTime(
+            0.001,
+            audioContext.currentTime + duration
+        );
 
-    osc.start();
-    osc.stop(audioContext.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioContext.destination);
+
+        osc.start();
+        osc.stop(audioContext.currentTime + duration);
+    } catch (error) {
+        // Sound is optional.
+    }
 }
 
 function playStartSound() {
@@ -626,12 +654,55 @@ function playCrashSound() {
 function generateCrashPoint() {
     const random = Math.random();
 
-    // Small chance of an immediate crash.
-    if (random < .01) return 1.00;
+    if (random < 0.01) {
+        return 1.00;
+    }
 
-    const point = .99 / (1 - random);
+    const point = 0.99 / (1 - random);
 
     return Math.max(1, Math.floor(point * 100) / 100);
+}
+
+// ========================================
+// DISPLAY
+// ========================================
+
+function updateDisplay() {
+    balanceElement.textContent = currency(balance);
+    totalWonElement.textContent = currency(totalWon);
+    betElement.textContent = currency(bet);
+
+    updateControls();
+}
+
+function updateControls() {
+    minusButton.disabled = running || bet <= 10;
+
+    plusButton.disabled =
+        running || bet >= 500 || bet + 10 > balance;
+
+    autoInput.disabled = running;
+
+    mainButton.disabled = !running && balance < 10;
+}
+
+function setResult(message, type = "") {
+    resultElement.textContent = message;
+    resultElement.className = "result " + type;
+}
+
+// ========================================
+// BETTING
+// ========================================
+
+function changeBet(amount) {
+    if (running) return;
+
+    const newBet = bet + amount;
+
+    bet = Math.max(10, Math.min(500, newBet, balance));
+
+    updateDisplay();
 }
 
 // ========================================
@@ -639,39 +710,44 @@ function generateCrashPoint() {
 // ========================================
 
 function startRound() {
-    if (running || balance < bet || bet < 10) return;
+    if (running) return;
+
+    if (balance < bet || bet < 10) {
+        setResult("NOT ENOUGH BALANCE", "loss");
+        return;
+    }
+
+    if (animationFrame !== null) {
+        cancelAnimationFrame(animationFrame);
+        animationFrame = null;
+    }
 
     initAudio();
 
     balance -= bet;
-    updateDisplay();
-
     roundNumber++;
 
-    crashPoint = generateCrashPoint();
     currentMultiplier = 1;
+    crashPoint = generateCrashPoint();
 
     startTime = performance.now();
 
     running = true;
     cashedOut = false;
 
-    history = [{ x: 0, y: 1 }];
+    points = [{ x: 0, y: 1 }];
 
-    document.getElementById("multiplier").textContent = "1.00x";
-    document.getElementById("multiplier").className = "multiplier running";
+    multiplierElement.textContent = "1.00x";
+    multiplierElement.className = "multiplier running";
 
-    document.getElementById("multiplierMessage").textContent =
-        "ROUND #" + roundNumber;
+    multiplierMessage.textContent = "ROUND #" + roundNumber;
 
     setResult("GOOD LUCK...");
 
-    const button = document.getElementById("mainButton");
+    mainButton.textContent = "CASH OUT";
+    mainButton.classList.add("cashout");
 
-    button.textContent = "CASH OUT";
-    button.classList.add("cashout");
-
-    setBetControlsDisabled(true);
+    updateDisplay();
 
     playStartSound();
 
@@ -689,19 +765,24 @@ function updateGame(now) {
 
     const elapsed = now - startTime;
 
-    // Exponential multiplier growth.
-    currentMultiplier = Math.exp(elapsed * .00012);
+    // Multiplier rises continuously.
+    currentMultiplier = Math.exp(elapsed * 0.00012);
 
-    history.push({
+    points.push({
         x: elapsed,
         y: currentMultiplier
     });
 
-    // Check for crash BEFORE automatic cashout.
+    // Check for a crash first.
     if (currentMultiplier >= crashPoint) {
         currentMultiplier = crashPoint;
 
-        document.getElementById("multiplier").textContent =
+        points.push({
+            x: elapsed,
+            y: crashPoint
+        });
+
+        multiplierElement.textContent =
             crashPoint.toFixed(2) + "x";
 
         crashGame();
@@ -709,12 +790,12 @@ function updateGame(now) {
     }
 
     // Automatic cashout.
-    const autoValue = document.getElementById("autoInput").value;
+    const autoValue = autoInput.value.trim();
     const autoTarget = Number(autoValue);
 
     if (
         !cashedOut &&
-        autoValue.trim() !== "" &&
+        autoValue !== "" &&
         Number.isFinite(autoTarget) &&
         autoTarget >= 1.01 &&
         currentMultiplier >= autoTarget
@@ -722,7 +803,7 @@ function updateGame(now) {
         cashOut();
     }
 
-    document.getElementById("multiplier").textContent =
+    multiplierElement.textContent =
         currentMultiplier.toFixed(2) + "x";
 
     drawGraph();
@@ -744,22 +825,18 @@ function cashOut() {
     balance += payout;
     totalWon += payout;
 
-    updateDisplay();
+    multiplierElement.className = "multiplier cashed";
 
-    document.getElementById("multiplier").className =
-        "multiplier cashed";
-
-    document.getElementById("multiplierMessage").textContent =
-        "SUCCESSFUL CASH OUT";
+    multiplierMessage.textContent = "SUCCESSFUL CASH OUT";
 
     setResult("YOU WON " + currency(payout), "win");
 
-    const button = document.getElementById("mainButton");
+    mainButton.textContent = "CASHED OUT";
+    mainButton.classList.remove("cashout");
 
-    button.textContent = "CASHED OUT";
-    button.classList.remove("cashout");
-    button.disabled = true;
+    updateDisplay();
 
+    // Keep the round running until its crash.
     playCashoutSound();
 }
 
@@ -772,12 +849,18 @@ function crashGame() {
 
     running = false;
 
-    cancelAnimationFrame(animationFrame);
+    if (animationFrame !== null) {
+        cancelAnimationFrame(animationFrame);
+        animationFrame = null;
+    }
 
-    document.getElementById("multiplier").className =
+    multiplierElement.textContent =
+        crashPoint.toFixed(2) + "x";
+
+    multiplierElement.className =
         cashedOut ? "multiplier cashed" : "multiplier crashed";
 
-    document.getElementById("multiplierMessage").textContent =
+    multiplierMessage.textContent =
         "CRASHED AT " + crashPoint.toFixed(2) + "x";
 
     if (cashedOut) {
@@ -787,13 +870,10 @@ function crashGame() {
         playCrashSound();
     }
 
-    const button = document.getElementById("mainButton");
+    mainButton.textContent = "START NEXT ROUND";
+    mainButton.classList.remove("cashout");
 
-    button.textContent = "START NEXT ROUND";
-    button.classList.remove("cashout");
-    button.disabled = balance < 10;
-
-    setBetControlsDisabled(false);
+    updateControls();
 
     addHistory(crashPoint, cashedOut);
 
@@ -802,7 +882,7 @@ function crashGame() {
 }
 
 // ========================================
-// BUTTON CONTROL
+// MAIN BUTTON
 // ========================================
 
 function handleMainButton() {
@@ -813,48 +893,21 @@ function handleMainButton() {
     }
 }
 
-function setBetControlsDisabled(disabled) {
-    document.getElementById("minus").disabled =
-        disabled || bet <= 10;
-
-    document.getElementById("plus").disabled =
-        disabled || bet >= 500 || bet + 10 > balance;
-}
-
-// ========================================
-// BETTING
-// ========================================
-
-function changeBet(amount) {
-    if (running) return;
-
-    bet = Math.max(
-        10,
-        Math.min(500, bet + amount, balance)
-    );
-
-    updateDisplay();
-}
-
 // ========================================
 // HISTORY
 // ========================================
 
 function addHistory(value, won) {
-    const historyElement = document.getElementById("history");
-
     if (
         historyElement.children.length === 1 &&
-        historyElement.textContent === "WAITING..."
+        historyElement.textContent.trim() === "WAITING..."
     ) {
         historyElement.innerHTML = "";
     }
 
     const item = document.createElement("div");
 
-    item.className =
-        "history-item " + (value >= 2 ? "win" : "loss");
-
+    item.className = "history-item " + (won ? "win" : "loss");
     item.textContent = value.toFixed(2) + "x";
 
     historyElement.prepend(item);
@@ -876,8 +929,8 @@ function drawGraph() {
     const top = PADDING;
     const bottom = H - PADDING;
 
-    // Grid
-    ctx.strokeStyle = "rgba(0,255,204,0.035)";
+    // Grid.
+    ctx.strokeStyle = "rgba(0,255,204,0.045)";
     ctx.lineWidth = 1;
 
     for (let x = left; x <= right; x += 40) {
@@ -894,15 +947,14 @@ function drawGraph() {
         ctx.stroke();
     }
 
-    // Baseline
-    ctx.strokeStyle = "rgba(255,255,255,.13)";
+    // Baseline.
+    ctx.strokeStyle = "rgba(255,255,255,.15)";
     ctx.beginPath();
     ctx.moveTo(left, bottom);
     ctx.lineTo(right, bottom);
     ctx.stroke();
 
-    if (history.length === 0) {
-        // Starting point
+    if (points.length === 0) {
         ctx.beginPath();
         ctx.arc(left, bottom, 4, 0, Math.PI * 2);
         ctx.fillStyle = "#00ffcc";
@@ -913,49 +965,58 @@ function drawGraph() {
         return;
     }
 
-    const lastTime = history[history.length - 1].x;
+    const lastTime = points[points.length - 1].x;
 
+    // Keep the graph moving across the board.
     const maxTime = Math.max(5000, lastTime * 1.15);
-    const maxMultiplier = Math.max(2, currentMultiplier * 1.2);
 
-    const points = history.map(point => ({
-        x: left + (point.x / maxTime) * (right - left),
-        y: bottom -
+    const maxMultiplier = Math.max(
+        2,
+        currentMultiplier * 1.2
+    );
+
+    const graphPoints = points.map(point => {
+        const x = left +
+            (point.x / maxTime) * (right - left);
+
+        const y = bottom -
             ((point.y - 1) / (maxMultiplier - 1)) *
-            (bottom - top)
-    }));
+            (bottom - top);
 
-    // Area gradient
+        return { x, y };
+    });
+
+    // Gradient underneath the line.
     const gradient = ctx.createLinearGradient(0, top, 0, bottom);
 
-    gradient.addColorStop(0, "rgba(0,255,204,.2)");
+    gradient.addColorStop(0, "rgba(0,255,204,.22)");
     gradient.addColorStop(1, "rgba(0,255,204,0)");
 
     ctx.beginPath();
 
-    ctx.moveTo(points[0].x, bottom);
-    ctx.lineTo(points[0].x, points[0].y);
+    ctx.moveTo(graphPoints[0].x, bottom);
+    ctx.lineTo(graphPoints[0].x, graphPoints[0].y);
 
-    for (let i = 1; i < points.length; i++) {
-        ctx.lineTo(points[i].x, points[i].y);
+    for (let i = 1; i < graphPoints.length; i++) {
+        ctx.lineTo(graphPoints[i].x, graphPoints[i].y);
     }
 
-    ctx.lineTo(points[points.length - 1].x, bottom);
+    ctx.lineTo(graphPoints[graphPoints.length - 1].x, bottom);
     ctx.closePath();
 
     ctx.fillStyle = gradient;
     ctx.fill();
 
-    // Main line
-    ctx.beginPath();
-    ctx.moveTo(points[0].x, points[0].y);
-
-    for (let i = 1; i < points.length; i++) {
-        ctx.lineTo(points[i].x, points[i].y);
-    }
-
+    // Main graph line.
     const lineColor =
         running || cashedOut ? "#00ffcc" : "#ff416c";
+
+    ctx.beginPath();
+    ctx.moveTo(graphPoints[0].x, graphPoints[0].y);
+
+    for (let i = 1; i < graphPoints.length; i++) {
+        ctx.lineTo(graphPoints[i].x, graphPoints[i].y);
+    }
 
     ctx.strokeStyle = lineColor;
     ctx.lineWidth = 3;
@@ -969,8 +1030,8 @@ function drawGraph() {
 
     ctx.shadowBlur = 0;
 
-    // End point
-    const last = points[points.length - 1];
+    // Glowing endpoint.
+    const last = graphPoints[graphPoints.length - 1];
 
     ctx.beginPath();
     ctx.arc(last.x, last.y, 5, 0, Math.PI * 2);
@@ -985,21 +1046,19 @@ function drawGraph() {
 }
 
 // ========================================
-// DISPLAY
+// EVENT LISTENERS
 // ========================================
 
-function updateDisplay() {
-    document.getElementById("balance").textContent =
-        currency(balance);
+// Explicit listeners instead of inline HTML handlers.
+minusButton.addEventListener("click", () => {
+    changeBet(-10);
+});
 
-    document.getElementById("totalWon").textContent =
-        currency(totalWon);
+plusButton.addEventListener("click", () => {
+    changeBet(10);
+});
 
-    document.getElementById("bet").textContent =
-        currency(bet);
-
-    setBetControlsDisabled(running);
-}
+mainButton.addEventListener("click", handleMainButton);
 
 // ========================================
 // INITIALIZE
@@ -1009,6 +1068,7 @@ updateDisplay();
 drawGraph();
 
 </script>
+
 
 </body>
 </html>
