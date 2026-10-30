@@ -1,4 +1,4 @@
-# 🎰 Virtual Casino
+# 🎰 Null Casino
 
 A growing collection of casino-style games and interactive experiences, all brought together in one place.
 
@@ -16,6 +16,15 @@ A number-based RNG experience that continuously rolls random numbers. While not 
 
 - **Standard Mode:** Continuously generates random numbers.
 - **Gambling Mode:** Introduces a virtual money system, allowing players to use their balance while participating in the RNG experience.
+
+### ♠️ Blackjack
+A classic single-player Blackjack game where players compete against the dealer to get as close to 21 as possible without going over.
+
+- **Hit:** Draw another card.
+- **Stand:** Keep your current hand and let the dealer play.
+- **Double Down:** Double your bet and receive one final card.
+- **Virtual Balance:** Start with $1,000 in virtual credits.
+- **Blackjack Payouts:** Natural Blackjack pays 3:2.
 
 ---
 
@@ -39,6 +48,7 @@ Planned improvements may include:
 | Roulette | Available |
 | RNGdle | Available |
 | RNGdle Gambling Mode | Available |
+| Blackjack | Available |
 | Additional Games | Planned |
 | UI Improvements | In Progress |
 
