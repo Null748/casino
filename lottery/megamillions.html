@@ -4,7 +4,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Null Casino</title>
+<title>Mega Millions | Null Casino</title>
+
 <link rel="icon" type="image/x-icon" href="https://chatgpt.com/s/m_6ae3e9c9de788191b247435a434618d8">
 
 <style>
@@ -21,11 +22,9 @@ body {
     color: white;
     font-family: 'Orbitron', sans-serif;
     min-height: 100vh;
+    padding: 35px 15px;
     overflow-x: hidden;
-    padding: 45px 15px;
 }
-
-/* BACKGROUND */
 
 body::before {
     content: "";
@@ -38,7 +37,6 @@ body::before {
     top: -300px;
     left: -200px;
     pointer-events: none;
-    animation: glowMove 12s ease-in-out infinite alternate;
 }
 
 body::after {
@@ -52,53 +50,10 @@ body::after {
     bottom: -300px;
     right: -150px;
     pointer-events: none;
-    animation: glowMove 15s ease-in-out infinite alternate-reverse;
 }
-
-@keyframes glowMove {
-    from { transform: translate(0, 0); }
-    to { transform: translate(100px, 70px); }
-}
-
-/* PARTICLES */
-
-.particles {
-    position: fixed;
-    inset: 0;
-    overflow: hidden;
-    pointer-events: none;
-    z-index: 0;
-}
-
-.particle {
-    position: absolute;
-    width: 3px;
-    height: 3px;
-    background: #00ffcc;
-    border-radius: 50%;
-    opacity: 0;
-    box-shadow: 0 0 10px #00ffcc;
-    animation: floatUp linear infinite;
-}
-
-.particle:nth-child(1) { left: 10%; animation-duration: 15s; animation-delay: 0s; }
-.particle:nth-child(2) { left: 25%; animation-duration: 19s; animation-delay: 4s; }
-.particle:nth-child(3) { left: 43%; animation-duration: 17s; animation-delay: 2s; }
-.particle:nth-child(4) { left: 65%; animation-duration: 21s; animation-delay: 7s; }
-.particle:nth-child(5) { left: 82%; animation-duration: 16s; animation-delay: 3s; }
-.particle:nth-child(6) { left: 93%; animation-duration: 20s; animation-delay: 6s; }
-
-@keyframes floatUp {
-    0% { transform: translateY(105vh); opacity: 0; }
-    15% { opacity: 0.7; }
-    85% { opacity: 0.5; }
-    100% { transform: translateY(-10vh); opacity: 0; }
-}
-
-/* MAIN */
 
 .container {
-    width: 90%;
+    width: 100%;
     max-width: 700px;
     margin: auto;
     text-align: center;
@@ -106,39 +61,24 @@ body::after {
     z-index: 1;
 }
 
-/* HEADER */
-
 .subtitle {
     color: #00ffcc;
     font-size: 10px;
     letter-spacing: 6px;
-    margin-bottom: 18px;
+    margin-bottom: 12px;
     text-transform: uppercase;
     opacity: 0.8;
-    animation: fadeDown 0.8s ease both;
 }
 
 h1 {
-    font-size: clamp(42px, 9vw, 75px);
+    font-size: clamp(32px, 8vw, 58px);
     font-weight: 800;
-    letter-spacing: 5px;
+    letter-spacing: 3px;
     color: white;
     text-shadow:
         0 0 10px rgba(0,255,204,0.5),
         0 0 30px rgba(0,255,204,0.2);
     margin-bottom: 12px;
-    animation: titleGlow 4s ease-in-out infinite alternate;
-}
-
-@keyframes titleGlow {
-    from {
-        text-shadow: 0 0 10px rgba(0,255,204,0.35);
-    }
-    to {
-        text-shadow:
-            0 0 15px rgba(0,255,204,0.7),
-            0 0 45px rgba(0,255,204,0.25);
-    }
 }
 
 .description {
@@ -146,365 +86,595 @@ h1 {
     font-family: Arial, sans-serif;
     font-size: 14px;
     margin-bottom: 25px;
+    line-height: 1.5;
 }
 
-/* TICKER */
+/* INFO BUTTON */
 
-.ticker {
-    width: 100%;
-    overflow: hidden;
-    border-top: 1px solid #202832;
-    border-bottom: 1px solid #202832;
-    background: rgba(255,255,255,0.018);
-    margin: 30px 0;
-    padding: 12px 0;
-}
-
-.ticker-track {
-    display: flex;
-    width: max-content;
-    animation: tickerScroll 28s linear infinite;
-}
-
-.ticker-content {
-    display: flex;
-    align-items: center;
-    gap: 35px;
-    padding-right: 35px;
-    white-space: nowrap;
-    color: #69737e;
-    font-size: 9px;
-    letter-spacing: 3px;
-}
-
-.ticker-content span {
-    color: #00ffcc;
-}
-
-@keyframes tickerScroll {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
-}
-
-/* STATS */
-
-.stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-bottom: 35px;
-    animation: fadeUp 0.8s ease both;
-}
-
-.stat {
-    border: 1px solid #252d36;
-    background: rgba(255,255,255,0.025);
-    padding: 15px 8px;
-    border-radius: 5px;
-}
-
-.stat-number {
-    color: #00ffcc;
-    font-size: 20px;
-    font-weight: 800;
-    margin-bottom: 6px;
-}
-
-.stat-label {
-    color: #626d78;
-    font-size: 8px;
-    letter-spacing: 2px;
-}
-
-/* FEATURED GAME */
-
-.featured {
-    position: relative;
-    display: block;
-    text-decoration: none;
-    color: white;
-    text-align: left;
-    padding: 27px;
-    border: 1px solid rgba(0,255,204,0.35);
-    border-radius: 7px;
-    overflow: hidden;
-    background:
-        radial-gradient(circle at 85% 50%, rgba(0,255,204,0.13), transparent 40%),
-        linear-gradient(120deg, #151e25, #090d12);
-    box-shadow: 0 0 25px rgba(0,255,204,0.07);
-    transition: 0.3s ease;
-    animation: fadeUp 0.8s ease both;
-}
-
-.featured:hover {
-    transform: translateY(-4px);
-    border-color: #00ffcc;
-    box-shadow: 0 0 35px rgba(0,255,204,0.16);
-}
-
-.featured-label {
-    color: #00ffcc;
-    font-size: 9px;
-    letter-spacing: 4px;
-    margin-bottom: 15px;
-}
-
-.featured-title {
-    font-size: clamp(22px, 5vw, 32px);
-    font-weight: 800;
-    letter-spacing: 3px;
-    margin-bottom: 10px;
-}
-
-.featured-description {
+.info-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 30px;
+    height: 30px;
+    border: 1px solid #303945;
+    background: rgba(255,255,255,0.04);
+    color: #89939e;
+    border-radius: 50%;
     font-family: Arial, sans-serif;
-    color: #858e99;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.info-button:hover {
+    color: #00ffcc;
+    border-color: #00ffcc;
+    box-shadow: 0 0 12px rgba(0,255,204,0.2);
+}
+
+/* INFO MODAL */
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.8);
+    backdrop-filter: blur(5px);
+    z-index: 20;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal {
+    width: 100%;
+    max-width: 450px;
+    background: #10151c;
+    border: 1px solid #303945;
+    border-radius: 8px;
+    padding: 25px;
+    text-align: left;
+    box-shadow: 0 0 35px rgba(0,255,204,0.08);
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+.modal h2 {
+    color: #00ffcc;
+    font-size: 17px;
+    letter-spacing: 3px;
+    margin-bottom: 18px;
+}
+
+.modal h3 {
+    color: #00ffcc;
+    font-size: 10px;
+    letter-spacing: 2px;
+    margin: 20px 0 9px;
+}
+
+.modal p, .modal li {
+    color: #9ba4ae;
+    font-family: Arial, sans-serif;
     font-size: 13px;
     line-height: 1.6;
-    max-width: 380px;
 }
 
-.featured-play {
-    display: inline-block;
-    margin-top: 20px;
+.modal ul {
+    padding-left: 20px;
+}
+
+.close-modal {
+    width: 100%;
+    margin-top: 22px;
+    padding: 12px;
+    background: rgba(0,255,204,0.08);
+    border: 1px solid #00ffcc;
+    color: #00ffcc;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    cursor: pointer;
+}
+
+/* INFO BAR */
+
+.info-bar {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.info-box {
+    flex: 1;
+    background: rgba(255,255,255,0.025);
+    border: 1px solid #252d36;
+    padding: 14px;
+    border-radius: 5px;
+}
+
+.info-label {
+    color: #68727e;
+    font-size: 9px;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+}
+
+.info-value {
+    color: #00ffcc;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+/* JACKPOT */
+
+.jackpot {
+    background:
+        radial-gradient(circle at center, rgba(255,205,70,0.09), transparent 70%),
+        linear-gradient(145deg, #171d27, #090c11);
+    border: 1px solid #68552c;
+    border-radius: 10px;
+    padding: 25px 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 25px rgba(255,200,50,0.06);
+}
+
+.jackpot-label {
+    color: #d6b45c;
+    font-size: 10px;
+    letter-spacing: 4px;
+    margin-bottom: 12px;
+}
+
+.jackpot-amount {
+    color: #ffe28a;
+    font-size: clamp(28px, 7vw, 45px);
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-shadow: 0 0 20px rgba(255,210,90,0.25);
+}
+
+.jackpot-note {
+    color: #777f8c;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    margin-top: 10px;
+}
+
+/* MACHINE */
+
+.machine {
+    background: linear-gradient(145deg,#171d27,#090c11);
+    border: 1px solid #303945;
+    border-radius: 10px;
+    padding: 22px 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 25px rgba(0,255,204,0.045);
+}
+
+.machine-top {
+    color: #68727e;
+    font-size: 9px;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+}
+
+/* NUMBER BALLS */
+
+.number-section {
+    margin-bottom: 22px;
+}
+
+.number-title {
     color: #00ffcc;
     font-size: 10px;
     letter-spacing: 3px;
+    margin-bottom: 13px;
 }
 
-.featured-play span {
-    display: inline-block;
-    transition: 0.3s;
+.balls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 9px;
 }
 
-.featured:hover .featured-play span {
-    transform: translateX(7px);
-}
-
-/* DECORATIVE RING */
-
-.featured-ring {
-    position: absolute;
-    width: 190px;
-    height: 190px;
-    right: -20px;
-    top: 50%;
-    transform: translateY(-50%);
-    border: 1px solid rgba(0,255,204,0.15);
+.ball {
+    width: 43px;
+    height: 43px;
     border-radius: 50%;
-    animation: rotateRing 18s linear infinite;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 800;
+    color: #10151c;
+    background: linear-gradient(145deg, #ffffff, #cbd0d5);
+    box-shadow:
+        inset -3px -4px 7px rgba(0,0,0,0.16),
+        0 3px 8px rgba(0,0,0,0.35);
+    transition: 0.2s;
 }
 
-.featured-ring::before {
-    content: "";
-    position: absolute;
-    inset: 15px;
-    border: 1px dashed rgba(0,255,204,0.25);
-    border-radius: 50%;
+.ball.mega {
+    color: #241b08;
+    background: linear-gradient(145deg, #ffeaa0, #d6a72f);
+    box-shadow:
+        inset -3px -4px 7px rgba(0,0,0,0.15),
+        0 3px 12px rgba(255,200,50,0.12);
 }
 
-.featured-ring::after {
-    content: "";
-    position: absolute;
-    inset: 35px;
-    border: 1px solid rgba(0,255,204,0.12);
-    border-radius: 50%;
+.ball.empty {
+    background: #222a33;
+    color: #69737e;
+    box-shadow: none;
+    border: 1px solid #39434f;
 }
 
-@keyframes rotateRing {
-    to { transform: translateY(-50%) rotate(360deg); }
+.ball.reveal {
+    animation: ballReveal 0.45s ease both;
 }
 
-/* SECTION HEADINGS */
-
-.section-title {
-    color: #00ffcc;
-    font-size: 10px;
-    letter-spacing: 4px;
-    margin: 35px 0 15px;
-    text-align: left;
-    opacity: 0.8;
+@keyframes ballReveal {
+    0% { transform: scale(0.4) rotate(-30deg); opacity: 0; }
+    70% { transform: scale(1.15); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
 }
 
-.section-divider {
-    height: 1px;
-    background: linear-gradient(90deg, transparent, #303945, transparent);
-    margin: 30px 0;
+.ball.small {
+    width: 34px;
+    height: 34px;
+    font-size: 11px;
 }
 
-/* GAME BUTTONS */
+/* JACKPOT BALL SEPARATOR */
 
-.buttons {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 11px;
+.ball-separator {
+    width: 1px;
+    height: 32px;
+    background: #303945;
+    margin: 0 5px;
 }
 
-.game-button {
-    position: relative;
+/* CONTROLS */
+
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 17px;
+}
+
+.control-label {
+    color: #68727e;
+    font-size: 9px;
+    letter-spacing: 2px;
+    width: 100%;
+}
+
+.counter {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-    padding: 19px 16px;
-    border: 1px solid #252b33;
+    gap: 17px;
+    border: 1px solid #303945;
     background: rgba(255,255,255,0.025);
-    color: white;
-    text-decoration: none;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    overflow: hidden;
-    transition: 0.3s ease;
+    padding: 7px 12px;
     border-radius: 5px;
-    animation: fadeUp 0.6s ease both;
 }
 
-.game-button::after {
-    content: "↗";
-    color: #414b56;
+.counter button {
+    background: none;
+    border: none;
+    color: #00ffcc;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 18px;
+    cursor: pointer;
+    width: 25px;
+}
+
+.counter button:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.counter span {
     font-size: 14px;
-    transition: 0.3s;
+    min-width: 20px;
 }
 
-.game-button:hover {
-    transform: translateY(-3px);
+.price {
+    color: #d6b45c;
+    font-size: 11px;
+    letter-spacing: 2px;
 }
 
-.game-button:hover::after {
-    transform: translate(3px, -3px);
-    color: inherit;
+/* BUTTONS */
+
+.action-button {
+    width: 100%;
+    padding: 17px;
+    border: 1px solid rgba(0,255,204,0.5);
+    background: rgba(0,255,204,0.07);
+    color: #00ffcc;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: 0.25s;
+    margin-top: 10px;
 }
 
-/* COLOR VARIANTS */
-
-.roulette:hover {
-    border-color: #00ff99;
-    color: #00ff99;
-    background: rgba(0,255,153,0.06);
-    box-shadow: 0 0 25px rgba(0,255,153,0.13);
+.action-button:hover:not(:disabled) {
+    background: rgba(0,255,204,0.15);
+    box-shadow: 0 0 20px rgba(0,255,204,0.15);
 }
 
-.rngdle:hover {
-    border-color: #a855ff;
-    color: #c58aff;
-    background: rgba(168,85,255,0.05);
-    box-shadow: 0 0 25px rgba(168,85,255,0.15);
+.action-button:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
 }
 
-.extra:hover {
-    border-color: #ff416c;
-    color: #ff416c;
-    background: rgba(255,65,108,0.05);
-    box-shadow: 0 0 25px rgba(255,65,108,0.15);
+.draw-button {
+    border-color: #d6b45c;
+    background: rgba(214,180,92,0.07);
+    color: #d6b45c;
 }
 
-.cyan:hover {
+.draw-button:hover:not(:disabled) {
+    background: rgba(214,180,92,0.15);
+    box-shadow: 0 0 20px rgba(214,180,92,0.15);
+}
+
+.secondary-button {
+    background: rgba(255,255,255,0.025);
+    border: 1px solid #303945;
+    color: #89939e;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 9px;
+    letter-spacing: 2px;
+    padding: 11px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.secondary-button:hover {
     border-color: #00ffcc;
     color: #00ffcc;
-    box-shadow: 0 0 25px rgba(0,255,204,0.15);
 }
 
-.lottery:hover {
-    border-color: #ffe66d;
-    color: #ffe66d;
-    background: rgba(255,230,109,0.05);
-    box-shadow: 0 0 25px rgba(255,230,109,0.15);
+/* TICKET LIST */
+
+.ticket-list {
+    text-align: left;
+    margin-top: 22px;
+}
+
+.ticket-heading {
+    color: #68727e;
+    font-size: 9px;
+    letter-spacing: 3px;
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+.ticket {
+    background: rgba(255,255,255,0.025);
+    border: 1px solid #28313b;
+    padding: 13px;
+    border-radius: 5px;
+    margin-bottom: 9px;
+}
+
+.ticket-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 11px;
+    gap: 10px;
+}
+
+.ticket-name {
+    color: #89939e;
+    font-size: 9px;
+    letter-spacing: 2px;
+}
+
+.multiplier {
+    color: #d6b45c;
+    font-size: 9px;
+    letter-spacing: 1px;
+    border: 1px solid rgba(214,180,92,0.3);
+    padding: 5px 7px;
+    border-radius: 3px;
+}
+
+/* RESULTS */
+
+.result {
+    display: none;
+    margin-top: 22px;
+    padding: 20px 12px;
+    border: 1px solid #303945;
+    background: rgba(255,255,255,0.025);
+    border-radius: 5px;
+}
+
+.result.active {
+    display: block;
+    animation: resultIn 0.5s ease both;
+}
+
+@keyframes resultIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.result-title {
+    color: #00ffcc;
+    font-size: 13px;
+    letter-spacing: 3px;
+    margin-bottom: 12px;
+}
+
+.result-message {
+    color: #89939e;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.result-amount {
+    color: #ffe28a;
+    font-size: 24px;
+    font-weight: 800;
+    margin-top: 12px;
+}
+
+.result.jackpot-win {
+    border-color: #d6b45c;
+    box-shadow: 0 0 25px rgba(255,200,50,0.15);
+}
+
+.result.jackpot-win .result-title {
+    color: #ffe28a;
+    text-shadow: 0 0 15px rgba(255,210,90,0.4);
+}
+
+/* HISTORY */
+
+.history {
+    background: rgba(255,255,255,0.025);
+    border: 1px solid #252d36;
+    border-radius: 5px;
+    padding: 17px;
+    margin-top: 20px;
+    text-align: left;
+}
+
+.history-title {
+    color: #00ffcc;
+    font-size: 9px;
+    letter-spacing: 3px;
+    margin-bottom: 13px;
+}
+
+.history-item {
+    color: #89939e;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    padding: 9px 0;
+    border-bottom: 1px solid #202832;
+    line-height: 1.6;
+}
+
+.history-item:last-child {
+    border-bottom: none;
+}
+
+.history-item strong {
+    color: #ffe28a;
+}
+
+.empty-history {
+    color: #515b67;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+}
+
+/* PRIZE TABLE */
+
+.prize-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    text-align: left;
+    font-family: Arial, sans-serif;
+}
+
+.prize-table th {
+    color: #00ffcc;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 8px;
+    letter-spacing: 1px;
+    padding: 10px 5px;
+    border-bottom: 1px solid #303945;
+}
+
+.prize-table td {
+    color: #a3abb5;
+    font-size: 11px;
+    padding: 10px 5px;
+    border-bottom: 1px solid #202832;
+}
+
+.prize-table td:last-child {
+    color: #ffe28a;
+    text-align: right;
 }
 
 /* FOOTER */
 
+.back {
+    display: inline-block;
+    margin-top: 25px;
+    color: #68727e;
+    text-decoration: none;
+    font-size: 9px;
+    letter-spacing: 2px;
+    transition: 0.2s;
+}
+
+.back:hover {
+    color: #00ffcc;
+}
+
 .footer {
-    margin-top: 35px;
+    margin-top: 30px;
     color: #414853;
     font-size: 9px;
     letter-spacing: 3px;
 }
 
-.status {
-    color: #00ff99;
-    margin-top: 12px;
-    font-size: 9px;
-    letter-spacing: 2px;
-}
-
-.status::before {
-    content: "●";
-    margin-right: 8px;
-    animation: blink 1.5s infinite;
-}
-
-@keyframes blink {
-    50% { opacity: 0.2; }
-}
-
-/* ANIMATIONS */
-
-@keyframes fadeUp {
-    from {
-        opacity: 0;
-        transform: translateY(18px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes fadeDown {
-    from {
-        opacity: 0;
-        transform: translateY(-15px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
 /* MOBILE */
 
 @media (max-width: 500px) {
-    .container {
-        width: 95%;
+    .info-value {
+        font-size: 15px;
+    }
+
+    .machine {
+        padding: 20px 10px;
+    }
+
+    .ball {
+        width: 38px;
+        height: 38px;
+        font-size: 12px;
+    }
+
+    .ball.small {
+        width: 31px;
+        height: 31px;
     }
 
     .description {
         font-size: 12px;
     }
 
-    .buttons {
-        grid-template-columns: 1fr;
-    }
-
-    .game-button {
-        padding: 17px;
-        font-size: 11px;
-    }
-
-    .section-title {
-        text-align: center;
-    }
-
-    .featured {
-        padding: 22px;
-    }
-
-    .featured-ring {
-        opacity: 0.45;
-        right: -85px;
-    }
-
-    .stat-number {
-        font-size: 16px;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        scroll-behavior: auto !important;
+    .info-button {
+        top: -5px;
+        right: 0;
     }
 }
 </style>
@@ -512,158 +682,720 @@ h1 {
 
 <body>
 
-<div class="particles">
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-</div>
-
 <div class="container">
 
-    <div class="subtitle">Made by Null and Others</div>
+    <button class="info-button" id="infoButton" aria-label="How to play">i</button>
 
-    <h1>CASINO.</h1>
+    <div class="subtitle">NULL CASINO // GAME 011</div>
+
+    <h1>MEGA MILLIONS.</h1>
 
     <p class="description">
-        Welcome. Choose your game.
+        Five numbers. One Mega Ball. One massive jackpot.
     </p>
 
-    <!-- TICKER -->
+    <!-- INFO MODAL -->
 
-    <div class="ticker">
-        <div class="ticker-track">
-            <div class="ticker-content">
-                <span>●</span> SYSTEM ONLINE
-                <span>◆</span> 9 CASINO GAMES
-                <span>◆</span> LOTTERY AVAILABLE
-                <span>◆</span> PLACE YOUR BETS
-                <span>◆</span> WELCOME TO NULL CASINO
+    <div class="modal-overlay" id="infoModal">
+        <div class="modal">
+            <h2>HOW TO PLAY</h2>
+
+            <p>
+                Mega Millions is a lottery game where you purchase tickets
+                and try to match the randomly drawn winning numbers.
+            </p>
+
+            <h3>NUMBER SELECTION</h3>
+            <ul>
+                <li>5 white numbers from 1–70.</li>
+                <li>1 gold Mega Ball from 1–24.</li>
+                <li>Each ticket costs $5.</li>
+                <li>Numbers are automatically selected for you.</li>
+            </ul>
+
+            <h3>MEGAPLIER</h3>
+            <p>
+                Every ticket receives a random multiplier:
+                2X, 3X, 4X, 5X, or 10X.
+                It multiplies non-jackpot prizes.
+            </p>
+
+            <h3>WINNING</h3>
+            <p>
+                Match the winning numbers to earn a prize.
+                Matching all five white balls and the gold Mega Ball
+                wins the jackpot.
+            </p>
+
+            <h3>IMPORTANT</h3>
+            <p>
+                Jackpot odds are approximately 1 in 290,472,336.
+                All credits and prizes in Null Casino are virtual.
+            </p>
+
+            <button class="close-modal" id="closeModal">GOT IT</button>
+        </div>
+    </div>
+
+    <!-- BALANCE -->
+
+    <div class="info-bar">
+        <div class="info-box">
+            <div class="info-label">BALANCE</div>
+            <div class="info-value" id="balance">$1,000</div>
+        </div>
+
+        <div class="info-box">
+            <div class="info-label">TOTAL WON</div>
+            <div class="info-value" id="totalWon">$0</div>
+        </div>
+    </div>
+
+    <!-- JACKPOT -->
+
+    <div class="jackpot">
+        <div class="jackpot-label">✦ MEGA MILLIONS JACKPOT ✦</div>
+        <div class="jackpot-amount" id="jackpot">$50,000,000</div>
+        <div class="jackpot-note">VIRTUAL JACKPOT // STARTING AMOUNT</div>
+    </div>
+
+    <!-- MACHINE -->
+
+    <div class="machine">
+
+        <div class="machine-top">MEGA MILLIONS DRAWING TERMINAL</div>
+
+        <div class="number-section">
+            <div class="number-title">WINNING NUMBERS</div>
+
+            <div class="balls" id="winningBalls">
+                <div class="ball empty">?</div>
+                <div class="ball empty">?</div>
+                <div class="ball empty">?</div>
+                <div class="ball empty">?</div>
+                <div class="ball empty">?</div>
+                <div class="ball-separator"></div>
+                <div class="ball mega empty">?</div>
             </div>
-            <div class="ticker-content">
-                <span>●</span> SYSTEM ONLINE
-                <span>◆</span> 9 CASINO GAMES
-                <span>◆</span> LOTTERY AVAILABLE
-                <span>◆</span> PLACE YOUR BETS
-                <span>◆</span> WELCOME TO NULL CASINO
+        </div>
+
+        <div class="controls">
+            <div class="control-label">NUMBER OF TICKETS</div>
+
+            <div class="counter">
+                <button id="minusButton">−</button>
+                <span id="ticketCount">1</span>
+                <button id="plusButton">+</button>
             </div>
-        </div>
-    </div>
 
-    <!-- STATS -->
-
-    <div class="stats">
-        <div class="stat">
-            <div class="stat-number">09</div>
-            <div class="stat-label">CASINO GAMES</div>
+            <div class="price" id="ticketPrice">TOTAL: $5</div>
         </div>
 
-        <div class="stat">
-            <div class="stat-number">01</div>
-            <div class="stat-label">LOTTERY</div>
+        <button class="action-button" id="buyButton">
+            PURCHASE TICKETS
+        </button>
+
+        <div id="ticketList" class="ticket-list"></div>
+
+        <button class="action-button draw-button" id="drawButton" disabled>
+            DRAW WINNING NUMBERS
+        </button>
+
+        <div class="result" id="result">
+            <div class="result-title" id="resultTitle"></div>
+            <div class="result-message" id="resultMessage"></div>
+            <div class="result-amount" id="resultAmount"></div>
         </div>
-
-        <div class="stat">
-            <div class="stat-number">24/7</div>
-            <div class="stat-label">SYSTEM STATUS</div>
-        </div>
-    </div>
-
-    <!-- FEATURED GAME -->
-
-    <a href="/games/plinko.html" class="featured">
-
-        <div class="featured-ring"></div>
-
-        <div class="featured-label">✦ FEATURED GAME</div>
-
-        <div class="featured-title">PLINKO.</div>
-
-        <div class="featured-description">
-            Drop the ball. Watch it fall. See what fortune has waiting for you.
-        </div>
-
-        <div class="featured-play">
-            PLAY NOW <span>→</span>
-        </div>
-
-    </a>
-
-    <!-- CASINO GAMES -->
-
-    <div class="section-title">CASINO GAMES // 001–009</div>
-
-    <div class="buttons">
-
-        <a href="/games/roulette.html" class="game-button roulette">
-            ROULETTE
-        </a>
-
-        <a href="/games/blackjack.html" class="game-button extra">
-            BLACKJACK
-        </a>
-
-        <a href="/games/slots.html" class="game-button rngdle">
-            SLOTS
-        </a>
-
-        <a href="/games/crash.html" class="game-button extra">
-            CRASH
-        </a>
-
-        <a href="/games/plinko.html" class="game-button roulette">
-            PLINKO
-        </a>
-
-        <a href="/games/scratch.html" class="game-button cyan">
-            SCRATCH CARDS
-        </a>
-
-        <a href="/games/mines.html" class="game-button extra">
-            MINES
-        </a>
-
-        <a href="/games/wheel.html" class="game-button rngdle">
-            WHEEL
-        </a>
-
-        <a href="/games/rngdle/index.html" class="game-button rngdle">
-            RNGDLE
-        </a>
 
     </div>
 
-    <!-- LOTTERY -->
+    <!-- PRIZE TABLE -->
 
-    <div class="section-divider"></div>
+    <div class="machine">
+        <div class="machine-top">PRIZE BREAKDOWN</div>
 
-    <div class="section-title">LOTTERY</div>
-
-    <div class="buttons">
-
-        <a href="/lottery/powerball.html" class="game-button lottery">
-            POWERBALL
-        </a>
-
+        <table class="prize-table">
+            <thead>
+                <tr>
+                    <th>MATCH</th>
+                    <th>BASE PRIZE</th>
+                    <th>WITH MULTIPLIER</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>5 + MEGA BALL</td>
+                    <td>JACKPOT</td>
+                    <td>JACKPOT</td>
+                </tr>
+                <tr>
+                    <td>5 WHITE</td>
+                    <td>$1,000,000</td>
+                    <td>$2M–$10M</td>
+                </tr>
+                <tr>
+                    <td>4 + MEGA BALL</td>
+                    <td>$10,000</td>
+                    <td>$20K–$100K</td>
+                </tr>
+                <tr>
+                    <td>4 WHITE</td>
+                    <td>$500</td>
+                    <td>$1K–$5K</td>
+                </tr>
+                <tr>
+                    <td>3 + MEGA BALL</td>
+                    <td>$200</td>
+                    <td>$400–$2K</td>
+                </tr>
+                <tr>
+                    <td>3 WHITE</td>
+                    <td>$10</td>
+                    <td>$20–$100</td>
+                </tr>
+                <tr>
+                    <td>2 + MEGA BALL</td>
+                    <td>$10</td>
+                    <td>$20–$100</td>
+                </tr>
+                <tr>
+                    <td>1 + MEGA BALL</td>
+                    <td>$7</td>
+                    <td>$14–$70</td>
+                </tr>
+                <tr>
+                    <td>MEGA BALL ONLY</td>
+                    <td>$5</td>
+                    <td>$10–$50</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
-    <!-- FOOTER -->
+    <!-- HISTORY -->
+
+    <div class="history">
+        <div class="history-title">DRAW HISTORY</div>
+        <div id="historyList" class="empty-history">No drawings yet.</div>
+    </div>
+
+    <a href="/index.html" class="back">← BACK TO CASINO</a>
 
     <div class="footer">
-        NULL CASINO &nbsp; // &nbsp; 2026
-    </div>
-
-    <div class="status">
-        SYSTEM ONLINE
-    </div>
-
-    <div class="footer">
-        Made for PC
+        NULL CASINO // GAME 011
     </div>
 
 </div>
+
+<script>
+/* =====================================
+   GAME SETTINGS
+===================================== */
+
+let balance = 1000;
+let totalWon = 0;
+let jackpot = 50000000;
+
+let ticketCount = 1;
+let tickets = [];
+let hasDrawn = false;
+let drawing = false;
+
+let history = [];
+
+const TICKET_COST = 5;
+
+/* =====================================
+   ELEMENTS
+===================================== */
+
+const balanceDisplay = document.getElementById("balance");
+const totalWonDisplay = document.getElementById("totalWon");
+const jackpotDisplay = document.getElementById("jackpot");
+
+const ticketCountDisplay = document.getElementById("ticketCount");
+const ticketPriceDisplay = document.getElementById("ticketPrice");
+
+const minusButton = document.getElementById("minusButton");
+const plusButton = document.getElementById("plusButton");
+
+const buyButton = document.getElementById("buyButton");
+const drawButton = document.getElementById("drawButton");
+
+const ticketList = document.getElementById("ticketList");
+const winningBalls = document.getElementById("winningBalls");
+
+const result = document.getElementById("result");
+const resultTitle = document.getElementById("resultTitle");
+const resultMessage = document.getElementById("resultMessage");
+const resultAmount = document.getElementById("resultAmount");
+
+const historyList = document.getElementById("historyList");
+
+/* =====================================
+   HELPERS
+===================================== */
+
+function formatMoney(value) {
+    return "$" + Math.floor(value).toLocaleString("en-US");
+}
+
+function randomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function pickUniqueNumbers(amount, max) {
+    const numbers = [];
+
+    while (numbers.length < amount) {
+        const number = randomInt(1, max);
+
+        if (!numbers.includes(number)) {
+            numbers.push(number);
+        }
+    }
+
+    return numbers.sort((a, b) => a - b);
+}
+
+function generateNumbers() {
+    return {
+        white: pickUniqueNumbers(5, 70),
+        mega: randomInt(1, 24)
+    };
+}
+
+/* =====================================
+   MULTIPLIER
+===================================== */
+
+function generateMultiplier() {
+    const roll = randomInt(1, 32);
+
+    if (roll <= 15) return 2;
+    if (roll <= 25) return 3;
+    if (roll <= 29) return 4;
+    if (roll <= 31) return 5;
+
+    return 10;
+}
+
+/* =====================================
+   DISPLAY
+===================================== */
+
+function updateDisplay() {
+    balanceDisplay.textContent = formatMoney(balance);
+    totalWonDisplay.textContent = formatMoney(totalWon);
+    jackpotDisplay.textContent = formatMoney(jackpot);
+
+    ticketCountDisplay.textContent = ticketCount;
+    ticketPriceDisplay.textContent = "TOTAL: " + formatMoney(ticketCount * TICKET_COST);
+
+    const maxTickets = Math.floor(balance / TICKET_COST);
+
+    minusButton.disabled = drawing || ticketCount <= 1;
+    plusButton.disabled = drawing || ticketCount >= maxTickets;
+
+    buyButton.disabled = drawing || balance < TICKET_COST;
+    drawButton.disabled = drawing || tickets.length === 0 || hasDrawn;
+
+    if (hasDrawn) {
+        buyButton.textContent = "BUY NEXT DRAW";
+    } else {
+        buyButton.textContent = "PURCHASE TICKETS";
+    }
+}
+
+/* =====================================
+   TICKET CONTROLS
+===================================== */
+
+minusButton.addEventListener("click", () => {
+    if (drawing || ticketCount <= 1) return;
+
+    ticketCount--;
+    updateDisplay();
+});
+
+plusButton.addEventListener("click", () => {
+    if (drawing) return;
+
+    const maxTickets = Math.floor(balance / TICKET_COST);
+
+    if (ticketCount < maxTickets) {
+        ticketCount++;
+        updateDisplay();
+    }
+});
+
+/* =====================================
+   CREATE TICKETS
+===================================== */
+
+function renderTickets() {
+    if (tickets.length === 0) {
+        ticketList.innerHTML = "";
+        return;
+    }
+
+    let html = `
+        <div class="ticket-heading">
+            YOUR TICKETS (${tickets.length})
+        </div>
+    `;
+
+    tickets.forEach((ticket, index) => {
+        html += `
+            <div class="ticket">
+                <div class="ticket-top">
+                    <div class="ticket-name">TICKET #${index + 1}</div>
+                    <div class="multiplier">${ticket.multiplier}X MULTIPLIER</div>
+                </div>
+
+                <div class="balls">
+                    ${ticket.white.map(number => `
+                        <div class="ball small">${number}</div>
+                    `).join("")}
+
+                    <div class="ball-separator"></div>
+
+                    <div class="ball mega small">${ticket.mega}</div>
+                </div>
+            </div>
+        `;
+    });
+
+    ticketList.innerHTML = html;
+}
+
+/* =====================================
+   PURCHASE
+===================================== */
+
+function purchaseTickets() {
+    if (drawing) return;
+
+    // Start a fresh drawing after the previous one.
+    if (hasDrawn) {
+        hasDrawn = false;
+        tickets = [];
+
+        result.className = "result";
+        resultTitle.textContent = "";
+        resultMessage.textContent = "";
+        resultAmount.textContent = "";
+
+        winningBalls.innerHTML = `
+            <div class="ball empty">?</div>
+            <div class="ball empty">?</div>
+            <div class="ball empty">?</div>
+            <div class="ball empty">?</div>
+            <div class="ball empty">?</div>
+            <div class="ball-separator"></div>
+            <div class="ball mega empty">?</div>
+        `;
+
+        renderTickets();
+    }
+
+    const cost = ticketCount * TICKET_COST;
+
+    if (balance < cost) {
+        alert("Not enough credits!");
+        return;
+    }
+
+    balance -= cost;
+
+    tickets = [];
+
+    for (let i = 0; i < ticketCount; i++) {
+        const numbers = generateNumbers();
+
+        tickets.push({
+            white: numbers.white,
+            mega: numbers.mega,
+            multiplier: generateMultiplier()
+        });
+    }
+
+    renderTickets();
+    updateDisplay();
+
+    result.className = "result";
+    drawButton.disabled = false;
+}
+
+buyButton.addEventListener("click", purchaseTickets);
+
+/* =====================================
+   PRIZE CALCULATOR
+===================================== */
+
+function calculatePrize(whiteMatches, megaMatch, multiplier) {
+    let basePrize = 0;
+    let jackpotWin = false;
+
+    if (whiteMatches === 5 && megaMatch) {
+        jackpotWin = true;
+    } else if (whiteMatches === 5) {
+        basePrize = 1000000;
+    } else if (whiteMatches === 4 && megaMatch) {
+        basePrize = 10000;
+    } else if (whiteMatches === 4) {
+        basePrize = 500;
+    } else if (whiteMatches === 3 && megaMatch) {
+        basePrize = 200;
+    } else if (whiteMatches === 3) {
+        basePrize = 10;
+    } else if (whiteMatches === 2 && megaMatch) {
+        basePrize = 10;
+    } else if (whiteMatches === 1 && megaMatch) {
+        basePrize = 7;
+    } else if (whiteMatches === 0 && megaMatch) {
+        basePrize = 5;
+    }
+
+    const prize = jackpotWin ? jackpot : basePrize * multiplier;
+
+    return {
+        prize,
+        jackpotWin,
+        whiteMatches,
+        megaMatch,
+        multiplier
+    };
+}
+
+/* =====================================
+   DRAW ANIMATION
+===================================== */
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function revealNumbers(numbers) {
+    const elements = winningBalls.querySelectorAll(".ball");
+
+    const values = [
+        ...numbers.white,
+        numbers.mega
+    ];
+
+    const indexes = [0, 1, 2, 3, 4, 6];
+
+    for (let i = 0; i < values.length; i++) {
+        const ball = elements[indexes[i]];
+
+        ball.textContent = values[i];
+        ball.classList.remove("empty");
+        ball.classList.add("reveal");
+
+        await sleep(500);
+    }
+}
+
+/* =====================================
+   DRAW
+===================================== */
+
+async function drawNumbers() {
+    if (drawing || tickets.length === 0 || hasDrawn) return;
+
+    drawing = true;
+    drawButton.disabled = true;
+    buyButton.disabled = true;
+
+    result.className = "result";
+    resultTitle.textContent = "";
+    resultMessage.textContent = "";
+    resultAmount.textContent = "";
+
+    winningBalls.innerHTML = `
+        <div class="ball empty">?</div>
+        <div class="ball empty">?</div>
+        <div class="ball empty">?</div>
+        <div class="ball empty">?</div>
+        <div class="ball empty">?</div>
+        <div class="ball-separator"></div>
+        <div class="ball mega empty">?</div>
+    `;
+
+    const winningNumbers = generateNumbers();
+
+    await revealNumbers(winningNumbers);
+
+    let totalPrize = 0;
+    let jackpotWon = false;
+    let winningTickets = 0;
+    let results = [];
+
+    tickets.forEach((ticket, index) => {
+        const whiteMatches = ticket.white.filter(number =>
+            winningNumbers.white.includes(number)
+        ).length;
+
+        const megaMatch = ticket.mega === winningNumbers.mega;
+
+        const prizeInfo = calculatePrize(
+            whiteMatches,
+            megaMatch,
+            ticket.multiplier
+        );
+
+        totalPrize += prizeInfo.prize;
+
+        if (prizeInfo.prize > 0) {
+            winningTickets++;
+        }
+
+        if (prizeInfo.jackpotWin) {
+            jackpotWon = true;
+        }
+
+        results.push({
+            index: index + 1,
+            ...prizeInfo
+        });
+    });
+
+    balance += totalPrize;
+    totalWon += totalPrize;
+
+    if (jackpotWon) {
+        jackpot = 50000000;
+    } else {
+        jackpot += tickets.length * 0.50;
+    }
+
+    showResults(results, totalPrize, winningTickets, jackpotWon);
+
+    addHistory(winningNumbers, totalPrize, winningTickets);
+
+    hasDrawn = true;
+    drawing = false;
+
+    updateDisplay();
+}
+
+/* =====================================
+   RESULTS
+===================================== */
+
+function showResults(results, totalPrize, winningTickets, jackpotWon) {
+    result.className = "result active";
+
+    if (jackpotWon) {
+        result.classList.add("jackpot-win");
+        resultTitle.textContent = "✦ JACKPOT WINNER! ✦";
+        resultMessage.textContent =
+            "INCREDIBLE! You matched all five white balls and the Mega Ball!";
+    } else if (totalPrize > 0) {
+        resultTitle.textContent = "YOU WON!";
+        resultMessage.textContent =
+            `${winningTickets} of your ${tickets.length} ticket(s) won a prize!`;
+    } else {
+        resultTitle.textContent = "NO WINNERS";
+        resultMessage.textContent =
+            "No matching combinations this time. Better luck next drawing!";
+    }
+
+    resultAmount.textContent = totalPrize > 0
+        ? "+" + formatMoney(totalPrize)
+        : "$0";
+
+    let detail = document.createElement("div");
+    detail.style.marginTop = "15px";
+    detail.style.color = "#89939e";
+    detail.style.fontFamily = "Arial, sans-serif";
+    detail.style.fontSize = "11px";
+    detail.style.lineHeight = "1.8";
+    detail.style.textAlign = "left";
+
+    results.forEach(item => {
+        if (item.prize > 0) {
+            const line = document.createElement("div");
+
+            line.textContent =
+                `Ticket #${item.index}: ${item.whiteMatches} white + ` +
+                `${item.megaMatch ? "Mega Ball" : "no Mega Ball"} — ` +
+                `${item.jackpotWin ? "JACKPOT" : formatMoney(item.prize)}`;
+
+            detail.appendChild(line);
+        }
+    });
+
+    if (detail.childNodes.length > 0) {
+        result.appendChild(detail);
+    }
+}
+
+/* =====================================
+   HISTORY
+===================================== */
+
+function addHistory(numbers, prize, winningTickets) {
+    const entry = {
+        numbers,
+        prize,
+        winningTickets
+    };
+
+    history.unshift(entry);
+
+    if (history.length > 8) {
+        history.pop();
+    }
+
+    historyList.className = "";
+
+    historyList.innerHTML = history.map((item, index) => `
+        <div class="history-item">
+            <div>DRAW #${history.length - index}</div>
+            <div style="margin:6px 0;">
+                ${item.numbers.white.join(" · ")}
+                <span style="color:#d6b45c;"> + ${item.numbers.mega}</span>
+            </div>
+            <div>
+                ${item.winningTickets} winning ticket(s) —
+                <strong>${formatMoney(item.prize)}</strong>
+            </div>
+        </div>
+    `).join("");
+}
+
+drawButton.addEventListener("click", drawNumbers);
+
+/* =====================================
+   INFO MODAL
+===================================== */
+
+const infoModal = document.getElementById("infoModal");
+
+document.getElementById("infoButton").addEventListener("click", () => {
+    infoModal.classList.add("active");
+});
+
+document.getElementById("closeModal").addEventListener("click", () => {
+    infoModal.classList.remove("active");
+});
+
+infoModal.addEventListener("click", event => {
+    if (event.target === infoModal) {
+        infoModal.classList.remove("active");
+    }
+});
+
+/* =====================================
+   INITIALIZE
+===================================== */
+
+updateDisplay();
+renderTickets();
+
+</script>
 
 </body>
 </html>
