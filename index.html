@@ -21,14 +21,11 @@ body {
     color: white;
     font-family: 'Orbitron', sans-serif;
     min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     overflow-x: hidden;
     padding: 45px 15px;
 }
 
-/* Background glow */
+/* BACKGROUND */
 
 body::before {
     content: "";
@@ -41,6 +38,7 @@ body::before {
     top: -300px;
     left: -200px;
     pointer-events: none;
+    animation: glowMove 12s ease-in-out infinite alternate;
 }
 
 body::after {
@@ -54,17 +52,61 @@ body::after {
     bottom: -300px;
     right: -150px;
     pointer-events: none;
+    animation: glowMove 15s ease-in-out infinite alternate-reverse;
 }
 
-/* Main container */
+@keyframes glowMove {
+    from { transform: translate(0, 0); }
+    to { transform: translate(100px, 70px); }
+}
+
+/* PARTICLES */
+
+.particles {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: #00ffcc;
+    border-radius: 50%;
+    opacity: 0;
+    box-shadow: 0 0 10px #00ffcc;
+    animation: floatUp linear infinite;
+}
+
+.particle:nth-child(1) { left: 10%; animation-duration: 15s; animation-delay: 0s; }
+.particle:nth-child(2) { left: 25%; animation-duration: 19s; animation-delay: 4s; }
+.particle:nth-child(3) { left: 43%; animation-duration: 17s; animation-delay: 2s; }
+.particle:nth-child(4) { left: 65%; animation-duration: 21s; animation-delay: 7s; }
+.particle:nth-child(5) { left: 82%; animation-duration: 16s; animation-delay: 3s; }
+.particle:nth-child(6) { left: 93%; animation-duration: 20s; animation-delay: 6s; }
+
+@keyframes floatUp {
+    0% { transform: translateY(105vh); opacity: 0; }
+    15% { opacity: 0.7; }
+    85% { opacity: 0.5; }
+    100% { transform: translateY(-10vh); opacity: 0; }
+}
+
+/* MAIN */
 
 .container {
-    text-align: center;
     width: 90%;
-    max-width: 650px;
+    max-width: 700px;
+    margin: auto;
+    text-align: center;
     position: relative;
     z-index: 1;
 }
+
+/* HEADER */
 
 .subtitle {
     color: #00ffcc;
@@ -73,33 +115,213 @@ body::after {
     margin-bottom: 18px;
     text-transform: uppercase;
     opacity: 0.8;
+    animation: fadeDown 0.8s ease both;
 }
 
 h1 {
-    font-size: clamp(36px, 8vw, 65px);
+    font-size: clamp(42px, 9vw, 75px);
     font-weight: 800;
-    letter-spacing: 3px;
+    letter-spacing: 5px;
     color: white;
     text-shadow:
         0 0 10px rgba(0,255,204,0.5),
         0 0 30px rgba(0,255,204,0.2);
     margin-bottom: 12px;
+    animation: titleGlow 4s ease-in-out infinite alternate;
+}
+
+@keyframes titleGlow {
+    from {
+        text-shadow: 0 0 10px rgba(0,255,204,0.35);
+    }
+    to {
+        text-shadow:
+            0 0 15px rgba(0,255,204,0.7),
+            0 0 45px rgba(0,255,204,0.25);
+    }
 }
 
 .description {
     color: #777f8c;
     font-family: Arial, sans-serif;
     font-size: 14px;
-    margin-bottom: 35px;
+    margin-bottom: 25px;
 }
 
-/* Section headings */
+/* TICKER */
+
+.ticker {
+    width: 100%;
+    overflow: hidden;
+    border-top: 1px solid #202832;
+    border-bottom: 1px solid #202832;
+    background: rgba(255,255,255,0.018);
+    margin: 30px 0;
+    padding: 12px 0;
+}
+
+.ticker-track {
+    display: flex;
+    width: max-content;
+    animation: tickerScroll 28s linear infinite;
+}
+
+.ticker-content {
+    display: flex;
+    align-items: center;
+    gap: 35px;
+    padding-right: 35px;
+    white-space: nowrap;
+    color: #69737e;
+    font-size: 9px;
+    letter-spacing: 3px;
+}
+
+.ticker-content span {
+    color: #00ffcc;
+}
+
+@keyframes tickerScroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+
+/* STATS */
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 35px;
+    animation: fadeUp 0.8s ease both;
+}
+
+.stat {
+    border: 1px solid #252d36;
+    background: rgba(255,255,255,0.025);
+    padding: 15px 8px;
+    border-radius: 5px;
+}
+
+.stat-number {
+    color: #00ffcc;
+    font-size: 20px;
+    font-weight: 800;
+    margin-bottom: 6px;
+}
+
+.stat-label {
+    color: #626d78;
+    font-size: 8px;
+    letter-spacing: 2px;
+}
+
+/* FEATURED GAME */
+
+.featured {
+    position: relative;
+    display: block;
+    text-decoration: none;
+    color: white;
+    text-align: left;
+    padding: 27px;
+    border: 1px solid rgba(0,255,204,0.35);
+    border-radius: 7px;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 85% 50%, rgba(0,255,204,0.13), transparent 40%),
+        linear-gradient(120deg, #151e25, #090d12);
+    box-shadow: 0 0 25px rgba(0,255,204,0.07);
+    transition: 0.3s ease;
+    animation: fadeUp 0.8s ease both;
+}
+
+.featured:hover {
+    transform: translateY(-4px);
+    border-color: #00ffcc;
+    box-shadow: 0 0 35px rgba(0,255,204,0.16);
+}
+
+.featured-label {
+    color: #00ffcc;
+    font-size: 9px;
+    letter-spacing: 4px;
+    margin-bottom: 15px;
+}
+
+.featured-title {
+    font-size: clamp(22px, 5vw, 32px);
+    font-weight: 800;
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+}
+
+.featured-description {
+    font-family: Arial, sans-serif;
+    color: #858e99;
+    font-size: 13px;
+    line-height: 1.6;
+    max-width: 380px;
+}
+
+.featured-play {
+    display: inline-block;
+    margin-top: 20px;
+    color: #00ffcc;
+    font-size: 10px;
+    letter-spacing: 3px;
+}
+
+.featured-play span {
+    display: inline-block;
+    transition: 0.3s;
+}
+
+.featured:hover .featured-play span {
+    transform: translateX(7px);
+}
+
+/* DECORATIVE RING */
+
+.featured-ring {
+    position: absolute;
+    width: 190px;
+    height: 190px;
+    right: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 1px solid rgba(0,255,204,0.15);
+    border-radius: 50%;
+    animation: rotateRing 18s linear infinite;
+}
+
+.featured-ring::before {
+    content: "";
+    position: absolute;
+    inset: 15px;
+    border: 1px dashed rgba(0,255,204,0.25);
+    border-radius: 50%;
+}
+
+.featured-ring::after {
+    content: "";
+    position: absolute;
+    inset: 35px;
+    border: 1px solid rgba(0,255,204,0.12);
+    border-radius: 50%;
+}
+
+@keyframes rotateRing {
+    to { transform: translateY(-50%) rotate(360deg); }
+}
+
+/* SECTION HEADINGS */
 
 .section-title {
     color: #00ffcc;
     font-size: 10px;
     letter-spacing: 4px;
-    margin: 28px 0 14px;
+    margin: 35px 0 15px;
     text-align: left;
     opacity: 0.8;
 }
@@ -107,109 +329,90 @@ h1 {
 .section-divider {
     height: 1px;
     background: linear-gradient(90deg, transparent, #303945, transparent);
-    margin: 25px 0;
+    margin: 30px 0;
 }
 
-/* Buttons */
+/* GAME BUTTONS */
 
 .buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 11px;
 }
 
 .game-button {
     position: relative;
-    display: block;
-    padding: 19px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 19px 16px;
     border: 1px solid #252b33;
     background: rgba(255,255,255,0.025);
     color: white;
     text-decoration: none;
-    font-size: 12px;
+    font-size: 10px;
     font-weight: 700;
-    letter-spacing: 4px;
+    letter-spacing: 2px;
     overflow: hidden;
-    transition: 0.35s ease;
+    transition: 0.3s ease;
     border-radius: 5px;
+    animation: fadeUp 0.6s ease both;
 }
 
-/* Roulette - green glow */
+.game-button::after {
+    content: "↗";
+    color: #414b56;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.game-button:hover {
+    transform: translateY(-3px);
+}
+
+.game-button:hover::after {
+    transform: translate(3px, -3px);
+    color: inherit;
+}
+
+/* COLOR VARIANTS */
 
 .roulette:hover {
     border-color: #00ff99;
     color: #00ff99;
     background: rgba(0,255,153,0.06);
-    box-shadow:
-        0 0 10px rgba(0,255,153,0.3),
-        0 0 35px rgba(0,255,153,0.12),
-        inset 0 0 15px rgba(0,255,153,0.05);
-    transform: scale(1.025);
-}
-
-/* RNGdle - purple sweep */
-
-.rngdle::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -120%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-        110deg,
-        transparent,
-        rgba(160,80,255,0.25),
-        transparent
-    );
-    transition: 0.6s;
-}
-
-.rngdle:hover::before {
-    left: 120%;
+    box-shadow: 0 0 25px rgba(0,255,153,0.13);
 }
 
 .rngdle:hover {
     border-color: #a855ff;
     color: #c58aff;
-    box-shadow: 0 0 25px rgba(168,85,255,0.2);
+    background: rgba(168,85,255,0.05);
+    box-shadow: 0 0 25px rgba(168,85,255,0.15);
 }
-
-/* Red pulse */
 
 .extra:hover {
     border-color: #ff416c;
     color: #ff416c;
-    animation: pulse 1s infinite alternate;
+    background: rgba(255,65,108,0.05);
+    box-shadow: 0 0 25px rgba(255,65,108,0.15);
 }
-
-@keyframes pulse {
-    from {
-        box-shadow: 0 0 5px rgba(255,65,108,0.1);
-    }
-    to {
-        box-shadow: 0 0 22px rgba(255,65,108,0.4);
-    }
-}
-
-/* Cyan glow */
 
 .cyan:hover {
     border-color: #00ffcc;
     color: #00ffcc;
-    box-shadow: 0 0 25px rgba(0,255,204,0.2);
+    box-shadow: 0 0 25px rgba(0,255,204,0.15);
 }
-
-/* Yellow glow */
 
 .lottery:hover {
     border-color: #ffe66d;
     color: #ffe66d;
     background: rgba(255,230,109,0.05);
-    box-shadow: 0 0 25px rgba(255,230,109,0.18);
+    box-shadow: 0 0 25px rgba(255,230,109,0.15);
 }
 
-/* Footer */
+/* FOOTER */
 
 .footer {
     margin-top: 35px;
@@ -235,9 +438,43 @@ h1 {
     50% { opacity: 0.2; }
 }
 
+/* ANIMATIONS */
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeDown {
+    from {
+        opacity: 0;
+        transform: translateY(-15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* MOBILE */
+
 @media (max-width: 500px) {
+    .container {
+        width: 95%;
+    }
+
     .description {
         font-size: 12px;
+    }
+
+    .buttons {
+        grid-template-columns: 1fr;
     }
 
     .game-button {
@@ -248,11 +485,41 @@ h1 {
     .section-title {
         text-align: center;
     }
+
+    .featured {
+        padding: 22px;
+    }
+
+    .featured-ring {
+        opacity: 0.45;
+        right: -85px;
+    }
+
+    .stat-number {
+        font-size: 16px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+    }
 }
 </style>
 </head>
 
 <body>
+
+<div class="particles">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+</div>
 
 <div class="container">
 
@@ -264,9 +531,69 @@ h1 {
         Welcome. Choose your game.
     </p>
 
+    <!-- TICKER -->
+
+    <div class="ticker">
+        <div class="ticker-track">
+            <div class="ticker-content">
+                <span>●</span> SYSTEM ONLINE
+                <span>◆</span> 9 CASINO GAMES
+                <span>◆</span> LOTTERY AVAILABLE
+                <span>◆</span> PLACE YOUR BETS
+                <span>◆</span> WELCOME TO NULL CASINO
+            </div>
+            <div class="ticker-content">
+                <span>●</span> SYSTEM ONLINE
+                <span>◆</span> 9 CASINO GAMES
+                <span>◆</span> LOTTERY AVAILABLE
+                <span>◆</span> PLACE YOUR BETS
+                <span>◆</span> WELCOME TO NULL CASINO
+            </div>
+        </div>
+    </div>
+
+    <!-- STATS -->
+
+    <div class="stats">
+        <div class="stat">
+            <div class="stat-number">09</div>
+            <div class="stat-label">CASINO GAMES</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-number">01</div>
+            <div class="stat-label">LOTTERY</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-number">24/7</div>
+            <div class="stat-label">SYSTEM STATUS</div>
+        </div>
+    </div>
+
+    <!-- FEATURED GAME -->
+
+    <a href="/games/plinko.html" class="featured">
+
+        <div class="featured-ring"></div>
+
+        <div class="featured-label">✦ FEATURED GAME</div>
+
+        <div class="featured-title">PLINKO.</div>
+
+        <div class="featured-description">
+            Drop the ball. Watch it fall. See what fortune has waiting for you.
+        </div>
+
+        <div class="featured-play">
+            PLAY NOW <span>→</span>
+        </div>
+
+    </a>
+
     <!-- CASINO GAMES -->
 
-    <div class="section-title">CASINO GAMES</div>
+    <div class="section-title">CASINO GAMES // 001–009</div>
 
     <div class="buttons">
 
@@ -321,6 +648,8 @@ h1 {
         </a>
 
     </div>
+
+    <!-- FOOTER -->
 
     <div class="footer">
         NULL CASINO &nbsp; // &nbsp; 2026
